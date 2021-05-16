@@ -1,0 +1,10528 @@
+0: Guard
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+1: Lobo
+
+[0xfc+3] CMD PRED
+	IF LEVEL >= 0x44 0x7
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+2: Vomammoth
+
+[0xfc+3] CMD PRED
+	IF LEVEL >= 0x44 0x5
+[0xf1+1] TARGETTING
+	All characters
+[] Blizzard
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+3: Were?Rat
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+4: Vaporite
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+5: Repo?Man
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+6: Marshal
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Special
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	Battle | Net | Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Net | Net | Battle
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+7: Leafer
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+8: Dark?Wind
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+9: Sand?Ray
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+10: Areneid
+
+[0xfc+3] CMD PRED
+	IF LEVEL >= 0x0 0x7
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[] Battle
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+11: Hornet
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+12: Crawly
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+13: Bleary
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+14: Rhodox
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+15: Rhinotaur
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Mega Volt | Nothing | Nothing
+[0xff] END BLOCK
+
+
+16: GreaseMonk
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+17: Brawler
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+18: Trilium
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+19: Tusker
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+20: Cirpius
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+21: Pterodon
+
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Leo
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfe] END FC BLOCK
+[] Battle
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Fire Ball
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+22: Nautiloid
+
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Leo
+[] Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+23: Exocite
+
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Leo
+[] Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+24: HeavyArmor
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	SET TARGET 0x6 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[] TekBarrier
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x0 0x4
+[0xf0+3] CHOOSE SPELL
+	Battle | Tek Laser | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Missile
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Tek Laser | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+25: Commander
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Special
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+26: Vector?Pup
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+27: Trilobiter
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+28: Primordite
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+29: Gold?Bear
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+30: Dark?Side
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+31: Spectre
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºIce | ºBolt
+[0xfd] WAIT
+[] Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+32: Rinn
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+33: 1st?Class
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+34: Wild?Rat
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+35: Stray?Cat
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+36: Beakor
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+37: CrassHoppr
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+38: Rhobite
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+39: Soldier
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+40: Templar
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+41: Doberman
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+
+
+42: M?TekArmor
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Tek Laser
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0xc 0x1
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x9 0x1
+[0xf9+3] VAR MANIP
+	0x0 0x9 0x1
+[0xf7+1] SPECIAL EVENT
+	0x6
+[0xff] END BLOCK
+
+
+43: Telstar
+
+[0xfc+3] CMD PRED
+	ETIMER > 0xc8 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfa+3] SPECIAL ACTION
+	Unknown 0xf1 0x30
+[0xf3+2] DISPLAY MESSAGE
+	0x44 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x3c
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0x50 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x1
+[0xfa+3] SPECIAL ACTION
+	Unknown 0xf1 0x30
+[0xf3+2] DISPLAY MESSAGE
+	0x44 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x1c
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0x19 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x2
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x2
+[0xfa+3] SPECIAL ACTION
+	Unknown 0xf1 0x30
+[0xf3+2] DISPLAY MESSAGE
+	0x44 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0xc
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x3
+[] Dischord
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Schiller
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Tek Laser
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Missile
+[0xfd] WAIT
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0xa 0xa
+[] Megazerk
+[0xff] END BLOCK
+
+
+44: Ghost
+
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Fire Wall
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+45: Poplium
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+46: Hazer
+
+[0xf0+3] CHOOSE SPELL
+	ºDrain | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | ºDrain | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+47: Whisper
+
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	ºDemi | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºDemi | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+48: Over?Mind
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Dread | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+49: Bomb
+
+[0xf0+3] CHOOSE SPELL
+	Blaze | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Exploder | Nothing | Nothing
+[0xff] END BLOCK
+
+
+50: StillGoing
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+51: Anguiform
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Aqua Rake
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+52: Aspik
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Nothing | Nothing
+[0xff] END BLOCK
+
+
+53: Actaneon
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+54: Fidor
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+55: Rider
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Virite
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x6
+[0xf1+1] TARGETTING
+	Character who last attacked
+[] Special
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	R.Polarity | Nothing | Nothing
+[0xff] END BLOCK
+
+
+56: Trooper
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+57: Bounty?Man
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+58: Red?Fang
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Battle | Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+59: Vulture
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Shimsham | Shimsham
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Shimsham | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+60: Iron?Fist
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Stone | Stone
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+61: Mind?Candy
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x6
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+62: Over?Grunk
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+63: FossilFang
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Sand Storm | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sand Storm | Nothing | Nothing
+[0xff] END BLOCK
+
+
+64: Harvester
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	use Potion Potion
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw MithrilKnife MithrilKnife
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x6
+[0xf4+3] USE COMMAND
+	(Steal) | (Steal) | (Capture)
+[0xff] END BLOCK
+
+
+65: SlamDancer
+
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºIce 2 | ºBolt 2
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+66: HadesGigas
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	All characters
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Nothing | Nothing
+[0xff] END BLOCK
+
+
+67: Gabbldegak
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | öVanish
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+68: Sewer?Rat
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xff] END BLOCK
+
+
+69: Vermin
+
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xfc+3] CMD PRED
+	IS FORM # = 0x70 0x0
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x18
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x71 0x0
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x1a
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+70: Grenade
+
+[0xf0+3] CHOOSE SPELL
+	Blaze | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Blaze | Fire Ball | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Blaze | Fire Ball | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Exploder | Nothing | Nothing
+[0xff] END BLOCK
+
+
+71: Wyvern
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Cyclonic
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+72: Joker
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 2 | ºBolt 2
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Acid Rain | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Acid Rain | Acid Rain
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+73: Ralph
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+74: ChickenLip
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºQuake
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+75: WeedFeeder
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+76: Bug
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+77: Pipsqueak
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Exploder | Nothing | Nothing
+[0xff] END BLOCK
+
+
+78: Commando
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+79: Garm
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+80: ProtoArmor
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Launcher | Schiller | Tek Laser
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Tek Laser | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Launcher | Schiller | Nothing
+[0xff] END BLOCK
+
+
+81: Flan
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Slimer
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IS FORM # = 0x64 0x1
+[0xfc+3] CMD PRED
+	IF FORM # 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x22
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IS FORM # = 0x64 0x1
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x2
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x1c
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IS FORM # = 0x64 0x1
+[0xfc+3] CMD PRED
+	IF FORM # 0x20 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x20
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x1c
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x20
+[0xff] END BLOCK
+
+
+82: General
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | •Cure 2
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+83: Rhinox
+
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | •Life 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+84: Gobbler
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Shimsham
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+85: Chaser
+
+[0xfc+3] CMD PRED
+	IS FORM # = 0x7b 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xfa+3] SPECIAL ACTION
+	Unknown 0xf1 0x30
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x4
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x8
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x10
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Plasma
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Dischord
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Tek Laser
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x7a 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x4 0x1
+[0xfa+3] SPECIAL ACTION
+	Unknown 0xf1 0x30
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x10
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x8
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x4
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x7 0xa
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xff] END BLOCK
+
+
+86: Trapper
+
+[0xf0+3] CHOOSE SPELL
+	Special | L.5 Doom | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | L.4 Flare | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | L.3 Muddle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+87: Mag?Roader
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 2
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+88: Mag?Roader2
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce | ºIce 2 | ºIce 2
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+89: Mega?Armor
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Tek Laser | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Missile | Missile | Nothing
+[0xff] END BLOCK
+
+
+90: Sp?Forces
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+91: Cephaler
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Tentacle | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+92: Baskervor
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+93: Chimera
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blizzard
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Fire Ball
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Cyclonic
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Aqua Rake
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+94: Balloon
+
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Exploder
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Exploder | Special | Nothing
+[0xff] END BLOCK
+
+
+95: Slurm
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+96: Insecare
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+97: Adamanchyt
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+98: Abolisher
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Pearl Wind
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+99: Mandrake
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Raid | Nothing | Nothing
+[0xff] END BLOCK
+
+
+100: Coelecite
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Battle
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Nothing | Nothing
+[0xff] END BLOCK
+
+
+101: Ing
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Lifeshaver
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+102: Apparite
+
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Imp Song | Nothing | Nothing
+[0xff] END BLOCK
+
+
+103: Zombone
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+104: Lich
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºFire 3 | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 3
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+105: Sky?Armor
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Tek Laser | Missile
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Tek Laser | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+106: Spit?Fire
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Absolute 0 | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+107: Behemoth
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x19 0x19
+[0xf0+3] CHOOSE SPELL
+	Meteo | Meteo | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+
+
+108: Apokryphos
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	L.5 Doom | L.4 Flare | L.3 Muddle
+[0xff] END BLOCK
+
+
+109: Ninja
+
+[0xf0+3] CHOOSE SPELL
+	Fire Skean | Water Edge | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Fire Skean | Battle | Bolt Edge
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Water Edge | Bolt Edge
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+110: Brainpan
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blow Fish
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+111: Misfit
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Lifeshaver
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Lifeshaver | Lifeshaver
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+112: Wirey?Drgn
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Cyclonic
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+113: Dragon
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Revenge
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blizzard
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Cold Dust
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+114: Gigantos
+
+[] Special
+[] Special
+[] Special
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[] Battle
+[] Battle
+[] Special
+[0xff] END BLOCK
+
+
+115: Peepers
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Pearl Wind | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+116: EarthGuard
+
+[] Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+117: Black?Drgn
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Sand Storm
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Sand Storm
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+118: Mesosaur
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Special
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Escape | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+119: Gilomantis
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+120: Chitonid
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+121: Gigan?Toad
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Slimer
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Rippler
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+122: Lunaris
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+123: Osprey
+
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Shimsham | Nothing | Nothing
+[0xff] END BLOCK
+
+
+124: HermitCrab
+
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Net
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+125: Intangir
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xa
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[] Meteo
+[0xf1+1] TARGETTING
+	Self
+[] Special
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[] Meteo
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xff] END BLOCK
+
+
+126: Scorpion
+
+[] Special
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+127: Pm?Stalker
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºDrain
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	ºDrain | Nothing | Nothing
+[0xff] END BLOCK
+
+
+128: Delta?Bug
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Mega Volt
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+129: Lizard
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+130: Bloompire
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBio | ºBio | Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+131: Buffalax
+
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Special
+[] Battle
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Sun Bath | Nothing | Nothing
+[0xff] END BLOCK
+
+
+132: Cactrot
+
+[0xf3+2] DISPLAY MESSAGE
+	0x86 0x0
+[0xfd] WAIT
+[] Blow Fish
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x86 0x0
+[0xfd] WAIT
+[] Blow Fish
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x86 0x0
+[0xfd] WAIT
+[] Blow Fish
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x87 0x0
+[0xfd] WAIT
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[] Blow Fish
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+133: Nohrabbit
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	•Cure | •Cure 2 | •Remedy
+[0xff] END BLOCK
+
+
+134: Latimeria
+
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Magnitude8 | Magnitude8
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+135: Maliga
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+136: Sand?Horse
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Sand Storm | Sand Storm | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Sand Storm | Sand Storm
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+137: Humpty
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+138: Cruller
+
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Slimer
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+139: Dante
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	L.3 Muddle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+140: Drop
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[] Battle
+[0xff] END BLOCK
+
+
+141: NeckHunter
+
+[0xf0+3] CHOOSE SPELL
+	Special | Battle | Nothing
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+142: Harpiai
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Aero
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Pearl Wind
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+143: Muus
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Pep Up
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Pep Up | Nothing | Nothing
+[0xff] END BLOCK
+
+
+144: Bogy
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+145: Deep?Eye
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Escape
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+146: Hoover
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Sneeze
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sand Storm | Sand Storm | Nothing
+[0xf0+3] CHOOSE SPELL
+	Sand Storm | Nothing | Nothing
+[0xff] END BLOCK
+
+
+147: Orog
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	ºBio | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+148: Osteosaur
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ChokeSmoke
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+149: Mad?Oscar
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Sour Mouth
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+150: PowerDemon
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Soul Out
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+151: Exoray
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Virite
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+152: Siegfried
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+153: Chupon
+
+[] Sneeze
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+154: Pug
+
+[] Step Mine
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[] Special
+[] Step Mine
+[0xff] END BLOCK
+
+
+155: Kiwok
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+156: Poppers
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Stone
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+157: Tomb?Thumb
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Imp Song
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+158: Ceritops
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+159: Anemone
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Giga Volt
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[] Mega Volt
+[0xff] END BLOCK
+
+
+160: Punisher
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[] Special
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x5
+[0xf4+3] USE COMMAND
+	(Steal) | (Steal) | Nothing
+[0xff] END BLOCK
+
+
+161: Ursus
+
+[0xf4+3] USE COMMAND
+	(Steal) | (Steal) | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf4+3] USE COMMAND
+	(Steal) | Nothing | Nothing
+[0xff] END BLOCK
+
+
+162: Luridan
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Harvester
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Kitty
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+163: Borras
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+164: Scrapper
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+
+
+165: Toe?Cutter
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+166: Rhyos
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[] Special
+[0xf0+3] CHOOSE SPELL
+	Blizzard | Fire Ball | Giga Volt
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Aqua Rake | Giga Volt
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Blizzard | Fire Ball
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+167: Red?Wolf
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+168: Test?Rider
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x6
+[0xf1+1] TARGETTING
+	Character who last attacked
+[] Special
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+169: Wizard
+
+[0xf0+3] CHOOSE SPELL
+	öMute | öOsmose | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öRasp | öStop | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öMuddle | öSleep | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+170: Nastidon
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+171: Psychot
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+172: Mag?Roader3
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce | ºIce 2 | ºIce 2
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+173: Mag?Roader4
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 2
+[0xff] END BLOCK
+
+
+174: Wild?Cat
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Fire Ball | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+175: Crusher
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Lifeshaver | Nothing | Nothing
+[0xff] END BLOCK
+
+
+176: Vindr
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+177: SoulDancer
+
+[0xf6+3] THROW / USE ITEM
+	throw Dirk MithrilKnife
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw MithrilKnife Guardian
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw Air Lancet ThiefKnife
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw ThiefKnife Assassin
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+178: Dahling
+
+[0xf0+3] CHOOSE SPELL
+	Special | öMute | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | ºBolt 2 | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | Nothing | Nothing
+[0xff] END BLOCK
+
+
+179: Nightshade
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Charm
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+180: Still?Life
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Lullaby
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Condemned
+[0xff] END BLOCK
+
+
+181: Slatter
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+182: Hipocampus
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Acid Rain | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Flash Rain | Nothing | Nothing
+[0xff] END BLOCK
+
+
+183: Warlock
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] ºPearl
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Special | ºPearl
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+184: Displayer
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ChokeSmoke
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+185: Cluck
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºQuake
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+186: Eland
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+187: Opinicus
+
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xfd] WAIT
+[] Special
+[] Battle
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Wind Slash | Nothing | Nothing
+[0xff] END BLOCK
+
+
+188: Goblin
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	L.5 Doom | L.4 Flare | L.3 Muddle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Blaze | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+189: Lethal?Wpn
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Launcher | Missile
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+190: Boxed?Set
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Meteo | Cold Dust
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+191: Enuo
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	CleanSweep | Aqua Rake | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+192: Figaliz
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Dischord | Raid | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+193: Samurai
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+194: Rain?Man
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 3 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Flash Rain | Flash Rain
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+195: Suriander
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+196: Allosaurus
+
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Virite
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+197: Parasite
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Giga Volt | Nothing
+[0xff] END BLOCK
+
+
+198: Pan?Dora
+
+[0xf0+3] CHOOSE SPELL
+	Revenge | Evil Toot | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Revenge | Absolute 0 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Evil Toot | Absolute 0 | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+199: Barb?e
+
+[0xf1+1] TARGETTING
+	Random character
+[] öImp
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDrain | Love Token | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+
+
+200: Critic
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Roulette | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | L? Pearl | Lullaby
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Condemned
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+201: Sky?Cap
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Special | Tek Laser | Missile
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Tek Laser | R.Polarity
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | R.Polarity | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+202: PlutoArmor
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Launcher | Shrapnel | Tek Laser
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Launcher | Shrapnel | Nothing
+[0xff] END BLOCK
+
+
+203: Io
+
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	WaveCannon | WaveCannon | Diffuser
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+204: Tyranosaur
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºMeteor
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+205: Brachosaur
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Disaster
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºMeteor
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Sneeze
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºUltima
+[0xfd] WAIT
+[] Special
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+206: Reach?Frog
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf4+3] USE COMMAND
+	(Jump) | (Jump) | (Jump)
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Rippler
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+207: Crawler
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Dischord | Raid | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+208: TumbleWeed
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Lifeshaver | Nothing | Nothing
+[0xff] END BLOCK
+
+
+209: Mantodea
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Battle | Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+210: Geckorex
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+211: Sprinter
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Pearl Wind
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+212: Spek?Tor
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+213: Harpy
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Aero
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Battle | Cyclonic | Nothing
+[0xff] END BLOCK
+
+
+214: Prussian
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+215: GloomShell
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Net
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+216: Phase
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blow Fish
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Blow Fish | Nothing | Nothing
+[0xff] END BLOCK
+
+
+217: Parasoul
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | El Nino | El Nino
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Flash Rain | Flash Rain
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+218: Chaos?Drgn
+
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Disaster | Nothing | Nothing
+[0xfd] WAIT
+[0xfd] WAIT
+[0xfd] WAIT
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xfd] WAIT
+[0xfd] WAIT
+[0xfd] WAIT
+[0xfd] WAIT
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+219: Sea?Flower
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+220: Aquila
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Cyclonic
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Shimsham | Nothing | Nothing
+[0xff] END BLOCK
+
+
+221: Necromancr
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	ºDoom | ºX-Zone | ºFlare
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	ºDemi | ºQuartr | Nothing
+[0xff] END BLOCK
+
+
+222: Trixter
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x38 0x17
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | ºFire 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x17
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | öRflect | öHaste
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+223: White?Drgn
+
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºPearl | Nothing
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºPearl | Nothing
+[0xf0+3] CHOOSE SPELL
+	ºPearl | Nothing | Nothing
+[0xfd] WAIT
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf1+1] TARGETTING
+	All characters
+[0xf0+3] CHOOSE SPELL
+	öDispel | öDispel | Nothing
+[0xff] END BLOCK
+
+
+224: Uroburos
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBio | ºBio | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+225: Covert
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Wind Slash
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Fire Skean | Water Edge | Bolt Edge
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x8 0x8
+[0xf6+3] THROW / USE ITEM
+	throw Shuriken Ninja Star
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+226: Wart?Puck
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Sneeze | Nothing | Nothing
+[0xff] END BLOCK
+
+
+227: Woolly
+
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[] Battle
+[0xff] END BLOCK
+
+
+228: Karkass
+
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBreak | ºFlare
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[] Lifeshaver
+[0xff] END BLOCK
+
+
+229: Tap?Dancer
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x8 0x8
+[0xf6+3] THROW / USE ITEM
+	throw Enhancer Crystal
+[0xff] END BLOCK
+
+
+230: Ogor
+
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	ºBio | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+231: Magic?Urn
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x7
+[0xf0+3] CHOOSE SPELL
+	•Life | •Life | •Life 2
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x6
+[0xf6+3] THROW / USE ITEM
+	use Soft Soft
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Random character
+[0xf6+3] THROW / USE ITEM
+	use Remedy Tincture
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[0xf6+3] THROW / USE ITEM
+	use Potion Elixer
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[0xf6+3] THROW / USE ITEM
+	use Tincture Ether
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Nothing | Nothing
+[0xff] END BLOCK
+
+
+232: L.10?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºIce | ºBolt
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öSlow | öStop | öHaste
+[0xff] END BLOCK
+
+
+233: L.20?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºDemi | ºQuartr | ºBreak
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDemi | ºQuartr | ºX-Zone
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öRasp | öMuddle | öSafe
+[0xff] END BLOCK
+
+
+234: L.30?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºIce 2 | ºBolt 2
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öImp | öOsmose | öRflect
+[0xff] END BLOCK
+
+
+235: L.40?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºDrain | ºBreak | öVanish
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öMute | öSleep | Nothing
+[0xff] END BLOCK
+
+
+236: L.50?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºPoison | ºBio | ºDoom
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	All monsters
+[0xf0+3] CHOOSE SPELL
+	•Remedy | öDispel | öDispel
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öBserk | öSlow | öHaste2
+[0xff] END BLOCK
+
+
+237: L.60?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºQuake | ºW Wind | ºPearl
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öOsmose | öSlow 2 | •Regen
+[0xff] END BLOCK
+
+
+238: L.70?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öSleep | öRasp | öShell
+[0xff] END BLOCK
+
+
+239: L.80?Magic
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x17
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | •Remedy | öHaste
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x38 0x17
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºBio | ºBio | ºPoison
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x17
+[0xf0+3] CHOOSE SPELL
+	•Cure 3 | •Cure | •Life 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x38 0x17
+[0xf0+3] CHOOSE SPELL
+	öStop | öDispel | ºPearl
+[0xff] END BLOCK
+
+
+240: L.90?Magic
+
+[0xf0+3] CHOOSE SPELL
+	ºMeteor | ºMerton | ºFlare
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºMeteor | ºMerton | ºFlare
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºMeteor | ºMerton | ºFlare
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] öDispel
+[0xf0+3] CHOOSE SPELL
+	ºFlare | ºFlare | Nothing
+[0xf0+3] CHOOSE SPELL
+	ºFlare | ºFlare | Nothing
+[0xf0+3] CHOOSE SPELL
+	ºFlare | ºFlare | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	öStop | ºBolt 3 | •Life 3
+[0xff] END BLOCK
+
+
+241: MagiMaster
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x38 0x17
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºIce 2 | ºBolt 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDoom | öMute | ºBio
+[0xf0+3] CHOOSE SPELL
+	ºDoom | öMute | ºBio
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] ºUltima
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[] WallChange
+[0xff] END BLOCK
+
+
+242: IronHitman
+
+[0xf0+3] CHOOSE SPELL
+	Special | Dischord | Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+243: Junk
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Exploder
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Pep Up | Exploder | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+244: Fortis
+
+[0xf0+3] CHOOSE SPELL
+	Snowball | Fire Ball | Missile
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[] Special
+[] Battle
+[0xff] END BLOCK
+
+
+245: Dueller
+
+[0xf0+3] CHOOSE SPELL
+	L.5 Doom | L.4 Flare | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Shrapnel | Nothing | Nothing
+[0xff] END BLOCK
+
+
+246: Innoc
+
+[] Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Cold Dust | Plasma | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Cold Dust | Plasma | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Cold Dust | Plasma | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Cold Dust | Plasma | L? Pearl
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+247: Sky?Base
+
+[] L.5 Doom
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDoom | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Blaster | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	Blaster | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	Blaster | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	Blaster | Nothing | Nothing
+[0xff] END BLOCK
+
+
+248: Guardian2
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x82 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x7e 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Tentacle | Tentacle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Entwine | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Stone | Special
+[0xfd] WAIT
+[] Entwine
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x82 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x7f 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Shock Wave | Shock Wave
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Shock Wave | Shock Wave
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw MithrilKnife Ashura
+[0xf6+3] THROW / USE ITEM
+	use Tonic Potion
+[0xf6+3] THROW / USE ITEM
+	use Tonic Potion
+[0xf6+3] THROW / USE ITEM
+	use Tonic Potion
+[0xf1+1] TARGETTING
+	Self
+[] TekBarrier
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x2
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x82 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x80 0x0
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Diffuser | Diffuser
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Diffuser | Diffuser
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Launcher | Launcher
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x67 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x3c 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x45 0x0
+[] WaveCannon
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x3
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x4
+[0xf3+2] DISPLAY MESSAGE
+	0x82 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x81 0x0
+[0xf0+3] CHOOSE SPELL
+	ºFlare | Meteo | Meteo
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFlare | ºFlare
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Meteo | Battle
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x65 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Flare Star
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x4
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x3
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x1
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xf3+2] DISPLAY MESSAGE
+	0x68 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Tek Laser | Missile
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Atomic Ray | Missile | Tek Laser
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+249: Prometheus
+
+[0xf0+3] CHOOSE SPELL
+	Special | Shrapnel | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	N. Cross | Nothing | Nothing
+[0xff] END BLOCK
+
+
+250: Scullion
+
+[] Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	WaveCannon | Grav Bomb | Launcher
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Grav Bomb | Grav Bomb | Atomic Ray
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Launcher | WaveCannon
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | WaveCannon | Launcher
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[] Atomic Ray
+[0xff] END BLOCK
+
+
+251: Veteran
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Condemned | Condemned
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Condemned | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Dread | Dread
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Roulette
+[0xff] END BLOCK
+
+
+252: Didalos
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x17
+[] Reflect???
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | L.5 Doom | ºBio
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDemi | ºDemi | Virite
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Fire Wall | Nothing | Nothing
+[0xff] END BLOCK
+
+
+253: Mover
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Big Guard | Blow Fish | Blow Fish
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+254: Retainer
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Wind Slash | Battle | Nothing
+[0xf0+3] CHOOSE SPELL
+	Wind Slash | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[] Special
+[0xff] END BLOCK
+
+
+255: Dark?Force
+
+[0xf0+3] CHOOSE SPELL
+	Condemned | Roulette | Aqua Rake
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Revenge | Pearl Wind | L.5 Doom
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	L.4 Flare | L.3 Muddle | Reflect???
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	L? Pearl | Step Mine | Launcher
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Dischord | Sour Mouth | Imp Song
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Aero | Blow Fish | Exploder
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Rippler | Stone | Quasar
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+256: Steroidite
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Blizzard | Cold Dust
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Blizzard | Cold Dust
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	N. Cross | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+257: Outsider
+
+[0xf6+3] THROW / USE ITEM
+	throw Imperial Ashura
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw Kodachi Kotetsu
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw Blossom Forged
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw Hardened Tempest
+[0xfd] WAIT
+[0xf6+3] THROW / USE ITEM
+	throw Striker Murasame
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf6+3] THROW / USE ITEM
+	throw Shuriken Shuriken
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf6+3] THROW / USE ITEM
+	throw Ninja Star Tack Star
+[0xff] END BLOCK
+
+
+258: Hemophyte
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Shock Wave | Shock Wave | Nothing
+[0xf0+3] CHOOSE SPELL
+	Shock Wave | Shock Wave | Nothing
+[0xf0+3] CHOOSE SPELL
+	Shock Wave | Shock Wave | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ChokeSmoke
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+
+
+259: Madam
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x38 0x17
+[] •Cure 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºFlare | öImp
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | •Life 3 | öSafe
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | •Life 3 | öSafe
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	•Remedy | •Cure 2 | öShell
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	•Regen | •Remedy | öHaste
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | ºBolt 3
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	•Cure 2 | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	ºMeteor | Nothing | Nothing
+[0xff] END BLOCK
+
+
+260: Vectaur
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Fire Ball | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+261: Evil?Oscar
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[] Sour Mouth
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+262: Land?Worm
+
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Magnitude8 | Lode Stone
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Magnitude8 | Lode Stone
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Special | Lode Stone
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+263: Vectagoyle
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Blizzard | Blaze
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Aqua Rake | Blizzard | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Aqua Rake | Giga Volt | Blaze
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+
+
+264: Brontaur
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Lifeshaver | Lifeshaver | Nothing
+[0xf0+3] CHOOSE SPELL
+	Lifeshaver | Lifeshaver | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Atomic Ray | Lifeshaver | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Atomic Ray | Lifeshaver | Special
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+265: GtBehemoth
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºMeteor
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+266: Doom?Drgn
+
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	N. Cross | Flare Star | Battle
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	All characters
+[0xf0+3] CHOOSE SPELL
+	Fallen One | Nothing | Nothing
+[0xff] END BLOCK
+
+
+267: Allo?Ver
+
+[0xfc+3] CMD PRED
+	ETIMER > 0x3c 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xf1+1] TARGETTING
+	All characters
+[] Atomic Ray
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºDoom | Condemned | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºDoom
+[0xff] END BLOCK
+
+
+268: SrBehemoth
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0xf
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x48 0x7
+[0xf3+2] DISPLAY MESSAGE
+	0x8a 0x0
+[0xf1+1] TARGETTING
+	Character #1
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0xf
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x49 0x7
+[0xf3+2] DISPLAY MESSAGE
+	0x8a 0x0
+[0xf1+1] TARGETTING
+	Character #2
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0xf
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4a 0x7
+[0xf3+2] DISPLAY MESSAGE
+	0x8a 0x0
+[0xf1+1] TARGETTING
+	Character #3
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0xf
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4b 0x7
+[0xf3+2] DISPLAY MESSAGE
+	0x8a 0x0
+[0xf1+1] TARGETTING
+	Character #4
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºDoom | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Meteo | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+269: Pugs
+
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x8
+[] Special
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x4
+[0xfa+3] SPECIAL ACTION
+	Monster(s) steps back 3 steps quickly 0x4 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves forward 1 step quickly 0x4 0x0
+[] Battle
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x8
+[] Special
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x8
+[0xfa+3] SPECIAL ACTION
+	Monster(s) steps back 3 steps quickly 0x8 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves forward 1 step quickly 0x8 0x0
+[] Battle
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x10 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x8
+[] Special
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x10
+[0xfa+3] SPECIAL ACTION
+	Monster(s) steps back 3 steps quickly 0x10 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x10
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x10 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves forward 1 step quickly 0x10 0x0
+[] Battle
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x1 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves back 1 step quickly 0x4 0x0
+[0xf8+2] VAR MATH
+	0x24 0xc1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x3
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves back 1 step quickly 0x8 0x0
+[0xf8+2] VAR MATH
+	0x24 0xc1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x10 0x0
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x3
+[0xf8+2] VAR MATH
+	0x2 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves back 1 step quickly 0x10 0x0
+[0xf8+2] VAR MATH
+	0x24 0xc1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf1+1] TARGETTING
+	Character who last attacked
+[] ºPearl
+[0xff] END BLOCK
+
+
+270: Whelk
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x3 0x0
+[0xf9+3] VAR MANIP
+	0x0 0x3 0x0
+[0xf7+1] SPECIAL EVENT
+	0x5
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0xa 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x2 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x5 0x0
+[0xf5+3] ALTER FORMATION
+	0x9 0x2 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0xa 0x0
+[0xfc+3] CMD PRED
+	IS ALIVE 0x2 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x5 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x1 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Mega Volt
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+271: Presenter
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Magnitude8 | Magnitude8
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Mega Volt | Blow Fish
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x3 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Giga Volt
+[0xff] END BLOCK
+
+
+272: Vargas
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x4
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x5 0x8
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x12 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x4
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x2
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x5 0x8
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x43 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0x32 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0xa 0x0
+[] Battle
+[] Battle
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Gale Cut | Gale Cut | Gale Cut
+[0xfd] WAIT
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF SPELL USED 0x5d 0x5d
+[0xf7+1] SPECIAL EVENT
+	0x9
+[0xf5+3] ALTER FORMATION
+	0xb 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x55
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x42 0x0
+[0xf7+1] SPECIAL EVENT
+	0x7
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x51
+[0xf7+1] SPECIAL EVENT
+	0x8
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x1
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+273: TunnelArmr
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf7+1] SPECIAL EVENT
+	0x10
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x3
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire | Battle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Special | ºBolt
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt | ºFire
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºPoison | Special | ºFire
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+274: GhostTrain
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Evil Toot
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x0 0x2
+[0xf8+2] VAR MATH
+	0x3 0x0
+[] Evil Toot
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0xf 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Acid Rain | Acid Rain | Scar Beam
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+275: Dadaluma
+
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0xb
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x6 0x0
+[0xfa+3] SPECIAL ACTION
+	Unknown 0x40 0xb8
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x6
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xf
+[0xf1+1] TARGETTING
+	Self
+[0xf6+3] THROW / USE ITEM
+	use Potion Tonic
+[0xf6+3] THROW / USE ITEM
+	use Potion Tonic
+[0xf6+3] THROW / USE ITEM
+	use Potion Tonic
+[] öSafe
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[0xf1+1] TARGETTING
+	Random character
+[0xf6+3] THROW / USE ITEM
+	throw Dirk MithrilKnife
+[0xf1+1] TARGETTING
+	Random character
+[0xf6+3] THROW / USE ITEM
+	throw Dirk MithrilKnife
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x2
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x12
+[0xf1+1] TARGETTING
+	All characters
+[0xf6+3] THROW / USE ITEM
+	throw Dirk MithrilKnife
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[0xf4+3] USE COMMAND
+	(Jump) | (Jump) | (Jump)
+[0xf8+2] VAR MATH
+	0x2 0x0
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Shock Wave
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xf1+1] TARGETTING
+	Random character
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x5
+[0xf4+3] USE COMMAND
+	(Steal) | (Steal) | (Steal)
+[0xff] END BLOCK
+
+
+276: Shiva
+
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x5
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x2
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x1
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x3
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x2
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x8
+[0xf1+1] TARGETTING
+	Random character
+[] öRflect
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x8
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x2
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x8
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºIce | ºIce | ºIce 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce | ºIce 2 | Blizzard
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1b 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x1c 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1d 0x0
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºIce
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºIce
+[0xff] END BLOCK
+
+
+277: Ifrit
+
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x5
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x1
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x2
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x3
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x1
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x4
+[0xf1+1] TARGETTING
+	Random character
+[] ºFire 3
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x4
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x1
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x4
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire | ºFire
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Blaze | ºFire 2
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1c 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x1b 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1d 0x0
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºFire
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºFire
+[0xff] END BLOCK
+
+
+278: Number?024
+
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[] WallChange
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Sun Bath | Ice Rabbit | öScan
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Sun Bath | Ice Rabbit | öScan
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Sun Bath | Ice Rabbit | öScan
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x1
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºIce | ºIce | ºIce 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x2
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFire | ºFire 2 | Fire Ball
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x4
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Aqua Rake | Acid Rain | Acid Rain
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x8
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	•Cure | •Cure | •Cure 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x10
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Magnitude8 | Cave In
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x20
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | R.Polarity
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x40
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Sonic Boom | Gale Cut | Gale Cut
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x80
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt | ºBolt | ºBolt 2
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x1
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x2 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x4
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x8 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x8
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x10 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x10
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x20 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x20
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x40 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x40
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x80 0x0
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x80
+[0xf8+2] VAR MATH
+	0x3 0x81
+[] WallChange
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+279: Number?128
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xf1+1] TARGETTING
+	Self
+[] öHaste
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Gale Cut | Atomic Ray
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Blaster | Atomic Ray | Shock Wave
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºIce
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Net
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+280: Inferno
+
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x1e 0x0
+[0xfc+3] CMD PRED
+	IS ALIVE 0xb 0x0
+[] Delta Hit
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xf1+1] TARGETTING
+	Self
+[] TekBarrier
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | ºMeteor
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Atomic Ray | Atomic Ray
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | Giga Volt | Atomic Ray
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Atomic Ray | Shock Wave
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Atomic Ray | Shock Wave
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+281: Crane
+
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x3
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xf1+1] TARGETTING
+	Monster #2
+[] ºFire 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Self
+[] TekBarrier
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x3c 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1f 0x0
+[] Magnitude8
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt | ºBolt
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 2 | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x31 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x26 0x0
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] Giga Volt
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x1
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf3+2] DISPLAY MESSAGE
+	0x2d 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf3+2] DISPLAY MESSAGE
+	0x2c 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+282: Crane2
+
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Monster #1
+[] ºBolt 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Self
+[] TekBarrier
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x3c 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1f 0x0
+[] Magnitude8
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire | ºFire
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire 2 | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x47 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x32 0x0
+[0xf8+2] VAR MATH
+	0x2 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] ºFire 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x1
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xf3+2] DISPLAY MESSAGE
+	0x46 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x0
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xf3+2] DISPLAY MESSAGE
+	0x33 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+283: Umaro
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blizzard
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | Special | Blizzard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+284: Umaro2
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Self
+[0xf6+3] THROW / USE ITEM
+	use Green Cherry Green Cherry
+[0xfa+3] SPECIAL ACTION
+	Monster(s) flashes red 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x49 0x0
+[0xfb+2] MISC.
+	GAIN STATUS 0x16
+[0xfb+2] MISC.
+	GAIN STATUS 0x15
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xfb+2] MISC.
+	GAIN STATUS 0x11
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x3
+[0xf4+3] USE COMMAND
+	(Jump) | (Jump) | (Jump)
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x0 0x2
+[0xfc+3] CMD PRED
+	ETIMER > 0x28 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Snowball | Surge | Lode Stone
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x0 0x2
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Blizzard
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xfc+3] CMD PRED
+	IF ITEM USED 0xf8 0xf8
+[0xfa+3] SPECIAL ACTION
+	Monster(s) flashes red 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x49 0x0
+[0xfb+2] MISC.
+	GAIN STATUS 0x16
+[0xfb+2] MISC.
+	GAIN STATUS 0x15
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xfb+2] MISC.
+	GAIN STATUS 0x11
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Special | Blizzard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+285: Guardian
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfb+2] MISC.
+	TARGET SET INVC. 0x36
+[0xf3+2] DISPLAY MESSAGE
+	0x30 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x2
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x2f 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xf3+2] DISPLAY MESSAGE
+	0x2e 0x0
+[] Battle
+[0xff] END BLOCK
+
+
+286: Air?Force
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x6
+[0xf5+3] ALTER FORMATION
+	0x2 0x1 0x8
+[] WaveCannon
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x5
+[0xf3+2] DISPLAY MESSAGE
+	0x45 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x4
+[0xf3+2] DISPLAY MESSAGE
+	0x3c 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x3b 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x3a 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x39 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x8
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xf3+2] DISPLAY MESSAGE
+	0x22 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x38 0x0
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Diffuser | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Tek Laser | Tek Laser | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+287: Tritoch
+
+[0xf7+1] SPECIAL EVENT
+	0x4
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+288: Tritoch2
+
+[0xf7+1] SPECIAL EVENT
+	0x12
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+289: FlameEater
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x3c
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0xf 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x6
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x6
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[] öSafe
+[] öRflect
+[0xf8+2] VAR MATH
+	0x2 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x5
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x2
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x24
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x3
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x3c
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x34
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x1
+[] Bomblet
+[0xf5+3] ALTER FORMATION
+	0x1 0x0 0x28
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x17
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºFire 3 | ºFire 2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire | Nothing | ºFire
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | Fire Ball | Fire Ball
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire | Fire Ball | Nothing
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF SPELL USED 0x10 0x11
+[0xf1+1] TARGETTING
+	All characters
+[0xf0+3] CHOOSE SPELL
+	ºQuartr | ºFlare | ºQuartr
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºFire 2
+[0xff] END BLOCK
+
+
+290: AtmaWeapon
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xf3+2] DISPLAY MESSAGE
+	0x85 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x7
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x65 0x0
+[0xfb+2] MISC.
+	GAIN STATUS 0x15
+[0xfb+2] MISC.
+	GAIN STATUS 0x16
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xfa+3] SPECIAL ACTION
+	All monsters flash for a long time 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Flare Star
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x30
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | ºQuartr | ºQuartr
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	öRasp | ºW Wind | Blaze
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x64
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBio | ºQuake | Meteo
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Special
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	All characters
+[] ºFire 2
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Mind Blast
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFlare | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFlare | Battle | Blaze
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x30
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºFlare | Nothing
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+291: Nerapa
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x66 0x0
+[0xf1+1] TARGETTING
+	Character #1
+[] Condemned
+[0xf1+1] TARGETTING
+	Character #2
+[] Condemned
+[0xf1+1] TARGETTING
+	Character #3
+[] Condemned
+[0xf1+1] TARGETTING
+	Character #4
+[] Condemned
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x6
+[0xf8+2] VAR MATH
+	0x0 0x0
+[] Roulette
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºFire 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Fire Ball | ºFire 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºFire 2
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xff] END BLOCK
+
+
+292: SrBehemoth2
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x5
+[0xf1+1] TARGETTING
+	Random character
+[] Battle
+[] Battle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[] Battle
+[] Battle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[] Battle
+[] Battle
+[0xfd] WAIT
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[] öImp
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x17
+[0xf1+1] TARGETTING
+	Character #1
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x5a 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x17
+[0xf1+1] TARGETTING
+	Character #2
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x5a 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x17
+[0xf1+1] TARGETTING
+	Character #3
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x5a 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x17
+[0xf1+1] TARGETTING
+	Character #4
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x5a 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce 3 | ºIce 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Meteo | ºPearl
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce 2 | Meteo
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºIce 2 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce 3 | Nothing
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x1 0x0
+[0xf9+3] VAR MANIP
+	0x1 0xa 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x3 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x7c 0x0
+[0xfa+3] SPECIAL ACTION
+	Characters run to the left 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x7d 0x0
+[0xf2+3] CHANGE FORMATION
+	0x0 0xa8 0x81
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF SPELL USED 0xe 0xf
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Meteo
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+293: Kefka
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfb+2] MISC.
+	UNSET TARG 0x36
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0xd7 0x1
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf2+3] CHANGE FORMATION
+	0x90 0x0 0x82
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x0 0x2
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf2+3] CHANGE FORMATION
+	0x90 0x1 0x82
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x1 0x2
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf2+3] CHANGE FORMATION
+	0x8f 0x2 0x82
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+294: Tentacle
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | ºPoison | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Entwine | Entwine | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBio | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	ºPoison | Special | Entwine
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+295: Dullahan
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[] L? Pearl
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x2
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Self
+[] •Cure 2
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x8
+[0xf0+3] CHOOSE SPELL
+	N. Cross | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	L? Pearl | Nothing | Absolute 0
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | Absolute 0 | Nothing
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x43 0x17
+[] Reflect???
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | ºIce 2 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | Nothing | ºPearl
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºIce 2 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 2 | ºPearl
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x2
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xff] END BLOCK
+
+
+296: Doom?Gaze
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[] L.5 Doom
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | ºDoom | ºIce 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDoom | Aero | Aero
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Nothing | Escape | Escape
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Nothing
+[0xff] END BLOCK
+
+
+297: Chadarnook
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x5f 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Charm
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Lullaby
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xe 0x2 0x2
+[0xf5+3] ALTER FORMATION
+	0xe 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Charm | Battle
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xe 0x2 0x2
+[0xf5+3] ALTER FORMATION
+	0xe 0x1 0x1
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Phantasm
+[0xff] END BLOCK
+
+
+298: Curley
+
+[0xfc+3] CMD PRED
+	IS ALIVE 0x7 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x1e 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Delta Hit
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	Self
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºFire 3 | ºFire 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x2 0x0
+[0xf1+1] TARGETTING
+	Monster #2
+[] •Life 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x4 0x0
+[0xf1+1] TARGETTING
+	Monster #3
+[] •Life 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºFire 3 | ºFire 3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	öSlow | Nothing | Pearl Wind
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öMute | öSlow | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öStop | öMute | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºFire 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºFire 2 | Nothing
+[0xff] END BLOCK
+
+
+299: Larry
+
+[0xfc+3] CMD PRED
+	IS ALIVE 0x7 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x1e 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Delta Hit
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	Self
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | ºIce 3 | ºIce 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x2
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x64 0x0
+[0xf5+3] ALTER FORMATION
+	0x2 0x0 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x2
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x4
+[0xf8+2] VAR MATH
+	0x2 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x5b 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf5+3] ALTER FORMATION
+	0x2 0x3 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | Nothing | ºIce 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 2 | Nothing | ºIce 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 2 | ºIce 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 2 | Nothing
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 2 | Nothing
+[0xff] END BLOCK
+
+
+300: Moe
+
+[0xfc+3] CMD PRED
+	IS ALIVE 0x7 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x1e 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Delta Hit
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	Self
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 3 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 3 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	öSafe | öHaste | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öShell | •Cure 2 | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºBolt 2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	<UNK>
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt 2 | Nothing
+[0xff] END BLOCK
+
+
+301: Wrexsoul
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x1
+[0xf7+1] SPECIAL EVENT
+	0x1f
+[] Zinger
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xf1+1] TARGETTING
+	All monsters with wall status
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt 3 | ºBolt 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	All monsters with wall status
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt 3 | ºBolt 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	Nothing | Zinger | Zinger
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[] Battle
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Nothing
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+302: Hidon
+
+[0xfc+3] CMD PRED
+	IS DEAD 0x3c 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x50 0x0
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x4
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x8
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x10
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x20
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0xa
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] GrandTrain
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Virite | Battle | Raid
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Raid | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Virite | Battle | Raid
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x48 0x1
+[0xf1+1] TARGETTING
+	Character #1
+[] ChokeSmoke
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x49 0x1
+[0xf1+1] TARGETTING
+	Character #2
+[] ChokeSmoke
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4a 0x1
+[0xf1+1] TARGETTING
+	Character #3
+[] ChokeSmoke
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4b 0x1
+[0xf1+1] TARGETTING
+	Character #4
+[] ChokeSmoke
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºBio
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºPoison
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xff] END BLOCK
+
+
+303: KatanaSoul
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x28 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x63 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xfb+2] MISC.
+	GAIN STATUS 0xa
+[0xfb+2] MISC.
+	GAIN STATUS 0x17
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x3
+[0xf6+3] THROW / USE ITEM
+	throw Ashura Imperial
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	All characters
+[0xf4+3] USE COMMAND
+	(GPRain) | (GPRain) | (GPRain)
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x6
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Water Edge | Battle | Gale Cut
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Bolt Edge | Shock Wave
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Bolt Edge | Fire Skean | Water Edge
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Blow Fish | Fire Skean
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0xc
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+304: Hidonite
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+305: Doom
+
+[0xfc+3] CMD PRED
+	SET TARGET 0x4d 0x0
+[] Special
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0x14 0x0
+[0xfc+3] CMD PRED
+	VAR < 0x2 0x8
+[] ForceField
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x8
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] R.Polarity
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Targeting | Targeting
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Targeting | Targeting
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Targeting
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Targeting | Targeting
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | N. Cross | Absolute 0
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 3 | N. Cross
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | N. Cross | ºIce 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 3 | Absolute 0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xff
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x88 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xfb+2] MISC.
+	GAIN STATUS 0xa
+[0xfb+2] MISC.
+	GAIN STATUS 0x17
+[0xfb+2] MISC.
+	GAIN STATUS 0x13
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xff] END BLOCK
+
+
+306: Goddess
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x8
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Overcast
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xff
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | Flash Rain | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | Flash Rain
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | Quasar | Quasar
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | Flash Rain
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Battle | Lullaby
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | Charm | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Battle | ºBolt 3
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Love Token
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºBolt 2
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xff] END BLOCK
+
+
+307: Poltrgeist
+
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x8
+[0xf8+2] VAR MATH
+	0x3 0x0
+[] WaveCannon
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x14
+[] Blaster
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x14
+[] Blaster
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x14
+[] Blaster
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x14
+[] Blaster
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xff
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Flare Star | S. Cross | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Meteo | Aero | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Aero | Flare Star | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Shrapnel | öStop
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Shrapnel | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºFire 3 | Nothing
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+308: Kefka2
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf7+1] SPECIAL EVENT
+	0x20
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x3c
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x8c 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfa+3] SPECIAL ACTION
+	Causes head to appear, screen to shake (used by Kefka) 0x1 0x0
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Goner
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] ºMeteor
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xff
+[0xf3+2] DISPLAY MESSAGE
+	0x8c 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x1
+[0xfa+3] SPECIAL ACTION
+	Causes head to appear, screen to shake (used by Kefka) 0x1 0x0
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Goner
+[0xfd] WAIT
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x1
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Train | Revenger
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Train | Special | Revenger
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Nothing
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	All characters
+[] Fallen One
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | Train | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | Train | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | Nothing | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfa+3] SPECIAL ACTION
+	Screen flashes like boss death 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x11 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | ºUltima
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xeb
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | HyperDrive
+[0xff] END BLOCK
+
+
+309: Ultros
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0xc 0x0
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x0
+[] Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x1
+[0xfc+3] CMD PRED
+	ETIMER > 0xa 0x0
+[0xfc+3] CMD PRED
+	IF LEVEL >= 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0xd 0x0
+[] Tentacle
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x1
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x2
+[0xfc+3] CMD PRED
+	ETIMER > 0xa 0x0
+[0xfc+3] CMD PRED
+	IF LEVEL >= 0x5 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0xe 0x0
+[] Tentacle
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	All characters
+[] Tentacle
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Tentacle
+[0xfd] WAIT
+[] Battle
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Tentacle
+[0xfd] WAIT
+[0xf3+2] DISPLAY MESSAGE
+	0x4d 0x0
+[0xf1+1] TARGETTING
+	Leo
+[] Tentacle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x3 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x9 0x0
+[0xf7+1] SPECIAL EVENT
+	0xa
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0xb 0x0
+[] Special
+[0xff] END BLOCK
+
+
+310: Ultros2
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x13 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x3c 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x62 0x0
+[0xf0+3] CHOOSE SPELL
+	Imp Song | Imp Song | Imp Song
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Tentacle
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire | ºFire
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | L.3 Muddle | L.3 Muddle
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Mega Volt | ºDrain
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x4 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x7 0xa
+[] Acid Rain
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x10
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x7
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x7
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x2
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x4
+[0xf3+2] DISPLAY MESSAGE
+	0x1e 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x2
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0xe
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x6
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x6
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x8
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x19 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x1 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0xc
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x5
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x5
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x8
+[0xf3+2] DISPLAY MESSAGE
+	0x16 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0xa
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x4
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x4
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x2
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x1a 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x8
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x3
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x3
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x8
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x18 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x6
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x2
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x2
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x2
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x8
+[0xf3+2] DISPLAY MESSAGE
+	0x17 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x4
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x1
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x1
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x4
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x19 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x1 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x2 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x2 0x0
+[0xf5+3] ALTER FORMATION
+	0x6 0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x4
+[0xf3+2] DISPLAY MESSAGE
+	0x16 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xff] END BLOCK
+
+
+311: Ultros3
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x6
+[0xf3+2] DISPLAY MESSAGE
+	0x4f 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x6
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x5
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x78
+[0xf1+1] TARGETTING
+	Self
+[] öHaste
+[] öSafe
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x5
+[0xf3+2] DISPLAY MESSAGE
+	0x4e 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	ETIMER > 0x3c 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Lode Stone
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR < 0x1 0x8
+[0xf8+2] VAR MATH
+	0x1 0x81
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves forward 1 step slowly 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Tentacle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Stone
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x8
+[0xf0+3] CHOOSE SPELL
+	Magnitude8 | Aqua Rake | Magnitude8
+[0xf5+3] ALTER FORMATION
+	0x6 0x4 0x1
+[0xfa+3] SPECIAL ACTION
+	Monster(s) steps back 3 steps quickly 0x1 0x0
+[0xf5+3] ALTER FORMATION
+	0x6 0x2 0x1
+[0xf8+2] VAR MATH
+	0x1 0x0
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x1
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x4
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf7+1] SPECIAL EVENT
+	0x16
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x4
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x6 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF SPELL USED 0xd0 0xd0
+[0xf3+2] DISPLAY MESSAGE
+	0x50 0x0
+[0xf5+3] ALTER FORMATION
+	0x6 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x8
+[0xfc+3] CMD PRED
+	VAR >= 0x1 0x2
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves back 1 step slowly 0x1 0x0
+[0xf8+2] VAR MATH
+	0x1 0xc1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x3
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[] ºFire 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x3
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x2 0x0
+[] ºIce 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x3
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x4 0x0
+[] ºBolt 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x2
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x3 0x84
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf8+2] VAR MATH
+	0x2 0x81
+[0xf8+2] VAR MATH
+	0x3 0x84
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x2 0x4
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x2
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x3
+[0xfa+3] SPECIAL ACTION
+	Monster(s) flashes red 0x1 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x1 0x0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+312: Chupon2
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Fire Ball
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] Sneeze
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+
+
+313: Siegfried2
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x5d 0x0
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xf3+2] DISPLAY MESSAGE
+	0x5e 0x0
+[0xf9+3] VAR MANIP
+	0x0 0x0 0x0
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x1 0xff
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+314: Head
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xff] END BLOCK
+
+
+315: Whelk?Head
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0x14 0x0
+[0xf5+3] ALTER FORMATION
+	0x9 0x2 0x2
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x2
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Mega Volt
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | El Nino | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x3 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xff] END BLOCK
+
+
+316: Colossus
+
+[0xfc+3] CMD PRED
+	IF CMD USED 0xa 0x7
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Lode Stone
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Fire Wall | Magnitude8 | Lode Stone
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	SET TARGET 0xb 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Fire Wall | Special
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Magnitude8 | Lode Stone
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Fire Wall
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Fire Wall | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Fire Wall
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+317: CzarDragon
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+318: Master?Pug
+
+[0xfc+3] CMD PRED
+	ETIMER > 0xf 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[] WallChange
+[0xfa+3] SPECIAL ACTION
+	Monster(s) moves forward 1 step quickly 0x4 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x7
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] Special
+[0xf5+3] ALTER FORMATION
+	0xa 0x4 0x4
+[0xfa+3] SPECIAL ACTION
+	Monster(s) steps back 3 steps quickly 0x4 0x0
+[0xf5+3] ALTER FORMATION
+	0xa 0x2 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x2
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºFire 3 | ºFire 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x1
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 3 | ºIce 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x10
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt 3 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x20
+[0xf1+1] TARGETTING
+	All characters
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBio | ºBio
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x4
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºW Wind | ºW Wind
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x8
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºPearl | ºPearl
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x80
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºQuake | ºQuake
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF WEAK TO 0x36 0x40
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | CleanSweep | CleanSweep
+[0xfe] END FC BLOCK
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Step Mine | Nothing | Nothing
+[0xff] END BLOCK
+
+
+319: Merchant
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x5
+[0xf9+3] VAR MANIP
+	0x1 0xd 0x4
+[0xf9+3] VAR MANIP
+	0x2 0xd 0x5
+[0xf5+3] ALTER FORMATION
+	0x0 0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x2
+[0xf7+1] SPECIAL EVENT
+	0xf
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xff] END BLOCK
+
+
+320: B.Day?Suit
+
+[0xf3+2] DISPLAY MESSAGE
+	0x8 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Escape | Escape | Escape
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+321: Tentacle2
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBio | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Entwine | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBio | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	ºPoison | Special | Entwine
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+322: Tentacle3
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Entwine | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBio | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	ºPoison | Special | Entwine
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+323: Tentacle4
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x12
+[] Seize
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBio | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Entwine | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	ºPoison | Special | Entwine
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x7
+[] Discard
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x7
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+324: RightBlade
+
+[0xfc+3] CMD PRED
+	IS DEAD 0x8 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0xf 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x0 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS ALIVE 0x8 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x8
+[0xf5+3] ALTER FORMATION
+	0x9 0x3 0x8
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xff] END BLOCK
+
+
+325: Left?Blade
+
+[0xfc+3] CMD PRED
+	IS DEAD 0x2 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0x1e 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x0 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS ALIVE 0x2 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Shimsham
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x2
+[0xf5+3] ALTER FORMATION
+	0x9 0x3 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xff] END BLOCK
+
+
+326: Rough
+
+[0xfc+3] CMD PRED
+	IS DEAD 0x8 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0x14 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x0 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS ALIVE 0x8 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x8
+[0xf5+3] ALTER FORMATION
+	0x9 0x3 0x8
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xff] END BLOCK
+
+
+327: Striker
+
+[0xfc+3] CMD PRED
+	IS DEAD 0x2 0x0
+[0xfc+3] CMD PRED
+	ETIMER > 0x28 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x0 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS ALIVE 0x2 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Shrapnel
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x2
+[0xf5+3] ALTER FORMATION
+	0x9 0x3 0x2
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xff] END BLOCK
+
+
+328: Tritoch3
+
+[0xf0+3] CHOOSE SPELL
+	öRasp | öRasp | ºIce 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | ºIce 3 | öRasp
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öRasp | Cold Dust | ºIce 3
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ELEM ATK 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | öRasp
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x7 0x9
+[0xf1+1] TARGETTING
+	Character who last attacked
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Cold Dust
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0xa 0xc
+[0xf1+1] TARGETTING
+	Character who last attacked
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Cold Dust
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0xd 0x10
+[0xf1+1] TARGETTING
+	Character who last attacked
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Cold Dust
+[0xff] END BLOCK
+
+
+329: Laser?Gun
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xc
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Diffuser | Tek Laser
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Diffuser | Tek Laser
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Atomic Ray | Tek Laser | Tek Laser
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x2
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x1 0x1 0x4
+[0xff] END BLOCK
+
+
+330: Speck
+
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+331: MissileBay
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xc
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Missile
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Launcher | Missile | Missile
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Launcher
+[0xfe] END FC BLOCK
+[] Missile
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0x1 0x1 0x10
+[0xff] END BLOCK
+
+
+332: Chadarnook2
+
+[0xfc+3] CMD PRED
+	ETIMER > 0x28 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf8+2] VAR MATH
+	0x3 0x1
+[0xf5+3] ALTER FORMATION
+	0xe 0x2 0x1
+[0xf5+3] ALTER FORMATION
+	0xe 0x1 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x78
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Flash Rain | ºBolt 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Flash Rain | ºBolt 3 | Flash Rain
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Flash Rain | Battle | ºBolt 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Flash Rain | ºBolt 3 | Battle
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 2 | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 2 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºBolt 2 | Nothing
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x7a 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | ºBolt 2
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x4
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf5+3] ALTER FORMATION
+	0xe 0x2 0x1
+[0xf5+3] ALTER FORMATION
+	0xe 0x1 0x2
+[0xff] END BLOCK
+
+
+333: Ice?Dragon
+
+[0xf0+3] CHOOSE SPELL
+	Battle | N. Cross | N. Cross
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Absolute 0 | Absolute 0
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Surge | Absolute 0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Surge
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+334: Kefka3
+
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºPoison
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce 2 | ºBolt
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	öMuddle | ºDrain | ºIce
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x15 0x0
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xff] END BLOCK
+
+
+335: Storm?Drgn
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x78
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Aero
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Cyclonic
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Wind Slash | Rage
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Wind Slash | Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+336: Dirt?Drgn
+
+[0xfc+3] CMD PRED
+	ETIMER > 0x14 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x44 0x1f
+[0xf1+1] TARGETTING
+	All characters
+[] 50 Gs
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | ºQuake | ºQuake
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Magnitude8 | Slide
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Magnitude8 | ºQuake
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Slide
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+337: Ipooh
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x6 0x0
+[0xfb+2] MISC.
+	SET TARG 0x30
+[0xff] END BLOCK
+
+
+338: Leader
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Special
+[0xff] END BLOCK
+
+
+339: Grunt
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+340: Gold?Drgn
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0x2
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x0
+[0xf8+2] VAR MATH
+	0x24 0x0
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xf1+1] TARGETTING
+	All characters
+[] ºBolt 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x0 0x0
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x17
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x48 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x17
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x49 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x17
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4a 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x17
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x4b 0x7
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Battle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 2 | ºBolt
+[0xfd] WAIT
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x1
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Battle
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Self
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt 2 | ºBolt
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x1
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | ºBolt | ºBolt 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Giga Volt | ºBolt | ºBolt
+[0xfd] WAIT
+[0xf9+3] VAR MANIP
+	0x2 0x0 0x1
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt | ºBolt
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf8+2] VAR MATH
+	0x24 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x24 0x4
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x73 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºBolt | ºBolt 2
+[0xff] END BLOCK
+
+
+341: Skull?Drgn
+
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Condemned | Elf Fire
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Condemned | Specter
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Condemned | Elf Fire
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random character
+[] Disaster
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Nothing
+[0xff] END BLOCK
+
+
+342: Blue?Drgn
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[] CleanSweep
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x28 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[] CleanSweep
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x16
+[0xf1+1] TARGETTING
+	Self
+[] öSlow
+[0xf1+1] TARGETTING
+	Character #1
+[] Rippler
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x16
+[0xf1+1] TARGETTING
+	Self
+[] öSlow
+[0xf1+1] TARGETTING
+	Character #2
+[] Rippler
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x16
+[0xf1+1] TARGETTING
+	Self
+[] öSlow
+[0xf1+1] TARGETTING
+	Character #3
+[] Rippler
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x13
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x16
+[0xf1+1] TARGETTING
+	Self
+[] öSlow
+[0xf1+1] TARGETTING
+	Character #4
+[] Rippler
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x80
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Aqua Rake | Aqua Rake
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Flash Rain | Flash Rain
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Acid Rain | Acid Rain
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Acid Rain
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x1
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+343: Red?Dragon
+
+[0xfc+3] CMD PRED
+	ETIMER > 0x28 0x0
+[0xfb+2] MISC.
+	TARG BAT TIME RESET 0x0
+[0xf0+3] CHOOSE SPELL
+	S. Cross | L.4 Flare | Flare Star
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x48 0x17
+[0xf1+1] TARGETTING
+	Character #1
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x76 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x49 0x17
+[0xf1+1] TARGETTING
+	Character #2
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x76 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4a 0x17
+[0xf1+1] TARGETTING
+	Character #3
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x76 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x4b 0x17
+[0xf1+1] TARGETTING
+	Character #4
+[] Special
+[0xf3+2] DISPLAY MESSAGE
+	0x76 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFlare | ºFire 3 | ºFlare
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFlare | ºFire 3 | ºFlare
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | Fire Ball | ºFire 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 2 | ºFire 2 | Fire Ball
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0x0
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+
+
+344: Piranha
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	BAT TIMER > 0x3c 0x0
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0x20
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF FORM # 0x1 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0x16
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF FORM # 0x2 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0x11
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF FORM # 0x4 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0x1a
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0x5
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfc+3] CMD PRED
+	IF FORM # 0x10 0x0
+[0xfb+2] MISC.
+	0xd 0x0
+[0xf5+3] ALTER FORMATION
+	0x4 0x0 0xe
+[0xff] END BLOCK
+
+
+345: Rizopas
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Special | Mega Volt
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce | ºIce
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	El Nino | Battle | Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+346: Specter
+
+[0xf0+3] CHOOSE SPELL
+	ºIce | Battle | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Raid
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Character who last attacked
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+
+
+347: Short?Arm
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x4f
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+
+
+348: Long?Arm
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xfe] END FC BLOCK
+[] Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Shock Wave
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Shock Wave | Shock Wave
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Nothing | Shock Wave | Shock Wave
+[0xf0+3] CHOOSE SPELL
+	Shock Wave | Nothing | Shock Wave
+[0xf0+3] CHOOSE SPELL
+	Shock Wave | Shock Wave | Nothing
+[0xff] END BLOCK
+
+
+349: Face
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Dread
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Dread
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Dread
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Special | Dread
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Dread | Magnitude8 | R.Polarity
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	R.Polarity | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	R.Polarity | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Random monster excluding self
+[0xf0+3] CHOOSE SPELL
+	öSafe | öSafe | öHaste
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] ºQuake
+[0xff] END BLOCK
+
+
+350: Tiger
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x5a
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	S. Cross | N. Cross | Flare Star
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	S. Cross | Flare Star | N. Cross
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+351: Tools
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x5a
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Grav Bomb | Tek Laser
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Missile | Absolute 0
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Delta Hit | Grav Bomb | Absolute 0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Grav Bomb | Tek Laser
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Diffuser | Missile | Atomic Ray
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Delta Hit | Grav Bomb | Atomic Ray
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+352: Magic
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x9d
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | öMute
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºFlare | öRasp
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 2 | ºBolt 3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xf0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	öRflect | öStop | •Life 3
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºIce 3 | ºBolt 3 | öSleep
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºPearl | ºFlare | öSlow 2
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	öHaste2 | öHaste | öImp
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºFire 3 | öMuddle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºPoison | ºDrain | ºBio
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	öDispel | Nothing | Nothing
+[0xf0+3] CHOOSE SPELL
+	öDispel | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x28
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºQuartr | Nothing | Nothing
+[0xf1+1] TARGETTING
+	Random character
+[0xf0+3] CHOOSE SPELL
+	öDispel | öDispel | Nothing
+[0xf0+3] CHOOSE SPELL
+	öDispel | öDispel | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºQuartr | Nothing | Nothing
+[0xff] END BLOCK
+
+
+353: Hit
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Special
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[] Battle
+[0xff] END BLOCK
+
+
+354: Girl
+
+[0xfc+3] CMD PRED
+	IF ANY ALIVE 0x1 0x1
+[0xf1+1] TARGETTING
+	All dead monsters
+[] •Life 2
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Pearl Wind | Pearl Wind | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Pearl Wind | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Pearl Wind | Pearl Wind | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Pearl Wind | Special | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Pearl Wind | Nothing | Nothing
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+355: Sleep
+
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Meteo
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºW Wind | ºMerton | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Condemned
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Special
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Nothing
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x50
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	Meteo | Train | Nothing
+[0xff] END BLOCK
+
+
+356: Hidonite2
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Special | Nothing | Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+357: Hidonite3
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+358: Hidonite4
+
+[0xf0+3] CHOOSE SPELL
+	Nothing | Battle | Battle
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xfb+2] MISC.
+	BAT TIME RESET 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+359: SoulSaver
+
+[0xfc+3] CMD PRED
+	IS ALIVE 0x1 0x0
+[0xfc+3] CMD PRED
+	IF NOT HAS STATUS 0x36 0x17
+[0xf1+1] TARGETTING
+	Self
+[] öRflect
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xfc+3] CMD PRED
+	IF MP < 0x36 0x10
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] Special
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF SINGLE ETYPE 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | ºIce 3 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | Nothing | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | Nothing
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xf1+1] TARGETTING
+	Monster #1
+[0xf0+3] CHOOSE SPELL
+	•Cure | Nothing | Nothing
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x8 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x8 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x8
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x8
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF FORM # 0x10 0x0
+[0xfc+3] CMD PRED
+	IS DEAD 0x10 0x0
+[0xf5+3] ALTER FORMATION
+	0x8 0x3 0x10
+[0xf5+3] ALTER FORMATION
+	0x9 0x0 0x10
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Nothing
+[0xff] END BLOCK
+
+
+360: Ultros4
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x51 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x4
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x2
+[0xf3+2] DISPLAY MESSAGE
+	0x56 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x4
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x3
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x52 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x3
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x2
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x54 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x2
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x1
+[0xf0+3] CHOOSE SPELL
+	Battle | Tentacle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Tentacle | Special
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Tentacle | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x1
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x64
+[0xf3+2] DISPLAY MESSAGE
+	0x53 0x0
+[0xf5+3] ALTER FORMATION
+	0x3 0x0 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x57 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x1
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+361: Naughty
+
+[0xfc+3] CMD PRED
+	IF HAS STATUS 0x36 0x5
+[0xf1+1] TARGETTING
+	Self
+[] öImp
+[] Escape
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Cold Dust | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºIce 2
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºIce 2 | Blizzard
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf1+1] TARGETTING
+	Character who last attacked
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Mute
+[0xff] END BLOCK
+
+
+362: Phunbaba
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x0 0x0
+[0xfb+2] MISC.
+	TARGET SET INVC. 0x36
+[0xf9+3] VAR MANIP
+	0x1 0x0 0x0
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 2 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Blow Fish | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+363: Phunbaba2
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 2 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Blow Fish | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xa0
+[0xf1+1] TARGETTING
+	Self
+[] Escape
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+364: Phunbaba3
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 2 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Blow Fish | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf1+1] TARGETTING
+	Random character
+[] BabaBreath
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0x78
+[0xf1+1] TARGETTING
+	Random character
+[] BabaBreath
+[0xf1+1] TARGETTING
+	Random character
+[] BabaBreath
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+365: Phunbaba4
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | ºBolt 2 | ºBolt 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Blow Fish | Special
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	ºBolt 2 | Nothing | Nothing
+[0xff] END BLOCK
+
+
+366: 
+
+[] Fire Beam
+[0xf7+1] SPECIAL EVENT
+	0x11
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+367: 2
+
+[] Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf7+1] SPECIAL EVENT
+	0x1d
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+
+
+368: 3
+
+[0xf0+3] CHOOSE SPELL
+	Joker Doom(really Dispatch) | Battle | Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Battle
+[0xff] END BLOCK
+
+
+369: Zone?Eater
+
+[0xf0+3] CHOOSE SPELL
+	ºDemi | Engulf | Engulf
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºDemi | Engulf | Engulf
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x2 0x2
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Engulf
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Cold Dust
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+
+
+370: 4
+
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0xd 0x1
+[0xf3+2] DISPLAY MESSAGE
+	0x23 0x0
+[0xfe] END FC BLOCK
+[0xfb+2] MISC.
+	ADD GAU 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x24 0x0
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF ITEM USED 0xfe 0xfe
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0xd 0x1
+[0xfb+2] MISC.
+	ADD GAU 0x0
+[0xf9+3] VAR MANIP
+	0x1 0xd 0x1
+[0xf7+1] SPECIAL EVENT
+	0xd
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf7+1] SPECIAL EVENT
+	0x1c
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+
+
+371: 5
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | ºPoison
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | ºFire 3 | ºBolt
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBio | ºDrain | ºBio
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xb 0x3 0x2
+[0xf7+1] SPECIAL EVENT
+	0x17
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+
+
+372: 6
+
+[0xfc+3] CMD PRED
+	VAR >= 0x0 0x3
+[0xf8+2] VAR MATH
+	0x0 0x0
+[0xf1+1] TARGETTING
+	Self
+[0xf6+3] THROW / USE ITEM
+	use Tonic Potion
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºPoison | ºFire 2 | Dischord
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	Battle | öRasp | öSlow
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x4b 0x0
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xf8+2] VAR MATH
+	0x0 0x81
+[0xff] END BLOCK
+
+
+373: Officer
+
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Battle
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IF CMD USED 0x5 0x5
+[0xf9+3] VAR MANIP
+	0x1 0xd 0x5
+[0xf9+3] VAR MANIP
+	0x2 0xd 0x4
+[0xf5+3] ALTER FORMATION
+	0x0 0x3 0x4
+[0xf5+3] ALTER FORMATION
+	0x0 0x0 0x8
+[0xf7+1] SPECIAL EVENT
+	0xe
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x4
+[0xff] END BLOCK
+
+
+374: Cadet
+
+[0xfc+3] CMD PRED
+	IS FORM # = 0x3b 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Battle | Special
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+375: 7
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+376: 8
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+377: Soldier2
+
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+378: 9
+
+[0xf1+1] TARGETTING
+	<UNK>
+[] ºFire
+[] ºFire 2
+[] ºFire 3
+[0xf7+1] SPECIAL EVENT
+	0x1a
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+379: 10
+
+[0xfb+2] MISC.
+	UNSET TARG 0x36
+[0xfc+3] CMD PRED
+	IS FORM # = 0x80 0x1
+[0xf7+1] SPECIAL EVENT
+	0x13
+[0xf5+3] ALTER FORMATION
+	0x0 0x1 0x1
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x81 0x1
+[0xf7+1] SPECIAL EVENT
+	0x14
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x82 0x1
+[0xf7+1] SPECIAL EVENT
+	0x15
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x85 0x1
+[0xf7+1] SPECIAL EVENT
+	0x18
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x86 0x1
+[0xf7+1] SPECIAL EVENT
+	0x19
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IS FORM # = 0x89 0x1
+[0xf7+1] SPECIAL EVENT
+	0x1e
+[0xfb+2] MISC.
+	END BATTLE 0x0
+[0xfe] END FC BLOCK
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+380: 11
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+381: Atma
+
+[0xfc+3] CMD PRED
+	IF VAR BIT 0x24 0x0
+[0xf3+2] DISPLAY MESSAGE
+	0x83 0x0
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xfa+3] SPECIAL ACTION
+	Monsters(s) flashes for a long time 0x1 0x0
+[0xf0+3] CHOOSE SPELL
+	Nothing | Nothing | Nothing
+[0xfd] WAIT
+[0xfa+3] SPECIAL ACTION
+	All monsters flash for a long time 0x1 0x0
+[0xf1+1] TARGETTING
+	Use normal targetting
+[] ºUltima
+[0xf9+3] VAR MANIP
+	0x2 0x24 0x0
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF HP < 0x36 0xff
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | CleanSweep | ºQuake
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºMeteor | Flare Star
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºMeteor | ºQuake | CleanSweep
+[0xfd] WAIT
+[0xf1+1] TARGETTING
+	Use normal targetting
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºFire 3 | Flare Star
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x3
+[0xf3+2] DISPLAY MESSAGE
+	0x8b 0x0
+[0xfa+3] SPECIAL ACTION
+	All monsters flash for a long time 0x1 0x0
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x3
+[0xfe] END FC BLOCK
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | ºIce 3 | S. Cross
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºIce 3 | ºFire 3
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºBolt 3 | ºBolt 3 | S. Cross
+[0xfd] WAIT
+[0xf0+3] CHOOSE SPELL
+	ºFire 3 | N. Cross | N. Cross
+[0xff] END BLOCK
+[0xfc+3] CMD PRED
+	IS DEAD 0x0 0x0
+[0xf5+3] ALTER FORMATION
+	0xc 0x1 0xff
+[0xfe] END FC BLOCK
+[0xfc+3] CMD PRED
+	IF DAMAGED 0x0 0x0
+[0xfc+3] CMD PRED
+	IF NOT VAR BIT 0x24 0x0
+[0xf0+3] CHOOSE SPELL
+	Battle | Nothing | Nothing
+[0xf8+2] VAR MATH
+	0x3 0x81
+[0xfc+3] CMD PRED
+	VAR >= 0x3 0xc
+[0xf9+3] VAR MANIP
+	0x1 0x24 0x0
+[0xf8+2] VAR MATH
+	0x3 0x0
+[0xff] END BLOCK
+
+
+382: 12
+
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
+
+
+383: 13
+
+
+
