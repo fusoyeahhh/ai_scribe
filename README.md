@@ -1,6 +1,15 @@
 # ai_scribe
 Randomization of FFVI AI scripts
 
+Requires `numpy`, `networkx`, and `pandas` libraries at a minimum.
+
+Run with:
+```bash
+python -m ai_scribe
+```
+
+## Resources
+
 This program makes use of the Cecilbot data files, which can be found on the Beyond Chaos discord and are maintained by Cecil188.
 
 ## TODO
