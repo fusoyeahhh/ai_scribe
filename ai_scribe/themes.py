@@ -55,7 +55,7 @@ MTEK = []
 # Elements
 #
 import pandas
-skills = pandas.read_csv("skill_data.csv").sort_values(by=["Power", "MP Cost"])
+skills = pandas.read_csv("../etc/skill_data.csv").sort_values(by=["Power", "MP Cost"])
 import networkx
 
 ELEM_THEMES = {}
