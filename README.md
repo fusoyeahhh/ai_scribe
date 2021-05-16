@@ -1,6 +1,8 @@
 # ai_scribe
 Randomization of FFVI AI scripts
 
+This program makes use of the Cecilbot data files, which can be found on the Beyond Chaos discord and are maintained by Cecil188.
+
 ## TODO
 
 ### Batch 7

@@ -1,0 +1,256 @@
+Spell Name,MP Cost,Power,Accuracy,Elements,Statuses,Healing?,Runic?,Split Damage?,Reflect?,Physical?,Ignores Defense?,Unblockable?,Instant Death?,Special Effects
+Fire,4,21,150,Fire,None,No,Yes,Yes,Yes,No,No,No,No,None
+Ice,5,22,150,Ice,None,No,Yes,Yes,Yes,No,No,No,No,None
+Bolt,6,20,150,Lightning,None,No,Yes,Yes,Yes,No,No,No,No,None
+Poison,3,25,100,Poison,Poison,No,Yes,Yes,Yes,No,No,No,No,None
+Drain,15,38,120,None,None,Drain,Yes,No,No,No,No,No,No,None
+Fire 2,20,60,150,Fire,None,No,Yes,Yes,Yes,No,No,No,No,None
+Ice 2,21,62,150,Ice,None,No,Yes,Yes,Yes,No,No,No,No,None
+Bolt 2,22,61,150,Lightning,None,No,Yes,Yes,Yes,No,No,No,No,None
+Bio,26,53,120,Poison,Poison,No,Yes,Yes,Yes,No,No,No,No,None
+Fire 3,51,121,150,Fire,None,No,Yes,Yes,Yes,No,No,No,No,None
+Ice 3,52,122,150,Ice,None,No,Yes,Yes,Yes,No,No,No,No,None
+Bolt 3,53,120,150,Lightning,None,No,Yes,Yes,Yes,No,No,No,No,None
+Break,25,0,120,None,Petrify,No,Yes,No,Yes,No,No,No,Yes,Uses Stamina check to dodge.
+Doom,35,0,95,None,Death,No,Yes,No,Yes,No,No,No,Yes,"Uses Stamina check to dodge, revives undead."
+Pearl,40,108,150,Pearl,None,No,Yes,No,Yes,No,No,No,No,None
+Flare,45,60,150,None,None,No,Yes,No,Yes,No,Yes,No,No,None
+Demi,33,8(/16),120,None,None,No,Yes,No,No,No,No,No,Yes,"Uses Stamina check to dodge, Deals 1/2 of target's current HP."
+Quartr,48,12(/16),100,None,None,No,Yes,No,No,No,No,No,Yes,"Uses Stamina check to dodge, Deals 3/4 of target's current HP."
+X-Zone,53,0,85,None,Death,No,Yes,No,No,No,No,No,Yes,"Uses Stamina check to dodge, Cancels enemy desperation attack."
+Meteor,62,36,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Ultima,80,150,---,None,None,No,Yes,Yes,No,No,Yes,Yes,No,None
+Quake,50,111,150,Earth,None,No,No,Yes,No,No,Yes,Yes,No,Misses targets with Float.
+W Wind,75,15(/16),100,None,None,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, Deals 15/16 target's current of HP."
+Merton,85,138,---,"Fire, Wind",None,No,No,Yes,No,No,Yes,Yes,No,None
+Scan,3,0,222,None,None,No,Yes,No,Yes,No,No,No,No,"Reveals target's level, HP, MP, and elemental weaknesses."
+Slow,5,0,120,None,Slow,No,Yes,No,Yes,No,No,No,No,None
+Rasp,12,10,150,None,None,No,Yes,No,Yes,No,No,No,No,Damages MP.
+Mute,8,0,100,None,Mute,No,Yes,No,Yes,No,No,No,No,None
+Safe,12,0,---,None,Safe,No,Yes,No,Yes,No,No,Yes,No,None
+Sleep,5,0,111,None,Sleep,No,Yes,No,Yes,No,No,No,No,None
+Muddle,8,0,94,None,Confuse,No,Yes,No,Yes,No,No,No,No,None
+Haste,10,0,---,None,Haste,No,Yes,No,Yes,No,No,Yes,No,None
+Stop,10,0,100,None,Stop,No,Yes,No,Yes,No,No,No,No,None
+Bserk,16,0,150,None,Berserk,No,Yes,No,Yes,No,No,No,No,None
+Float,17,0,---,None,Float,No,Yes,No,No,No,No,Yes,No,None
+Imp,10,0,100,None,Imp,No,Yes,No,Yes,No,No,No,No,Heals and inflicts status.
+Rflect,22,0,---,None,Rflect,No,Yes,No,Yes,No,No,Yes,No,None
+Shell,15,0,---,None,Shell,No,Yes,No,Yes,No,No,Yes,No,None
+Vanish,18,0,---,None,Vanish,No,Yes,No,No,No,No,Yes,No,Heals and inflicts status.
+Haste2,38,0,---,None,Haste,No,Yes,No,Yes,No,No,Yes,No,None
+Slow 2,26,0,150,None,Slow,No,Yes,No,Yes,No,No,No,No,None
+Osmose,1,26,150,None,None,Drain,Yes,No,No,No,No,No,No,Damages MP.
+Warp,20,0,---,None,None,No,No,No,No,No,No,Yes,No,Ends battle if escapable.
+Quick,99,0,---,None,Quick,No,No,No,No,No,No,Yes,No,Allows for 2 more turns.
+Dispel,25,0,---,None,None,No,Yes,No,No,No,No,Yes,No,"Removes Vanish, Image, Berserk, Regen, Slow, Haste, Stop, Shell, Safe, Reflect, Reraise, and Float."
+Cure,5,10,---,None,None,Yes,Yes,Yes,Yes,No,Yes,Yes,No,None
+Cure 2,25,28,---,None,None,Yes,Yes,Yes,Yes,No,Yes,Yes,No,None
+Cure 3,40,66,---,None,None,Yes,Yes,Yes,Yes,No,Yes,Yes,No,None
+Life,30,2(/16),---,None,Death,Yes,Yes,No,No,No,Yes,Yes,No,Revives at 1/8 of target's maximum HP.
+Life 2,60,16(/16),---,None,Death,Yes,Yes,No,No,No,Yes,Yes,No,Revives at full HP.
+Antdot,3,0,---,None,Poison,Yes,Yes,No,No,No,No,Yes,No,None
+Remedy,15,0,---,None,"Dark, Poison, Petrify, Mute, Muddle, Seizure, Sleep, Slow, Stop",Yes,Yes,No,No,No,No,Yes,No,None
+Regen,10,0,---,None,Regen,No,Yes,No,Yes,No,No,Yes,No,None
+Life 3,50,0,---,None,Reraise,No,Yes,No,No,No,No,Yes,No,None
+Ramuh,25,50,---,Lightning,None,No,No,Yes,No,No,No,Yes,No,None
+Ifrit,26,51,---,Fire,None,No,No,Yes,No,No,No,Yes,No,None
+Shiva,27,52,---,Ice,None,No,No,Yes,No,No,No,Yes,No,None
+Siren,16,0,136,None,Mute,No,No,No,No,No,No,No,No,None
+Terrato,40,93,150,Earth,None,No,No,Yes,No,No,No,Yes,No,Misses targets with Float.
+Shoat,45,0,96,None,Petrify,No,No,No,No,No,No,No,Yes,Uses Stamina check to dodge.
+Maduin,44,55,---,None,None,No,No,No,No,No,No,Yes,No,None
+Bismark,50,58,---,Water,None,No,No,Yes,No,No,No,Yes,No,None
+Stray,28,0,128,None,Muddle,No,No,No,No,No,No,No,No,None
+Palidor,61,0,---,None,None,No,No,No,No,No,No,Yes,No,Forces party Jump.
+Tritoch,68,110,---,"Fire, Ice, Lit",None,No,No,Yes,No,No,No,Yes,No,None
+Odin,70,0,110,None,Death,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, cancels enemy desperation attack."
+Raiden,80,0,140,None,Death,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, cancels enemy desperation attack."
+Bahamut,86,92,---,None,None,No,No,Yes,No,No,Yes,Yes,No,None
+Alexandr,90,114,---,Pearl,None,No,No,Yes,No,No,No,Yes,No,None
+Crusader,96,190,---,None,None,No,No,No,No,No,No,Yes,No,None
+Ragnarok,6,0,---,None,Death,No,No,No,No,No,No,Special,Yes,Morphs enemy with varying success.
+Kirin,18,0,---,None,Regen,No,No,No,No,No,No,Yes,No,None
+ZoneSeek,30,0,---,None,Shell,No,No,No,No,No,No,Yes,No,None
+Carbunkl,36,0,---,None,Reflect,No,No,No,No,No,No,Yes,No,None
+Phantom,38,0,---,None,Vanish,No,No,No,No,No,No,Yes,No,Does not remove Vanish.
+Sraphim,40,18,---,None,None,Yes,No,Yes,No,No,Yes,Yes,No,None
+Golem,33,0*,---,None,None,No,No,No,No,No,No,Yes,No,Provides Earth Wall: HP=caster's current HP.
+Unicorn,30,0,---,None,"Dark, Poison, Petrify, Mute, Muddle, Seizure, Sleep, Slow, Stop",Yes,No,No,No,No,No,Yes,No,None
+Fenrir,70,0,---,None,Image,No,No,No,No,No,No,Yes,No,None
+Starlet,74,34,---,None,None,Yes,No,Yes,No,No,Yes,Yes,No,None
+Phoenix,110,4(/16),---,None,Death,Yes,No,No,No,No,No,Yes,No,Revives at 1/4 of target's maximum HP.
+Fire Skean,0,100,---,Fire,None,No,No,Yes,No,No,No,Yes,No,None
+Water Edge,0,100,---,Water,None,No,No,Yes,No,No,No,Yes,No,None
+Bolt Edge,0,100,---,Lightning,None,No,No,Yes,No,No,No,Yes,No,None
+Storm,0,100,---,Ice,None,No,No,Yes,No,No,No,Yes,No,None
+Dispatch,0,120,---,None,None,No,No,No,No,Yes,Yes,Yes,No,None
+Retort,0,56,---,None,None,No,No,No,No,No,Yes,Yes,No,Sets up counter if used with SwdTech.
+Slash,0,8(/16),---,None,Seizure,No,No,No,No,Yes,Yes,Yes,Yes,Deals 1/2 of target's current HP.
+Quadra Slam,0,72,---,None,None,No,No,Yes,No,Yes,No,Yes,No,Strikes 4 times.
+Empowerer,0,49,---,None,None,Drain,No,No,No,No,Yes,Yes,No,Drains HP and MP.
+Stunner,0,97,140*,None,Stop,No,No,No,No,No,No,Yes,No,"140/256 chance to inflict Stop, damage is guaranteed."
+Quadra Slice,0,70,---,None,None,No,No,Yes,No,Yes,Yes,Yes,No,Strikes 4 times.
+Cleave,0,0,182,None,Death,No,No,No,No,No,Yes,No,Yes,Cancels enemy desperation attack.
+Pummel,0,110,---,None,None,No,No,No,No,Yes,Yes,Yes,No,None
+AuraBolt,0,68,---,Pearl,None,No,No,No,No,No,No,Yes,No,None
+Suplex,0,180,---,None,None,No,No,Yes,No,Yes,Yes,Yes,No,Has unique flag to check for miss.
+Fire Dance,0,42,---,Fire,None,No,No,No,No,No,No,Yes,No,None
+Mantra,0,1*,---,None,"Dark, Poison, Mute, Seizure",Yes,No,Yes*,No,No,Yes,Yes,No,"Heals (Caster's HP/#targets-1) Includes caster as a target, does not hit caster."
+Air Blade,0,78,---,Wind,None,No,No,No,No,No,No,Yes,No,None
+Spiraler,0,200,---,None,"Dark, Zombie, Poison, Imp, Petrify, Condemned, Mute, Berserk, Muddle, Seizure, Sleep, Slow, Stop, Freeze",Yes,No,Yes,No,No,Yes,Yes,No,Removes caster from battle.
+Bum Rush,0,128,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Wind Slash,0,48,---,Wind,None,No,No,No,No,No,No,Yes,No,None
+Sun Bath,0,50,---,None,None,Yes,No,Yes,No,No,Yes,Yes,No,None
+Rage,0,50,---,None,None,No,No,No,No,No,No,Yes,No,None
+Harvester,0,0,---,None,"Dark, Poison, Petrify, Mute, Muddle, Seizure, Sleep, Slow, Stop",Yes,No,No,No,No,No,Yes,No,None
+Sand Storm,0,45,100,Wind,None,No,No,No,No,No,No,No,No,None
+Antlion,0,0,100,None,Death,No,No,No,No,No,No,No,Yes,Uses Stamina check to dodge.
+Elf Fire,0,72,---,Fire,None,No,No,No,No,No,No,Yes,No,None
+Specter,0,0,120,None,Confuse,No,No,No,No,No,No,No,No,None
+Land Slide,0,65,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Sonic Boom,0,10(/16),---,None,None,No,No,No,No,No,No,Yes,Yes,Deals 5/8 of target's current HP.
+El Nino,0,61,---,Water,None,No,No,No,No,No,No,Yes,No,None
+Plasma,0,70,---,Lightning,None,No,No,No,No,No,No,Yes,No,None
+Snare,0,0,100,None,Death,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, cancels enemy desperation attack."
+Cave In,0,12(/16),---,None,None,No, ,No,No,No,No,No,Yes,Yes
+Snowball,0,8(/16),---,None,Seizure,No,No,No,No,No,No,Yes,Yes,Deals 1/2 of target's current HP.
+Surge,0,55,---,Ice,None,No,No,No,No,No,No,Yes,No,None
+Cokatrice,0,50,96,None,Petrify,No,No,No,No,No,Yes,No,Yes,None
+Wombat,0,88,---,None,None,No,No,No,No,No,Yes,Yes,No,Misses targets with Float.
+Kitty,0,0,---,None,Haste,No,No,No,No,No,No,Yes,No,None
+Tapir,0,0,---,None,"Dark, Zombie, Poison, Imp, Petrify, Condemned, Mute, Berserk, Muddle, Seizure, Sleep, Slow, Stop",Yes,No,No,No,No,No,Yes,No,None
+Whump,0,53,---,None,None,No,No,No,No,No,Yes,Yes,No,Misses targets with Float.
+Wild Bear,0,100,---,None,"Dark, Zombie, Poison, Petrify, Condemned, Mute, Berserk, Muddle, Seizure, Sleep, Slow, Stop, Freeze",Yes,No,Yes,No,No,Yes,Yes,No,None
+Pois. Frog,0,56,---,Poison,Poison,No,No,No,No,No,No,Yes,No,None
+Ice Rabbit,0,60,---,None,None,Yes,No,Yes,No,No,Yes,Yes,No,None
+Super Ball,0,20,---,Poison,Poison,No,No,No,No,No,No,Yes,No,Has Super Ball animation.
+Flash,0,42,128,None,Dark,No,No,No,No,No,No,No,No,Has X-Type death animation.
+Chocobop,0,36,---,None,None,No,No,No,No,No,Yes,Yes,No,Misses targets with Float.
+H-Bomb,0,130,---,None,None,No,No,Yes,No,No,No,Yes,No,None
+7-Flush,0,84,---,None,None,No,No,Yes,No,No,No,Yes,No,None
+Megahit,0,128,---,None,None,No,No,Yes,No,No,No,Yes,No,Has Shock animation.
+Fire Beam,0,60,---,Fire,None,No,No,No,Yes,No,No,Yes,No,None
+Bolt Beam,0,62,---,Lightning,None,No,No,No,Yes,No,No,Yes,No,None
+Ice Beam,0,61,---,Ice,None,No,No,No,Yes,No,No,Yes,No,None
+Bio Blast,0,60,---,Poison,"Poison, Seizure",No,No,No,No,No,No,Yes,No,Has Bio Blaster animation.
+Heal Force,0,50,---,None,None,Yes,No,No,No,No,Yes,Yes,No,None
+Confuser,0,0,---,None,Muddle,No,No,No,No,No,No,No,No,None
+X-Fer,0,0,120,None,Death,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, cancels enemy desperation attack."
+TekMissile,0,58,---,None,Seizure,No,No,No,No,No,Yes,Yes,No,None
+Condemned,20,0,---,None,Condemned,No,No,No,No,No,No,Yes,Yes,None
+Roulette,10,0,---,None,Death,No,No,No,No,No,No,Yes,Yes,None
+CleanSweep,30,50,150,Water,None,No,No,No,No,No,No,No,No,None
+Aqua Rake,22,71,150,"Wind, Water",None,No,No,Yes,No,No,No,No,No,None
+Aero,41,125,150,Wind,None,No,No,Yes,No,No,No,No,No,None
+Blow Fish,50,1*,---,None,None,No,No,No,No,No,Yes,Yes,No,Deals 1000 damage.
+Big Guard,80,0,---,None,"Shell, Safe",No,No,No,No,No,No,Yes,No,None
+Revenge,31 ,1*,---,None,None,No,No,No,No,No,Yes,Yes,No,Damage=(Max HP-Current HP)
+Pearl Wind,45,1*,---,None,None,Yes,No,No,No,No,Yes,Yes,No,Healing=(Current HP)
+L.5 Doom,22,0,5*,None,Death,No,No,No,No,No,No,Yes,Yes,Hits if level is a multiple of 5.
+L.4 Flare,42,66,4*,None,None,No,No,No,No,No,Yes,Yes,No,Hits if level is a multiple of 4.
+L.3 Muddle,28,0,3*,None,Muddle,No,No,No,No,No,No,Yes,No,Hits is level is a multiple of 3.
+Reflect???,0,0,0*,None,"Dark, Mute, Slow",No,No,No,No,No,No,Yes,No,Hits only if target has Reflect status.
+L? Pearl,50,120,0*,Pearl,None,No,No,Yes,No,No,No,Yes,No,Hits if level is a multiple of the last digit of GP total.
+Step Mine,1*,32*,---,None,None,No,No,No,No,No,Yes,Yes,No,"MP cost=(Hours played*2), Damage=(Step total/32)"
+ForceField,24,0,---,None,None,No,No,No,No,No,No,Yes,No,Grants immunity to one element to all targets on field.
+Dischord,68,0,100,None,None,No,No,No,No,No,No,No,Yes,Cuts level in half for current battle.
+Sour Mouth,32,0,100,None,"Dark, Poison, Imp, Mute, Muddle, Sleep",No,No,No,No,No,No,No,No,None
+Pep Up,1,16(/16),---,None,"Dark, Zombie, Poison, Petrify, Condemned, Near Fatal, Mute, Berserk, Muddle, Seizure, Slow, Stop",Yes,No,No,No,No,No,Yes,No,"Kills caster, sets HP/MP to 0, removes caster from battle."
+Rippler,66,0,111,None,None,No,No,No,No,No,No,No,No,Exchanges statuses between caster and target.
+Stone,22,40,75,None,Muddle,No,No,Yes,No,No,No,No,No,Deals 8 times damage if target and caster are the same level.
+Quasar,50,57,---,None,None,No,No,Yes,No,No,Yes,Yes,No,None
+GrandTrain,64,84,---,None,None,No,No,Yes,No,No,Yes,Yes,No,None
+Exploder,1,1*,---,None,None,No,No,No,No,No,Yes,Yes,No,"Damage=(Current HP), kills caster."
+Imp Song,20,0,100,None,Imp,No,No,No,No,No,No,No,No,Heals and inflicts status.
+Clear,20,0,---,None,"Dark, Poison, Imp, Condemned, Mute, Muddle, Seizure, Sleep, Stop",No,No,No,No,No,No,Yes,No,None
+Virite,20,20,80,Poison,Poison,No,No,Yes,No,No,No,No,No,None
+ChokeSmoke,20,0,---,None,Zombie,No,No,No,No,No,No,Yes,Yes,Hits only if target has Wound status.
+Schiller,20,0,80,None,Dark,No,No,No,No,No,No,No,No,None
+Lullaby,20,0,90,None,Sleep,No,No,No,No,No,No,No,No,None
+Acid Rain,20,25,100,"Poison, Water",Seizure,No,No,No,No,No,No,No,No,None
+Confusion,20,0,68,None,Muddle,No,No,No,No,No,No,No,No,Has Muddle animation.
+Megazerk,20,0,---,None,Berserk,No,Yes,No,No,No,No,Yes,No,None
+Mute,20,0,90,None,Mute,No,No,No,No,No,No,No,No,MT Mute used by Naughties.
+Net,20,0,100,None,Stop,No,No,No,No,No,No,No,No,None
+Slimer,20,0,100,None,Slow,No,No,No,No,No,No,No,No,None
+Delta Hit,20,0,---,None,Petrify,No,No,No,No,No,No,Yes,Yes,"Does not check for Instant Death immunity, only Petrify immunity."
+Entwine,20,0,---,None,Slow,No,No,No,No,No,No,Yes,No,None
+Blaster,20,0,70,None,Death,No,Yes,No,No,No,No,No,Yes,None
+Cyclonic,20,15(/16),75,None,Near Fatal,No,No,No,No,No,No,No,Yes,Deals 15/16 of target's current HP.
+Fire Ball,20,50,150,Fire,None,No,No,Yes,No,No,No,No,No,None
+Atomic Ray,20,80,150,Fire,None,No,Yes,Yes,No,No,No,No,No,None
+Tek Laser,20,20,150,Lightning,None,No,Yes,No,No,No,No,No,No,None
+Diffuser,20,62,150,Lightning,None,No,Yes,Yes,No,No,No,No,No,None
+WaveCannon,20,110,150,Lightning,None,No,No,Yes,No,No,No,No,No,None
+Mega Volt,20,20,150,Lightning,None,No,Yes,Yes,No,No,No,No,No,None
+Giga Volt,20,110,130,Lightning,None,No,Yes,Yes,No,No,No,No,No,None
+Blizzard,20,25,140,Ice,None,No,No,Yes,No,No,No,No,No,None
+Absolute 0,20,110,140,Ice,None,No,No,Yes,No,No,No,No,No,None
+Magnitude8,20,100,130,Earth,None,No,No,Yes,No,No,No,No,No,None
+Raid,20,40,100,None,None,Drain,No,No,No,No,No,No,No,None
+Flash Rain,20,60,140,"Ice, Water",None,No,No,Yes,No,No,No,No,No,None
+TekBarrier,20,0,---,None,"Safe, Reflect",No,No,No,Yes,No,No,Yes,No,None
+Fallen One,20,0*,---,None,None,No,No,No,No,No,No,Yes,No,Sets target HP to 1.
+WallChange,0,0,---,None,None,No,No,No,No,No,No,Yes,No,"Makes target weak to 1 element, immune to 6 elements, and absorb 1 element."
+Escape,0,0,---,None,Hide,No,No,No,No,No,No,Yes,No,"Targets self, escapes from battle without fail."
+50 Gs,20,0,---,None,None,No,Yes,No,No,No,No,Yes,No,Removes Float.
+Mind Blast,20,0,110,None,"Dark, Zombie, Poison, Imp, Petrify, Condemned, Mute, Berserk, Muddle, Seizure, Sleep, Slow, Stop",No,No,No,No,No,No,No,No,Inflicts 4 ailments of those listed amongst the targets.
+N. Cross,20,0,90,Ice,Freeze,No,Yes,No,No,No,No,No,No,"Even if it hits, it has another 50% chance to miss."
+Flare Star,20,80*,---,Fire,None,No,No,Yes*,No,No,Yes,Yes,No,Damage(random target's level*80/#targets)
+Love Token,20,0,---,None,None,No,No,No,No,No,No,Yes,No,Causes target to protect user from physical attacks.
+Seize,0,0,---,None,None,No,No,No,No,No,No,Yes,No,"Incapacitates, drains HP, fails if used by party against enemies."
+R.Polarity,20,0,---,None,None,No,No,No,No,No,No,Yes,No,Changes row of all targets.
+Targetting,0,0,---,None,None,No,No,No,No,No,No,Yes,No,Does nothing by itself.
+Sneeze,0,0,---,None,Hide,No,No,No,No,No,No,Yes,No,Removes targets from battle.
+S. Cross,20,120,120,Fire,None,No,No,No,No,No,No,No,No,None
+Launcher,20,8(/16),100,None,None,No,No,No,No,No,Yes,No,Yes,Strikes 8 times.
+Charm,20,0,80,None,None,No,No,No,No,No,No,No,No,"Confuses target, no immunity, status is lifted when target or user suffer Wound status."
+Cold Dust,20,0,---,Ice,None,No,No,No,No,No,No,Yes,No,None
+Tentacle,0,146,---,None,None,No,No,Yes,No,Yes,No,Yes,No,None
+HyperDrive,0,118,---,None,Seizure,No,Yes,No,No,No,Yes,Yes,No,None
+Train,0,0,---,None,"Dark, Mute",No,No,No,No,No,No,Yes,No,None
+Evil Toot,20,0,120,None,"Dark, Poison, Imp, Condemned, Berserk, Muddle Seizure, Slow",No,No,No,No,No,No,No,No,Inflicts a maximum of 1 status to each target.
+Grav Bomb,20,8(/16),100,None,None,No,No,No,No,No,No,No,Yes,"Uses Stamina check to dodge, deals 1/2 of target's current HP. "
+Engulf,0,0,---,None,None,No,No,No,No,No,No,Yes,No,Removes target from battle.
+Disaster,20,0,62,None,"Dark, Imp, Condemned, Mute, Muddle, Float",No,Yes,No,No,No,No,No,No,None
+Shrapnel,20,120,120,None,None,No,No,Yes,No,No,No,No,No,None
+Bomblet,0,0,---,None,None,No,No,No,No,No,No,Yes,No,Does nothing.
+Heart Burn,20,30,120,None,None,No,No,Yes,No,No,No,No,No,None
+Zinger,0,0,---,None,None,No,No,No,No,No,No,Yes,No,Removes caster from battle until target suffers Wound status.
+Discard,0,0,---,None,None,No,No,No,No,No,No,Yes,No,"Terminates Seize, removes Slow."
+Overcast,20,0,---,None,Condemned,No,No,No,No,No,No,Yes,Yes,Forces all instances of Wound status to become Zombie status instead.
+Missile,20,4(/16),126,None,None,No,No,No,No,No,No,No,Yes,Deals 1/4 of target's current HP.
+Goner,20,220,---,None,None,No,No,Yes,No,No,No,Yes,No,None
+Meteo,20,60,80,None,None,No,No,No,No,No,Yes,No,No,None
+Revenger,0,0,---,None,None,No,No,No,No,No,No,Yes,No,"Removes Vanish, Image, Regen, Haste, Shell, Safe, Rflect, Reraise, and Float."
+Phantasm,20,0,---,None,HP Leak,No,No,No,No,No,No,Yes,No,"Sets HP Leak, which acts like Seizure, but cannot be removed or overwritten except by Wound status."
+Dread,20,0,75,None,Petrify,No,No,No,No,No,No,No,Yes,"Does not check for Instant Death immunity, only Petrify immunity."
+Shock Wave,20,25,120,None,None,No,No,No,No,No,No,No,No,None
+Blaze,20,68,120,Fire,None,No,No,Yes,No,No,No,No,No,None
+Soul Out,20,0,---,None,Zombie,No,No,No,No,No,No,Yes,Yes,"Does not check for Instant Death immunity, only Zombie immunity."
+Gale Cut,0,15,---,Wind,None,No,No,Yes,No,No,No,Yes,No,None
+Shimsham,20,8(/16),---,None,None,No,Yes,No,No,No,No,Yes,Yes,Deals 1/2 of target's current HP.
+Lode Stone,20,12(/16),---,None,None,No,No,No,No,No,No,Yes,Yes,Deals 3/4 of target's current HP.
+Scar Beam,20,28,---,Pearl,None,No,Yes,No,No,No,No,Yes,No,None
+BabaBreath,0,0,---,None,Hide,No,No,No,No,No,No,Yes,No,"Targets enemy, removes from battle."
+LifeShaver,20,84,---,Earth,None,Drain,No,No,No,No,No,Yes,No,None
+Fire Wall,20,50,---,Fire,None,No,Yes,No,No,No,No,Yes,No,None
+Slide,20,75,---,Earth,None,No,No,Yes,No,No,No,Yes,No,Misses targets with Float.
+Battle,0,0,0,None,None,No,No,No,No,Yes,No,No,No,Does not work.
+Special,0,0,0,None,None,No,No,No,No,Yes,No,No,No,Does not work.
+Riot Blade,0,142,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Mirager,0,139,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Back Blade,0,140,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+ShadowFang,0,140,---,None,Seizure,No,No,No,No,No,Yes,Yes,No,None
+RoyalShock,0,143,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+TigerBreak,0,140,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Spin Edge,0,143,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+SabreSoul,0,0,---,None,Death,No,No,No,No,No,No,Yes,Yes,None
+Star Prism,0,0,---,None,Death,No,No,No,No,No,No,Yes,Yes,None
+Red Card,0,147,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+MoogleRush,0,150,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+X-Meteo,0,146,---,None,None,No,No,No,No,No,Yes,Yes,No,None
+Takedown,0,55,---,None,None,No,No,No,No,No,Yes,Yes,No,Misses targets with Float.
+Wild Fang,0,66,---,None,None,No,No,No,No,No,Yes,Yes,No,Misses targets with Float.
+Lagomorph,0,10,---,None,"Dark, Poison, Sleep",Yes,No,Yes,No,No,No,Yes,No,None
