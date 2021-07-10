@@ -9,6 +9,22 @@ def get_subgraph(g, nodes=None):
     nodes = nodes or functools.reduce(list.__add__, [list(g[cmd]) for cmd in SYNTAX])
     return g.subgraph(nodes)
 
+def extract_scripts_vanilla(romfile, script_ptrs, names):
+    # scripts = dict(zip(script_ptrs, names[:-1]))
+    scripts = dict(zip(script_ptrs, names))
+    script_ptrs = sorted(script_ptrs) + [0xFC050 - 0xF7000]
+
+    for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
+        name = scripts.pop(sptr)
+        scripts[name] = romfile[sptr:eptr]
+        s = scripting.Script.from_rom(sptr, eptr - sptr, romfile)
+        # FIXME: don't override this
+        s.name = name
+        assert s.name == name, (s.name, name)
+        assert s._bytes == scripts[name]
+        scripts[name] = s
+
+    return scripts
 
 def extract(romfile=None, return_names=False):
     romfile = "Final Fantasy III (U) (V1.0) [!].smc"
@@ -35,21 +51,18 @@ def extract(romfile=None, return_names=False):
                 break
             i += 1
             _name = name + str(i)
-    #names = dict(zip(names, script_ptrs))
 
-    #scripts = dict(zip(script_ptrs, names[:-1]))
-    scripts = dict(zip(script_ptrs, names))
-    # FIXME: Don't hardcode this
-    script_ptrs = sorted(script_ptrs) + [0xFC050 - 0xF7000]
-    for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
-        name = scripts.pop(sptr)
-        scripts[name] = romfile[sptr:eptr]
-        s = scripting.Script.from_rom(sptr, eptr - sptr, romfile)
-        # FIXME: don't override this
-        s.name = name
-        assert s.name == name, (s.name, name)
-        assert s._bytes == scripts[name]
-        scripts[name] = s
+    # BC can use free space in places other than the contiguous block
+    # established in vanilla, we detect this to determine whether BC
+    # has already touched the scripts or not
+    def detect_bc(script_ptrs):
+        oor_ptr = [ptr for ptr in script_ptrs
+                               if ptr not in range(0xF8900, 0xFC24F)]
+        return len(oor_ptr) == 0
+    is_bc = detect_bc(script_ptrs)
+
+    names = dict(zip(names, script_ptrs))
+    scripts = extract_scripts_vanilla(romfile ,script_ptrs, names)
 
     with open("script_dump.txt", "w") as fout:
         for i, (name, script) in enumerate(scripts.items()):
