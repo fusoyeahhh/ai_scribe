@@ -33,9 +33,8 @@ if __name__ == "__main__":
     full_graph = command_graph.CommandGraph()
     full_graph.from_scripts({k: v._bytes for k, v in scripts.items()})
 
-    inpth = "base_roms"
-    inpth = input("Provide a path to either a folder with prerandomized ROMs, or a single "
-                  "(vanilla or otherwise) ROM: ")
+    inpth = "base_roms" or input("Provide a path to either a folder with prerandomized ROMs, or a single "
+                  "(vanilla or otherwise) ROM: ") or "base_roms"
     if not os.path.exists(inpth):
         print("One or more of the provided paths didn't work, please try again or report as a bug.")
         exit()
@@ -51,7 +50,7 @@ if __name__ == "__main__":
     print(f"Found {len(fnames):d} ROMs")
 
     # batching
-    batch = 8
+    batch = 9
     bdir = f"test_{batch:d}"
     #os.mkdir(bdir)
 
@@ -76,6 +75,13 @@ if __name__ == "__main__":
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
             sset = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
+
+            # Check to make sure we cover all the enemies in the set with scripts
+            omitted = sset - set(scripts.keys())
+            if omitted:
+                raise ValueError("Found enemies in requested change list "
+                                 "which has no corresponding vanilla script: "
+                                 f"{omitted}")
 
             cmd_graph = command_graph.CommandGraph()
             cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
