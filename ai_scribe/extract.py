@@ -9,11 +9,31 @@ def get_subgraph(g, nodes=None):
     nodes = nodes or functools.reduce(list.__add__, [list(g[cmd]) for cmd in SYNTAX])
     return g.subgraph(nodes)
 
-def extract_scripts_vanilla(romfile, script_ptrs, names):
+
+def detect_bc(script_ptrs):
+    """
+    BC can use free space in places other than the contiguous block
+    established in vanilla, we detect this to determine whether BC
+    has already touched the scripts or not
+    """
+    oor_ptr = [ptr for ptr in script_ptrs
+                           if ptr not in range(0xF8900, 0xFC24F)]
+    return len(oor_ptr) == 0
+
+def extract_scripts_bc():
+    # FIXME: assumes bc libraries are imported
+    from monsterrandomizer import get_monsters
+    return {ent.name: ent.aiscript for ent in get_monsters()}
+    # NOTE: for future reference
+    # m.set_relative_ai(pointer)
+    # m.aiscript = aiscript
+
+
+def extract_scripts(romfile, script_ptrs, names):
     # scripts = dict(zip(script_ptrs, names[:-1]))
-    scripts = dict(zip(script_ptrs, names))
     script_ptrs = sorted(script_ptrs) + [0xFC050 - 0xF7000]
 
+    scripts = dict(zip(script_ptrs, names))
     for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
@@ -52,17 +72,13 @@ def extract(romfile=None, return_names=False):
             i += 1
             _name = name + str(i)
 
-    # BC can use free space in places other than the contiguous block
-    # established in vanilla, we detect this to determine whether BC
-    # has already touched the scripts or not
-    def detect_bc(script_ptrs):
-        oor_ptr = [ptr for ptr in script_ptrs
-                               if ptr not in range(0xF8900, 0xFC24F)]
-        return len(oor_ptr) == 0
-    is_bc = detect_bc(script_ptrs)
-
     names = dict(zip(names, script_ptrs))
-    scripts = extract_scripts_vanilla(romfile ,script_ptrs, names)
+    # Detect if BC has changed the scripts or their structure in some way
+    is_bc = detect_bc(script_ptrs)
+    if is_bc:
+        scripts = extract_scripts_bc()
+    else:
+        scripts = extract_scripts(romfile, script_ptrs, names)
 
     with open("script_dump.txt", "w") as fout:
         for i, (name, script) in enumerate(scripts.items()):
