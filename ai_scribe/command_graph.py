@@ -258,6 +258,11 @@ class CommandGraph:
                 # FIXME: we'll need to something similar for the counter block
                 if nff == 0:
                     gptr.pop(0xFF, None)
+                    # It's possible for the command graph to have a node with only an
+                    # outgoing connection to 0xFF
+                    if len(gptr) == 0:
+                        gptr = "^"
+                        continue
                 weights = sum(gptr.values())
                 weights = [w / weights for w in gptr.values()]
             else:
