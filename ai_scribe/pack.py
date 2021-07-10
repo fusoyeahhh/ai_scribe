@@ -38,7 +38,12 @@ def randomize_scripts(g, n=384, ptr_off=0, **kwargs):
     # Pair down longest scripts until we arrive at something we can fit in the ROM space
     while sum(map(len, scripts)) > SCRIPT_BLOCK_LEN:
         scripts = sorted(scripts, key=len)
-        scripts[-1] = g.generate_from_graph(**kwargs)
+        try:
+            scripts[-1] = g.generate_from_graph(**kwargs)
+        except SyntaxError as e:
+            print(e)
+            raise ValueError("Encountered problem generating script with args: " +
+                              str(kwargs))
 
     # FIXME: separate to pack function
     ptrs = [ptr_off] + [*map(len, scripts)][:-1]
