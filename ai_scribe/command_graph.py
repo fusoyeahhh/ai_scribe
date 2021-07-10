@@ -240,6 +240,14 @@ class CommandGraph:
             # over the disallowed command, while preserving the ability to jump to
             # outgoing connections of the disallowed node itself
             for cmd in set(g[gptr]) & disallow_commands:
+                # The contraction process, by default, changes edges between u and v into self loops
+                # on the linked node. While it's not fatal to have this behavior, to keep things
+                # a bit cleaner, we'll ensure the link to the start char is broken before the contraction
+                # so that no self-loops on the start cmd happen
+                if start_cmd in g[cmd]:
+                    g.remove_edge(cmd, start_cmd)
+                if cmd in g[start_cmd]:
+                    g.remove_edge(start_cmd, cmd)
                 # This contracts for only this node, and it's a permanent change for this run through
                 g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
 
@@ -261,7 +269,7 @@ class CommandGraph:
                     # It's possible for the command graph to have a node with only an
                     # outgoing connection to 0xFF
                     if len(gptr) == 0:
-                        gptr = "^"
+                        gptr = start_cmd
                         continue
                 weights = sum(gptr.values())
                 weights = [w / weights for w in gptr.values()]
