@@ -56,8 +56,8 @@ AREA_SETS = [
     {"Mega?Armor", "Sp?Forces", "Guardian"},
     # Magitek Research Facility
     {"Chaser", "Commando", "Flan", "Garm", "General", "Gobbler", "Rhinox", "Trapper",
-     "Pipsqueak", "Proto?Armor", "Mag?Roader", "Mag?Roader2",
-     "Ifrit", "Shiva", "Number?024", "Number?128", "Left?Blade", "Right?Blade"},
+     "Pipsqueak", "ProtoArmor", "Mag?Roader", "Mag?Roader2",
+     "Ifrit", "Shiva", "Number?024", "Number?128", "Left?Blade", "RightBlade"},
     # Escape from Vector
     {"Crane", "Crane2"},
     # Terra's Flashback
@@ -73,134 +73,136 @@ AREA_SETS = [
     # Thamasa Island Cave
     {"Abolisher", "Adamanchyt", "Insecare", "Mandrake", "Slurm", "Ultros3"},
     # Burning House in Thamasa
-    {"Balloon", "Flame?Eater"},
+    {"Balloon", "FlameEater"},
     # Thamasa
     #{"Kefka [Thamasa]", "(Red?Esper)"},
     # Battle With Imperial Air Force
-    {"Sky?Armor", "Spitfire", "Air?Force", "Laser?Gun", "Missile?Bay", "Speck", "Ultros4", "Chupon"},
+    {"Sky?Armor", "Spit?Fire", "Air?Force", "Laser?Gun", "MissileBay", "Speck", "Ultros4", "Chupon"},
     # Floating Continent
-    {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey?Drgn", "Atma?Weapon"},
+    {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey?Drgn", "AtmaWeapon"},
     # Floating Continent (Escape)
     {"Naughty", "Nerapa"},
 
     # World of Ruin
 
     # Solitary Island
-    {"Peepers", "Earth?Guard"},
+    {"Peepers", "EarthGuard"},
     # general WoR
     {"Crawler", "Black?Drgn"},
     # Albrook, Tzen Area Map
     {"Mesosaur", "Chitonid", "Gigan?Toad", "Gilomantis", "Lunaris", "Osprey"},
     # Collapsing House
-    {"Hermit?Crab", "Pm?Stalker", "Scorpion"},
+    {"HermitCrab", "Pm?Stalker", "Scorpion"},
     # Raised Serpent Trench
     {"Bloompire", "Buffalax", "Delta?Bug", "Lizard"},
     # WoR Figaro Cave, Figaro Castle
-    {"Cruller", "Dante", "Humpty", "Neck?Hunter"},
+    {"Cruller", "Dante", "Humpty", "NeckHunter"},
     # Figaro Castle
-    {"Drop", "Tentacle", "Tentacle1", "Tentacle2", "Tentacle3"},
+    {"Drop", "Tentacle", "Tentacle2", "Tentacle3", "Tentacle4"},
     # Figaro Area Map
     {"Maliga", "Nohrabbit", "Sand?Horse"},
     # Daryl's Tomb
-    {"Exoray", "Mad?Oscar", "Orog", "Osteosaur", "Power?Demon", "Presenter", "Presenter?Head", "Dullahan"},
+    {"Exoray", "Mad?Oscar", "Orog", "Osteosaur", "PowerDemon", "Presenter", "Whelk?Head", "Dullahan"},
     # Mt. Zozo
     {"Borras", "Luridan", "Punisher", "Scrapper", "Ursus", "Storm?Drgn"},
     # Southwest Continent
     {"Mantodea", "Spek?Tor", "Sprinter"},
     # Doma Island
-    {"Tumbleweed"},
+    {"TumbleWeed"},
     # Northwest Continent
     {"Bogy", "Deep?Eye", "Harpiai", "Muus"},
     # Narshe
     {"Nastidon", "Red?Wolf", "Test?Rider", "Woolly"},
     # Narshe Caves, Hills
-    {"Psychot", "Wizard", "Mag Roader2", "Mag?Roader3", "Warlock"},
+    {"Psychot", "Wizard", "Mag?Roader3", "Mag?Roader4", "Warlock"},
     # Narshe, Zozo Area Maps
     {"Geckorex", "Reach?Frog"},
     # Jidoor / Owzer's House
-    {"Still?Life", "Crusher", "Dahling", "Nightshade", "Soul?Dancer", "Vindr",
-     "Wild?Cat", "Chadarnook", "Chadarnook1"},
+    {"Still?Life", "Crusher", "Dahling", "Nightshade", "SoulDancer", "Vindr",
+     "Wild?Cat", "Chadarnook", "Chadarnook2"},
     # Maranda Area Desert
     {"Cactrot", "Hoover"},
     # Thamasa Island
-    {"Gloom?Shell", "Harpy", "Prussian"},
+    {"GloomShell", "Harpy", "Prussian"},
     # Cave in the Veldt
-    {"Rhyos", "Toe?Cutter", "Allo?Ver", "Sr?Behemoth", "Sr?Behemoth2"},
+    {"Rhyos", "Toe?Cutter", "Allo?Ver", "SrBehemoth", "SrBehemoth2"},
     # Triangle Island
     {"Zone?Eater"},
     # Ebot's Rock
     {"Slatter", "Cluck", "Displayer", "Eland", "Hipocampus", "Opinicus",
-     "Hidon", "Hidonite", "Hidonite1", "Hidonite2", "Hidonite3"},
+     "Hidon", "Hidonite", "Hidonite2", "Hidonite3", "Hidonite4"},
     # Gogo's Lair
     {"Covert", "Karkass", "Ogor", "Tap?Dancer", "Wart?Puck"},
     # Ancient Underground Castle
-    {"Boxed?Set", "Enuo", "Figaliz", "Goblin", "Lethal?Wpn", "Katana?Soul", "Master?Pug", "Blue?Drgn"},
+    {"Boxed?Set", "Enuo", "Figaliz", "Goblin", "Lethal?Wpn", "KatanaSoul", "Master?Pug", "Blue?Drgn"},
     # Underground Narshe Caves
     {"Kiwok", "Anemone", "Ceritops", "Tomb?Thumb", "Poppers", "Pug", "Pugs", "Umaro"},
     # Phoenix Cave
     {"Aquila", "Chaos?Drgn", "Necromancr", "Parasoul", "Phase", "Rain?Man",
      "Trixter", "Uroburos", "Sea?Flower", "Red?Dragon"},
     # Cyan's Dream
-    {"Allosaurus", "Barb-e", "Critic", "Samurai", "Sky?Cap",
-     "Suriander", "Io", "Pan?Dora", "Parasite", "Pluto?Armor",
-     "Curly", "Larry", "Moe", "Soul?Saver", "Wrexsoul"},
+    {"Allosaurus", "Barb?e", "Critic", "Samurai", "Sky?Cap",
+     "Suriander", "Io", "Pan?Dora", "Parasite", "PlutoArmor",
+     "Curley", "Larry", "Moe", "SoulSaver", "Wrexsoul"},
     # Fanatic's Tower
     {"L.10?Magic", "L.20?Magic", "L.30?Magic", "L.40?Magic", "L.50?Magic",
      "L.60?Magic", "L.70?Magic", "L.80?Magic", "L.90?Magic", "Magic?Urn",
-     "Magi?Master", "White?Drgn"},
+     "MagiMaster", "White?Drgn"},
     # Forest On Northwest Continent
     {"Brachosaur", "Tyranosaur"},
+    # WoR Bosses (indp.)
+    {"Doom?Gaze",
+     # Narshe Cliffs
+     # FIXME: need correct numbering
+     "Tritoch2",
+     # WoR Opera House
+     "Dirt?Drgn",
+     # Mobliz
+     "Phunbaba", "Phunbaba2", "Phunbaba2", "Phunbaba3",
+     # Colloseum
+     # need Shadow battle id
+     "Chupon2", "Siegfried2"},#, "Shadow"},
     # Kefka's Tower
     # FIXME: need mappings
     {"Brontaur", "Dark?Force", "Didalos", "Dueller", "Evil?Oscar",
      "Fortis", "GtBehemoth", "Hemophyte", "Innoc", "IronHitman", "Junk",
      "Land?Worm", "Madam", "Mover", "Outsider", "Prometheus", "Retainer",
      "Scullion", "Sky?Base", "Steroidite", "Vectagoyle", "Vectaur", "Veteran",
-     "Skull?Dragon",
+     "Skull?Drgn",
      "Inferno", "Rough", "Striker", "Atma",
-     "Doom?Drgn", "Gold?Dragon",
-     "Guardian1", "Doom", "Goddess", "Poltergeist",
+     "Doom?Drgn", "Gold?Drgn",
+     "Guardian2", "Doom", "Goddess", "Poltrgeist",
      "Face", "Long?Arm", "Short?Arm",
      "Hit", "Magic", "Tiger", "Tools",
      "Girl", "Sleep",
      "Kefka2"},
-    # WoR Bosses (indp.)
-    {"Doom?Gaze",
-     # Narshe Cliffs
-     # FIXME: need correct numbering
-      "Tritoch2"
-     # WoR Opera House
-     "Dirt?Drgn",
-     # Mobliz
-     "Phunbaba", "Phunbaba1", "Phunbaba2", "Phunbaba3",
-     # Colloseum
-     "Chupon2", "Shadow", "Ziegfried2"},
 ]
 
 # Bosses
+# FIXME: Whelk needs its unnamed head added
 BOSSES = {"Whelk", "Marshal", "M?TekArmor", "Ipooh", "Vargas", "Ultros",
           "TunnelArmr", "GhostTrain", "Piranha", "Rizopas",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number?024", "Number?128", "Left?Blade", "Right?Blade",
           "Crane", "Crane2", "Ultros3", "Flame?Eater" "Air?Force",
           "Laser?Gun", "Missile?Bay", "Speck", "Ultros4", "Chupon",
-          "Atma?Weapon", "Nerapa"}
+          "AtmaWeapon", "Nerapa"}
 BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            # FIXME: sort out this
-           "Presenter", "Presenter?Head", "Dullahan", "SrBehemoth",
+           "Presenter", "Whelk?Head", "Dullahan", "SrBehemoth",
            "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
            "Hidonite3", "Katana?Soul", "Master?Pug", "Pug", "Pugs", "Umaro",
-           "Soul?Saver", "Wrexsoul", "Magi?Master", "White?Drgn",
-           "Inferno", "Rough", "Striker", "Atma", "Guardian1",
-           "Doom", "Goddess", "Poltergeist",
+           "Soul?Saver", "Wrexsoul", "MagiMaster", "White?Drgn",
+           "Inferno", "Rough", "Striker", "Atma", "Guardian2",
+           "Doom", "Goddess", "Poltrgeist",
            "Face", "Long?Arm", "Short?Arm", "Hit", "Magic", "Tiger", "Tools",
            "Girl", "Sleep", "Kefka2"}
 
 # FIXME
 DRAGON = {"Blue?Drgn", "Red?Dragon", "Ice?Dragon", "Dirt?Drgn",
-          "Gold?Dragon", "Doom?Drgn", "StormDrgn", "PearlDrgn"}
+          "Gold?Drgn", "Doom?Drgn", "StormDrgn", "PearlDrgn"}
 BOSSES |= DRAGON
-EVENT_BATTLES = {"Merchant", "Guardian", "Tritoch", "Tritoch1", "Shadow"}
+EVENT_BATTLES = {"Merchant", "Guardian", "Tritoch", "Tritoch2"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
 # FIXME: temporary
 # FIXME: find which "solider" is Terra's flashback sequence
