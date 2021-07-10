@@ -244,7 +244,12 @@ class CommandGraph:
                 g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
 
             # Select the next command to jump to
-            gptr = g[gptr]
+            if len(g[gptr]) > 0:
+                gptr = g[gptr]
+            else:
+                raise SyntaxError(f"Current command pointer ({hex(gptr)} / {SYNTAX[gptr]}) "
+                                  "has no outgoing links. " + str(g[gptr]))
+
             # If "weighted" is turned on, then we use the appropriately normalized connection weights
             # to assign selection probabilities to each potential next step
             if weighted:
@@ -257,7 +262,13 @@ class CommandGraph:
                 weights = [w / weights for w in gptr.values()]
             else:
                 weights = [1 / len(gptr)] * len(gptr)
-            gptr = numpy.random.choice(list(gptr), p=weights)
+            try:
+                gptr = numpy.random.choice(list(gptr), p=weights)
+            except:
+                raise SyntaxError("gptr has no valid choices. Current script is:\n" +
+                                  " ".join(map(hex, script)) +
+                                  f"\ngptr / weights: {gptr} {weights}"
+                                  f"\ncommand graph ({len(g)} elements): {str(g.edges)}")
 
             # catch '_'
             try:
