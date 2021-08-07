@@ -3,9 +3,9 @@ import random
 import networkx
 import numpy
 
-import flags
-import syntax
-from syntax import SYNTAX
+from . import flags
+from . import syntax
+from .syntax import SYNTAX
 
 SYNTAX = {
     0xF0: (3, 0x100, "CHOOSE SPELL"),
@@ -179,7 +179,7 @@ class CommandGraph:
             last_cmd = v
 
             if nbytes is not None and nbytes > 0:
-                import syntax
+                from . import syntax
                 cmd_obj = syntax._CMD_REF.get(v, None)
                 if cmd_obj is not None:
                     types = cmd_obj()._argument_types

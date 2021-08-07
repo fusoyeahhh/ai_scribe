@@ -1,5 +1,3 @@
-import flags
-
 #
 # Areas
 #

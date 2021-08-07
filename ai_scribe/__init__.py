@@ -4,12 +4,12 @@ import random
 import numpy
 import networkx.algorithms
 
-import command_graph
-import scripting
-from extract import *
-from pack import _validate, randomize_scripts
+from . import command_graph
+from . import scripting
+from .extract import *
+from .pack import _validate, randomize_scripts
 
-from themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
+from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
 if __name__ == "__main__":
 
@@ -17,8 +17,6 @@ if __name__ == "__main__":
           "is fully completable or functional. This is for testing purposes only. Currently, it is known that this "
           "version is mostly compatible with Beyond Chaos, though due to memory addressing issues, later bosses and "
           "final Kefka are likely to be buggy.")
-    # So that the base paths are relative to repo, not the lib dir
-    os.chdir("../")
 
     srcrom = "Final Fantasy III (U) (V1.0) [!].smc"
     try:

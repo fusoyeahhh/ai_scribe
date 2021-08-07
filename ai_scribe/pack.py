@@ -1,8 +1,3 @@
-import networkx.algorithms
-
-import scripting
-from extract import *
-
 def package_rom(romfile, outf="test.smc"):
     pass
 

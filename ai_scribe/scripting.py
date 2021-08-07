@@ -1,5 +1,5 @@
-import flags
-from syntax import SYNTAX
+from . import flags
+from .syntax import SYNTAX
 
 # Upper case
 _CHARS = {128 + i: chr(j) for i, j in enumerate(range(65, 65 + 26))}

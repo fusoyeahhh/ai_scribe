@@ -1,8 +1,7 @@
-import flags
-from syntax import SYNTAX
+from .syntax import SYNTAX
 
-import scripting
-from scripting import translate, _CHARS
+from . import scripting
+from .scripting import translate, _CHARS
 
 def get_subgraph(g, nodes=None):
     import functools

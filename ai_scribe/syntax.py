@@ -1,5 +1,5 @@
 import numpy
-import flags
+from . import flags
 
 SYNTAX = {
     0xF0: (3, 0x100, "CHOOSE SPELL"),
