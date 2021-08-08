@@ -23,6 +23,8 @@ if __name__ == "__main__":
         if not os.path.exists(srcrom):
             srcrom = input(f"Provide a path to a V1.0 English ROM (same as used for BC, default is {srcrom}): ")
         # Pick up all the structured commands
+        srcrom = os.path.realpath(srcrom)
+        print(f"Reading script data from {srcrom}")
         scripts, names = extract(srcrom, return_names=True)
     except OSError:
         print("One or more of the provided paths didn't work, please try again or report as a bug.")
