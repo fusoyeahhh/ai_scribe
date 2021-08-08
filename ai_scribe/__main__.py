@@ -19,7 +19,6 @@ if __name__ == "__main__":
           "final Kefka are likely to be buggy.")
 
     srcrom = "Final Fantasy III (U) (V1.0) [!].smc"
-    import pdb; pdb.set_trace()
     try:
         if not os.path.exists(srcrom):
             srcrom = input(f"Provide a path to a V1.0 English ROM (same as used for BC, default is {srcrom}): ")
