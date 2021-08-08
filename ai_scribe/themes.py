@@ -6,7 +6,7 @@ AREA_SETS = [
     # World of Balance
 
     # Narshe incursion
-    {"Guard", "Lobo", "Vomammoth", "Marshal", "Whelk"},
+    {"Guard", "Lobo", "Vomammoth", "Marshal", "Whelk", "Head"},
     # Narshe mines
     {"Repo?Man", "Vaporite", "Were?Rat"},
     # Narshe to Figaro WoB
@@ -177,8 +177,7 @@ AREA_SETS = [
 ]
 
 # Bosses
-# FIXME: Whelk needs its unnamed head added
-BOSSES = {"Whelk", "Marshal", "M?TekArmor", "Ipooh", "Vargas", "Ultros",
+BOSSES = {"Whelk", "Head", "Marshal", "M?TekArmor", "Ipooh", "Vargas", "Ultros",
           "TunnelArmr", "GhostTrain", "Piranha", "Rizopas",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number?024", "Number?128", "Left?Blade", "Right?Blade",
