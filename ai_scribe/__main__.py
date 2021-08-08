@@ -23,6 +23,8 @@ if __name__ == "__main__":
         if not os.path.exists(srcrom):
             srcrom = input(f"Provide a path to a V1.0 English ROM (same as used for BC, default is {srcrom}): ")
         # Pick up all the structured commands
+        srcrom = os.path.realpath(srcrom)
+        print(f"Reading script data from {srcrom}")
         scripts, names = extract(srcrom, return_names=True)
     except OSError:
         print("One or more of the provided paths didn't work, please try again or report as a bug.")
@@ -64,18 +66,12 @@ if __name__ == "__main__":
 
         scripts, names = extract(srcrom, return_names=True)
 
-        # tracks the marginal budget we have on free space
-        extra_space = 0
-        print(hex(sum(map(len, scripts.values()))), hex(0xFC050 - 0xF8700))
-
         script_length_orig = sum(map(len, scripts.values()))
         scr, ptrs = [], []
         mod_scripts = {}
         #for sset in AREA_SETS:
-        t1, t2 = 0, 0
         for set_idx in range(len(AREA_SETS)):
-            # Set of scripts to change
-            _sset = AREA_SETS[set_idx]
+            sset = AREA_SETS[set_idx]
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
             sset = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
@@ -100,7 +96,7 @@ if __name__ == "__main__":
             aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
 
             # Randomize bosses
-            bosses = _sset & BOSSES
+            bosses = sset & BOSSES
             DROP_EVENTS = {
                 0x5, # Wedge and Vicks Whelk tutorial
                 0x6, # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
@@ -116,28 +112,21 @@ if __name__ == "__main__":
 
             required = {0xFC, 0xF9, 0xF7, 0xFB}
             for name in bosses:
-                # This only reduces the length from the original script
                 bscr = cmd_graph.generate_from_template(scripts[name]._bytes,
                                                         required=required,
                                                         drop_events=DROP_EVENTS)
 
+                diff = len(scripts[name])
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
-                extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
-                t1 += len(scripts[name]._bytes)
-                t2 += len(mod_scripts[name]._bytes)
+                diff -= len(scripts[name])
+                #print(name, diff)
 
-                if len(scripts[name]._bytes) != len(mod_scripts[name]._bytes):
-                    print(name, len(scripts[name]._bytes) - len(mod_scripts[name]._bytes))
-                    #print(scripts[name]._bytes)
-                    #print(translate(scripts[name]._bytes))
-                    #print(mod_scripts[name]._bytes)
-                    #print(translate(mod_scripts[name]._bytes))
-                assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
+            # Drop "bosses" for now
+            sset = sset - BOSSES
+            # NOTE: we may want to somehow preserve them, but they keep injecting a lot of 0xFC into scripts
 
             cmd_graph = command_graph.CommandGraph()
-            # NOTE: we may want to somehow preserve them, but they keep injecting a lot of 0xFC into scripts
-            # Drop "bosses" for now
-            cmd_graph.from_scripts({k: scripts[k]._bytes for k in sset - BOSSES})
+            cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
 
             # Spice goes here
             # Add in a random status/element theme
@@ -165,29 +154,17 @@ if __name__ == "__main__":
             }
             edit_cmd_arg_graph(cmd_graph, drop_skills=DROP_SKILLS)
 
-            total_len = sum(len(scripts[name]) for name in _sset) + extra_space
-            t1 += total_len - extra_space
-            gen_kwargs = {"disallow_commands": {0xF7, 0xF2}}
-            import math
-            main_block_avg = max(int(math.log2(total_len + extra_space) / len(_sset)), 1)
-            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(_sset),
-                                            #main_block_avg=main_block_avg,
-                                            main_block_avg=5,
-                                            total_len=total_len, **gen_kwargs)
-            assert sum(map(len, _scr)) <= total_len
+            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset), main_block_avg=2,
+                                            disallow_commands={0xF7, 0xF2})
 
-            t2 += sum(map(len, _scr))
-            print(hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)), total_len, extra_space, _sset)
-            extra_space = total_len - sum(map(len, _scr))
-            #extra_space = 0
-            mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr)})
-
-        import pdb; pdb.set_trace()
+            diff = sum(len(scripts[name]) for name in sset)
+            mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(sset, _scr)})
+            diff -= sum(len(mod_scripts[name]) for name in sset)
+            #print(sset, diff)
 
         # Realign pointers
         scripts.update(mod_scripts)
         script_length_after = sum(map(len, scripts.values()))
-        print(hex(0xFC050 - 0xF8700), hex(script_length_after))
         scr, ptrs = [], [0]
         for k in names:
             s = scripts.get(k, b"\xFF\xFF")
@@ -201,7 +178,7 @@ if __name__ == "__main__":
 
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
-        print(hex(len(low)), len(ptrs), len(scr), len(names))
+        print(hex(len(low)), len(ptrs), len(scr))
         # Last one is superfluous
         for ptr in ptrs[:-1]:
             low += int.to_bytes(ptr, 2, byteorder="little")
@@ -218,7 +195,6 @@ if __name__ == "__main__":
         elif low_block_diff < 0:
             print(f"Script block overrun, truncating {-low_block_diff} bytes")
             low = low[:0xFC050]
-        assert low_block_diff >= 0
         print(hex(len(low)), "== 0xFC050")
         low += hi
 
