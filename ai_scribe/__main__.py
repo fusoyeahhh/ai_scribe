@@ -1,8 +1,13 @@
 import os
 import glob
+import math
 import random
 import numpy
 import networkx.algorithms
+
+import logging
+log = logging.getLogger("ai_scribe")
+log.setLevel("INFO")
 
 from . import command_graph
 from . import scripting
@@ -13,7 +18,7 @@ from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
 if __name__ == "__main__":
 
-    print("This is a PRERELEASE version of the AI Scribe for FFVI. There are no guarantees that the produced game "
+    log.warning("This is a PRERELEASE version of the AI Scribe for FFVI. There are no guarantees that the produced game "
           "is fully completable or functional. This is for testing purposes only. Currently, it is known that this "
           "version is mostly compatible with Beyond Chaos, though due to memory addressing issues, later bosses and "
           "final Kefka are likely to be buggy.")
@@ -24,19 +29,19 @@ if __name__ == "__main__":
             srcrom = input(f"Provide a path to a V1.0 English ROM (same as used for BC, default is {srcrom}): ")
         # Pick up all the structured commands
         srcrom = os.path.realpath(srcrom)
-        print(f"Reading script data from {srcrom}")
+        log.info(f"Reading script data from {srcrom}")
         scripts, names = extract(srcrom, return_names=True)
     except OSError:
-        print("One or more of the provided paths didn't work, please try again or report as a bug.")
+        log.error("One or more of the provided paths didn't work, please try again or report as a bug.")
         exit()
 
     full_graph = command_graph.CommandGraph()
     full_graph.from_scripts({k: v._bytes for k, v in scripts.items()})
 
-    inpth = input("Provide a path to either a folder with prerandomized ROMs, or a single "
+    inpth = "base_roms" or input("Provide a path to either a folder with prerandomized ROMs, or a single "
                   "(vanilla or otherwise) ROM: ") or "base_roms"
     if not os.path.exists(inpth):
-        print("One or more of the provided paths didn't work, please try again or report as a bug.")
+        log.error("One or more of the provided paths didn't work, please try again or report as a bug.")
         exit()
 
     if os.path.isdir(inpth):
@@ -45,9 +50,9 @@ if __name__ == "__main__":
         fnames = [inpth]
 
     if len(fnames) == 0:
-        print("One or more of the provided paths didn't work, please try again or report as a bug.")
+        log.error("One or more of the provided paths didn't work, please try again or report as a bug.")
         exit()
-    print(f"Found {len(fnames):d} ROMs")
+    log.info(f"Found {len(fnames):d} ROMs")
 
     # batching
     batch = 9
@@ -60,18 +65,24 @@ if __name__ == "__main__":
     for i in range(16):
 
         fname = numpy.random.choice(fnames)
-        print(fname)
+        log.debug(fname)
         with open(fname, "rb") as fin:
             romfile = fin.read()
 
         scripts, names = extract(srcrom, return_names=True)
 
+        # tracks the marginal budget we have on free space
+        extra_space = 0
+        log.debug(hex(sum(map(len, scripts.values()))), hex(0xFC050 - 0xF8700))
+
         script_length_orig = sum(map(len, scripts.values()))
         scr, ptrs = [], []
         mod_scripts = {}
-        #for sset in AREA_SETS:
+        # FIXME: pointers for debugging purposes --- can remove when more confident
+        t1, t2 = 0, 0
         for set_idx in range(len(AREA_SETS)):
-            sset = AREA_SETS[set_idx]
+            # Set of scripts to change
+            _sset = AREA_SETS[set_idx]
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
             sset = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
@@ -96,7 +107,7 @@ if __name__ == "__main__":
             aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
 
             # Randomize bosses
-            bosses = sset & BOSSES
+            bosses = _sset & BOSSES
             DROP_EVENTS = {
                 0x5, # Wedge and Vicks Whelk tutorial
                 0x6, # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
@@ -112,21 +123,28 @@ if __name__ == "__main__":
 
             required = {0xFC, 0xF9, 0xF7, 0xFB}
             for name in bosses:
+                # This only reduces the length from the original script
                 bscr = cmd_graph.generate_from_template(scripts[name]._bytes,
                                                         required=required,
                                                         drop_events=DROP_EVENTS)
 
-                diff = len(scripts[name])
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
-                diff -= len(scripts[name])
-                #print(name, diff)
+                extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
+                log.debug(f"Randomizing boss {name} ({len(scripts[name]._bytes)} vanilla bytes) "
+                          f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
+                          f"(Before) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]\n"
+                          f"{len(mod_scripts)} modified script so far.")
+                t1 += len(scripts[name]._bytes)
+                t2 += len(mod_scripts[name]._bytes)
+                log.debug(f"(After) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]) "
+                          f"| extra space {extra_space} [{hex(extra_space)}]")
 
-            # Drop "bosses" for now
-            sset = sset - BOSSES
-            # NOTE: we may want to somehow preserve them, but they keep injecting a lot of 0xFC into scripts
+                assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
             cmd_graph = command_graph.CommandGraph()
-            cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
+            # NOTE: we may want to somehow preserve them, but they keep injecting a lot of 0xFC into scripts
+            # Drop "bosses" for now
+            cmd_graph.from_scripts({k: scripts[k]._bytes for k in sset - BOSSES})
 
             # Spice goes here
             # Add in a random status/element theme
@@ -154,57 +172,89 @@ if __name__ == "__main__":
             }
             edit_cmd_arg_graph(cmd_graph, drop_skills=DROP_SKILLS)
 
-            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset), main_block_avg=2,
-                                            disallow_commands={0xF7, 0xF2})
+            # bosses have already been randomized
+            _sset -= BOSSES
 
-            diff = sum(len(scripts[name]) for name in sset)
-            mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(sset, _scr)})
-            diff -= sum(len(mod_scripts[name]) for name in sset)
-            #print(sset, diff)
+            # Total length of scripts + extra_space
+            # extra_space is basically the offset from the vanilla pointer
+            # it can be plus or minus
+            total_len = sum(len(scripts[name]) for name in _sset) + extra_space
+            # increment vanilla pointer
+            t1 += total_len - extra_space
+
+            main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(_sset))), 1)
+            gen_kwargs = {"disallow_commands": {0xF7, 0xF2}}
+            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(_sset),
+                                            #main_block_avg=main_block_avg,
+                                            main_block_avg=5,
+                                            total_len=total_len, **gen_kwargs)
+            assert sum(map(len, _scr)) <= total_len, "Script block length exceeds request."
+
+            # DEBUG
+            #for name, scr in zip(_sset, _scr):
+                #print(f"{name}: {len(scripts[name])} -> {len(scr)}")
+            #print(f"block length: {total_len} -> {sum(map(len, _scr))}")
+
+            # increment modified script pointer
+            t2 += sum(map(len, _scr))
+            extra_space = total_len - sum(map(len, _scr))
+            log.debug("v. ptr | m. ptr | ptr diff | total m. bytes | allowed m. bytes | extra | m. set")
+            log.debug(hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)), total_len, extra_space, _sset)
+
+            # This means that the enemy has been randomized more than once. In the interests of keeping
+            # bookkeeping more simple, we'll just explicitly disallow this for now
+            #assert len(set(_sset & set(mod_scripts.keys()))) == 0, set(_sset & set(mod_scripts))
+            already_processed = set(_sset & set(mod_scripts))
+            if len(already_processed) > 0:
+                log.warning(f"{already_processed} already randomized, and will be skipped this time.")
+            #assert len(already_processed) == 0, already_processed
+            mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr) if k not in mod_scripts})
 
         # Realign pointers
         scripts.update(mod_scripts)
         script_length_after = sum(map(len, scripts.values()))
+        logging.debug(hex(0xFC050 - 0xF8700), hex(script_length_after))
         scr, ptrs = [], [0]
         for k in names:
             s = scripts.get(k, b"\xFF\xFF")
             if k not in scripts:
-                print(k, "not found in script bank, appending empty script.")
+                log.warning(k, "not found in script bank, appending empty script.")
             scr.append(s)
             ptrs.append(ptrs[-1] + len(scr[-1]))
             if ptrs[-1] >= 0xFC050 - 0xF8700:
-                print("Pointer outside script block, overriding to last", k)
+                log.warning(f"Pointer outside script block, overriding to last {k}")
                 ptrs[-1] = ptrs[-2]
 
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
-        print(hex(len(low)), len(ptrs), len(scr))
+        log.debug(hex(len(low)), len(ptrs), len(scr), len(names))
         # Last one is superfluous
         for ptr in ptrs[:-1]:
             low += int.to_bytes(ptr, 2, byteorder="little")
-        print(hex(len(low)), "== 0xF8700")
+        log.debug(hex(len(low)), "== 0xF8700")
 
         for s in scr:
             low += bytes(s)
-        print(hex(len(low)), "?= 0xFC050")
+        log.debug(hex(len(low)), "?= 0xFC050")
         low_block_diff = 0xFC050 - len(low)
-        print(low_block_diff, script_length_orig - script_length_after)
+        log.debug(low_block_diff, script_length_orig - script_length_after)
         if low_block_diff > 0:
-            print(f"Script block underrun, buffering {low_block_diff} bytes")
+            log.debug(f"Script block underrun, buffering {low_block_diff} bytes")
             low += bytes([255] * low_block_diff)
         elif low_block_diff < 0:
-            print(f"Script block overrun, truncating {-low_block_diff} bytes")
+            log.debug(f"Script block overrun, truncating {-low_block_diff} bytes")
             low = low[:0xFC050]
-        print(hex(len(low)), "== 0xFC050")
+        log.debug(hex(len(low)), "== 0xFC050")
+        assert len(low) == 0xFC050
         low += hi
 
-        print(len(low), len(romfile))
+        log.debug(len(low), len(romfile))
         with open(f"{bdir}/test.{batch}.{i}.smc", "wb") as fout:
             fout.write(bytes(low))
-        print(f"Generated ROM at {bdir}/test.{batch}.{i}.smc")
+        log.info(f"Generated ROM at {bdir}/test.{batch}.{i}.smc")
 
         with open(f"{bdir}/test_scripts.{batch}.{i}.txt", "w") as fout:
             for n, s in scripts.items():
                 # FIXME: insertion order still correct?
                 print(n + "\n\n" + s.translate() + "\n", file=fout)
-        print(f"Generated script spoiler at {bdir}/test_scripts.{batch}.{i}.txt")
+        log.info(f"Generated script spoiler at {bdir}/test_scripts.{batch}.{i}.txt")

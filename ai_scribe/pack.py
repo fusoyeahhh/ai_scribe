@@ -22,16 +22,17 @@ def _validate(script):
 def replace_script(g, ptr, **kwargs):
     pass
 
-SCRIPT_BLOCK_LEN = 0xFC050 - 0xF8900
-def randomize_scripts(g, n=384, ptr_off=0, **kwargs):
+SCRIPT_BLOCK_LEN = 0xFC050 - 0xF8700
+def randomize_scripts(g, n=384, ptr_off=0, total_len=SCRIPT_BLOCK_LEN, **kwargs):
     scripts = []
     _n = n
     while len(scripts) < _n:
-        scripts += filter(_validate, [g.generate_from_graph(**kwargs) for _ in range(_n - len(scripts))])
+        scripts += filter(_validate, [g.generate_from_graph(**kwargs)
+                                          for _ in range(_n - len(scripts))])
         scripts = scripts[:n]
 
     # Pair down longest scripts until we arrive at something we can fit in the ROM space
-    while sum(map(len, scripts)) > SCRIPT_BLOCK_LEN:
+    while sum(map(len, scripts)) > total_len:
         scripts = sorted(scripts, key=len)
         try:
             scripts[-1] = g.generate_from_graph(**kwargs)
