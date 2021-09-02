@@ -36,7 +36,8 @@ def extract_scripts(romfile, script_ptrs, names):
     for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
-        s = scripting.Script.from_rom(sptr, eptr - sptr, romfile)
+        s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
+        print(name, s.name + "\n", s.translate())
         # FIXME: don't override this
         s.name = name
         assert s.name == name, (s.name, name)

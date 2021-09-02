@@ -76,14 +76,10 @@ class Script:
 
     PTR_NAME_OFFSET = 0xFC050 - 0xF8700
     @classmethod
-    def from_rom(cls, ptr, plen, romfile):
-        script = Script()
+    def from_rom(cls, ptr, plen, name, romfile):
         s = e = ptr
         e += plen
-        script._bytes = romfile[s:e]
-        s += cls.PTR_NAME_OFFSET
-        e = s + 10
-        script.name = "".join([_CHARS.get(i, "?") for i in romfile[s:e]])
+        return Script(romfile[s:e], name)
 
         return script
 
