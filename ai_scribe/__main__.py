@@ -139,6 +139,12 @@ if __name__ == "__main__":
                 log.debug(f"(After) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]) "
                           f"| extra space {extra_space} [{hex(extra_space)}]")
 
+                from . import tableau_scripts
+                print("---", name, "---")
+                print(f"Created from {sset} + ")
+                print(tableau_scripts(scripts[name].translate(),
+                                      mod_scripts[name].translate()))
+
                 assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
             cmd_graph = command_graph.CommandGraph()
