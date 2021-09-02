@@ -21,7 +21,11 @@ def detect_bc(script_ptrs):
 
 def extract_scripts_bc():
     # FIXME: assumes bc libraries are imported
-    from monsterrandomizer import get_monsters
+    try:
+        from monsterrandomizer import get_monsters
+    except ImportError as e:
+        print(e)
+        exit("BC libraries are required to access scripts in a pre-randomized ROM.")
     return {ent.name: ent.aiscript for ent in get_monsters()}
     # NOTE: for future reference
     # m.set_relative_ai(pointer)
