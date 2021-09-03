@@ -14,10 +14,18 @@ _CHARS[255] = ""
 _CHARS[254] = " "
 _CHARS[196] = "-"
 
-def translate(script):
+def translate(script, memblk=False):
     script = [*script].copy()
     script.append(-0x1)
     s = ""
+
+    if memblk:
+        for i, b in enumerate(script):
+            if i % 16 == 0:
+                s += "\n" + hex(i).rjust(6) + " "
+            s += hex(b).rjust(4) + " "
+        s += "\n"
+
     while True:
         v = script.pop(0)
         if v == -0x1:
@@ -100,8 +108,29 @@ class Script:
     def to_script_objs(self):
         pass
 
-    def validate(self):
-        assert self._bytes.endswith(b'\xFF')
+    @classmethod
+    def validate(cls, script):
+        if not script[-1] == 0xFF:
+            assert script.endswith(b'\xFF'), translate(script, memblk=True)
+            return False
+
+        # This checks for exactly two 0xFF and that the script isn't empty
+        # NOTE: This will be confused by 0xFF ("nothing") in skill based commands
+        try:
+            ffi2 = script.index(0xFF, script.index(0xFF) + 1)
+        except ValueError:
+            raise ValueError("Script has less than two 0xFF")
+            return False
+
+        # This checks that the script isn't "empty"
+        #if ffi2 <= 1:
+            #return False
+
+        # Translating can reveal parsing errors
+        try:
+            translate(script)
+        except:
+            raise ValueError("Couldn't translate script.")
         return True
 
     #def __repr__(self):
