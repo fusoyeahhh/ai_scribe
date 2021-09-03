@@ -14,7 +14,7 @@ from . import command_graph
 from . import tableau_scripts
 from . import scripting
 from .extract import *
-from .pack import _validate, randomize_scripts
+from .pack import randomize_scripts
 
 from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
@@ -156,7 +156,9 @@ if __name__ == "__main__":
                                                         required=required,
                                                         drop_events=conf["drop_events"])
 
+                scripting.Script.validate(bytes(bscr))
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
+
                 extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
                 log.debug(f"Randomizing boss {name} ({len(scripts[name]._bytes)} vanilla bytes) "
                           f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
@@ -173,7 +175,6 @@ if __name__ == "__main__":
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
 
-                mod_scripts[name].validate()
                 assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
             cmd_graph = command_graph.CommandGraph()
@@ -229,7 +230,7 @@ if __name__ == "__main__":
             for name in _sset:
                 log.info(f"--- {name} ---")
                 log.info(f"Created from {_sset} + ")
-                mod_scripts[name].validate()
+                scripting.Script.validate(mod_scripts[name]._bytes)
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
 
