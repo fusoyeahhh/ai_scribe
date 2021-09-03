@@ -14,7 +14,7 @@ _CHARS[255] = ""
 _CHARS[254] = " "
 _CHARS[196] = "-"
 
-def translate(script, memblk=False):
+def translate(script, memblk=False, allow_partial=False):
     script = [*script].copy()
     script.append(-0x1)
     s = ""
@@ -27,7 +27,13 @@ def translate(script, memblk=False):
         s += "\n"
 
     while True:
-        v = script.pop(0)
+        try:
+            v = script.pop(0)
+        except Exception as e:
+            if allow_partial:
+                print(e)
+                return s
+            raise e
         if v == -0x1:
             break
         try:
@@ -111,7 +117,7 @@ class Script:
     @classmethod
     def validate(cls, script):
         if not script[-1] == 0xFF:
-            assert script.endswith(b'\xFF'), translate(script, memblk=True)
+            assert script.endswith(b'\xFF'), translate(script, memblk=True, allow_partial=True)
             return False
 
         # This checks for exactly two 0xFF and that the script isn't empty
@@ -130,9 +136,15 @@ class Script:
         try:
             translate(script)
         except:
+            print(translate(script, memblk=True, allow_partial=True))
             raise ValueError("Couldn't translate script.")
         return True
 
     #def __repr__(self):
     def translate(self):
-        return translate(self._bytes)
+        return translate(self._bytes)            p2 = Counter()
+            for v in self._bytes:
+                p2[v] += 1
+            return sum([math.log2(n / m) for n, m in zip(p1, p2)])
+
+        return sum([math.log2(n) for n in p1])

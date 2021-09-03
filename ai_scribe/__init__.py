@@ -48,5 +48,5 @@ def tableau_scripts(s1, s2):
     ldiff = abs(len(s1) - len(s2))
 
     fmt_str = "\n".join([_s1.rstrip().ljust(mlen1) + " | " + _s2.rstrip().ljust(mlen2)
-                                for _s1, _s2 in zip((s1 + ["\n" * ldiff]), (s2 + ["\n" * ldiff]))])
+                                for _s1, _s2 in zip((s1 + ["\n"] * ldiff), (s2 + ["\n"] * ldiff))])
     return fmt_str
