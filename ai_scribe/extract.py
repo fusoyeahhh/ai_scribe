@@ -84,6 +84,7 @@ def extract(romfile=None, return_names=False):
     names = dict(zip(names, script_ptrs))
     # Detect if BC has changed the scripts or their structure in some way
     is_bc = detect_bc(script_ptrs)
+    log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
     if is_bc:
         scripts = extract_scripts_bc()
     else:
