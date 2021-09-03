@@ -287,5 +287,5 @@ if __name__ == "__main__":
                 else:
                     print(tableau_scripts(scripts[n].translate(),
                                           "NO SCRIPT RANDOMIZATION"), file=fout)
-                print("\n", file=fout)
+                print("", file=fout)
         log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
