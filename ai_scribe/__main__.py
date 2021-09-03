@@ -65,6 +65,23 @@ if __name__ == "__main__":
     prefix = "test"
     prefix = prefix or input(f"Enter a name for the new ROM (default {prefix})")
 
+    # configuration
+    conf = {
+        "drop_skills": {
+            0xC2,  # escape
+        },
+        "drop_events": {
+            0x5,  # Wedge and Vicks Whelk tutorial
+            0x6,  # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
+            # 0x7, # This is a Vargas event, but unsure which
+            0x8,  # ??? I think this is the Blitz tutorial
+            0x9,  # post-pummel Vargas (TODO: same as above)
+            # 0xA, # Ultros1 post-battle
+            0x10,  # TunnelArmr opening scene
+        },
+        "drop_targets": {},
+    }
+
     for i in range(16):
 
         fname = numpy.random.choice(fnames)
@@ -111,25 +128,16 @@ if __name__ == "__main__":
 
             # Randomize bosses
             bosses = _sset & BOSSES
-            DROP_EVENTS = {
-                0x5, # Wedge and Vicks Whelk tutorial
-                0x6, # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
-                #0x7, # This is a Vargas event, but unsure which
-                0x8, # ??? I think this is the Blitz tutorial
-                0x9, # post-pummel Vargas (TODO: same as above)
-                #0xA, # Ultros1 post-battle
-                0x10, # TunnelArmr opening scene
-            }
 
             # FIXME: this removes a required link between commands, might need to replace it a placeholder
-            #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(DROP_EVENTS)
+            #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(conf["drop_events"])
 
             required = {0xFC, 0xF9, 0xF7, 0xFB}
             for name in bosses:
                 # This only reduces the length from the original script
                 bscr = cmd_graph.generate_from_template(scripts[name]._bytes,
                                                         required=required,
-                                                        drop_events=DROP_EVENTS)
+                                                        drop_events=conf["drop_events"])
 
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
                 extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
@@ -165,14 +173,7 @@ if __name__ == "__main__":
             cmd_graph.cmd_arg_graphs[0xF0] = \
                 networkx.algorithms.compose(aug_attacks, cmd_graph.cmd_arg_graphs[0xF0])
 
-            DROP_SKILLS = {
-                0xC2, # escape
-            }
-            DROP_TARGETS = {
-
-            }
-
-            edit_cmd_arg_graph(cmd_graph, drop_skills=DROP_SKILLS)
+            edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
             # bosses have already been randomized
