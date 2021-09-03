@@ -36,23 +36,46 @@ def extract_scripts_bc():
     # m.set_relative_ai(pointer)
     # m.aiscript = aiscript
 
+_FIX_MAG_ROADER = True
+def _check_and_fix_script_exceptions(name, script):
+    if name == "Mag Roader4" and _FIX_MAG_ROADER:
+        script._bytes += b'\xFF'
+        log.info("Mag Roader4 is known to have a script bug: it has no ending byte. Fix requested and applied")
+        scripting.Script.validate(script._bytes)
+    elif name == "13":
+        pass
+    else:
+        raise ValueError("Got invalid script [{name}] with no known fix.")
 
-def extract_scripts(romfile, script_ptrs, names):
+    return script
+
+def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
     # scripts = dict(zip(script_ptrs, names[:-1]))
 
     scripts = dict(zip(script_ptrs, names))
     scripts = dict(sorted(scripts.items(), key=lambda t: t[0]))
-    script_ptrs = [*scripts] + [0xFC050 - 0xF7000]
+    # clip unused bytes at the end of the block
+    script_ptrs = [*scripts] + [0xFC050 - unused_bytes]
 
+    invalid = {}
     #scripts = {v: k for k, v in scripts.items()}
     for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
+        try:
+            scripting.Script.validate(scripts[name])
+        except Exception as e:
+            #raise ValueError(f"Script for {name} is invalid.")
+            invalid[name] = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
         s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
         log.debug(name, s.name + "\n", s.translate())
         assert s.name == name, (s.name, name)
         assert s._bytes == scripts[name]
         scripts[name] = s
+
+    # Handle scripts with known bugs / odd features
+    for name, script in invalid.items():
+        invalid[name] = _check_and_fix_script_exceptions(name, script)
 
     return scripts
 

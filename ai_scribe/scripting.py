@@ -97,8 +97,6 @@ class Script:
         e += plen
         return Script(romfile[s:e], name)
 
-        return script
-
     def __len__(self):
         return len(self._bytes)
 
@@ -120,12 +118,13 @@ class Script:
             assert script.endswith(b'\xFF'), translate(script, memblk=True, allow_partial=True)
             return False
 
-        # This checks for exactly two 0xFF and that the script isn't empty
+        # This checks for less than two 0xFF and that the script isn't empty
         # NOTE: This will be confused by 0xFF ("nothing") in skill based commands
         try:
             ffi2 = script.index(0xFF, script.index(0xFF) + 1)
         except ValueError:
-            raise ValueError("Script has less than two 0xFF")
+            raise ValueError(f"Script has less than two 0xFF\n" +
+                             translate(script, memblk=True, allow_partial=True))
             return False
 
         # This checks that the script isn't "empty"
@@ -142,7 +141,18 @@ class Script:
 
     #def __repr__(self):
     def translate(self):
-        return translate(self._bytes)            p2 = Counter()
+        return translate(self._bytes)
+
+    def entropy(self, rhs=None):
+        from collections import Counter
+        import math
+
+        p1 = Counter()
+        for v in self._bytes:
+            p1[v] += 1
+
+        if rhs is not None:
+            p2 = Counter()
             for v in self._bytes:
                 p2[v] += 1
             return sum([math.log2(n / m) for n, m in zip(p1, p2)])
