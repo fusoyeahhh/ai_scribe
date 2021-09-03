@@ -2511,7 +2511,7 @@
 [0xff] END BLOCK
 
 
-153: Chupon
+153: Chupon (Coloseum)
 
 [] Sneeze
 [0xff] END BLOCK
@@ -4167,7 +4167,7 @@
 [0xff] END BLOCK
 
 
-248: Guardian2
+248: Guardian (KT boss)
 
 [0xfc+3] CMD PRED
 	IF VAR BIT 0x24 0x1
@@ -4807,7 +4807,7 @@
 [0xff] END BLOCK
 
 
-268: SrBehemoth
+268: SrBehemoth (second)
 
 [0xfc+3] CMD PRED
 	IF HAS STATUS 0x48 0xf
@@ -5894,7 +5894,7 @@
 [0xff] END BLOCK
 
 
-283: Umaro
+283: Umaro (dummied)
 
 [0xf0+3] CHOOSE SPELL
 	Battle | Battle | Special
@@ -5921,7 +5921,7 @@
 [0xff] END BLOCK
 
 
-284: Umaro2
+284: Umaro (Narshe WoR boss)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
@@ -6017,7 +6017,7 @@
 [0xff] END BLOCK
 
 
-285: Guardian
+285: Guardian at Vector
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
@@ -6434,7 +6434,7 @@
 [0xff] END BLOCK
 
 
-292: SrBehemoth2
+292: SrBehemoth (first)
 
 [0xfc+3] CMD PRED
 	IF HAS STATUS 0x36 0x5
@@ -6564,7 +6564,7 @@
 [0xff] END BLOCK
 
 
-293: Kefka
+293: Kefka at Imperial Camp
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x24 0x0
@@ -6775,7 +6775,7 @@
 [0xff] END BLOCK
 
 
-297: Chadarnook
+297: Chadarnook (Goddess)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x24 0x0
@@ -6889,14 +6889,14 @@
 [0xf8+2] VAR MATH
 	0x3 0x81
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | Nothing | ºFire 2
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºFire 2 | Nothing
 [0xff] END BLOCK
@@ -6989,7 +6989,7 @@
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºIce 2 | Nothing
 [0xf8+2] VAR MATH
@@ -6998,7 +6998,7 @@
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºIce 2 | Nothing
 [0xff] END BLOCK
@@ -7055,14 +7055,14 @@
 [0xf8+2] VAR MATH
 	0x3 0x81
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | Nothing | ºBolt 2
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 17
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºBolt 2 | Nothing
 [0xff] END BLOCK
@@ -7530,7 +7530,7 @@
 [0xff] END BLOCK
 
 
-308: Kefka2
+308: Final Kefka
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x24 0x0
@@ -7648,7 +7648,7 @@
 [0xff] END BLOCK
 
 
-309: Ultros
+309: Ultros (Lete River)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
@@ -7721,7 +7721,7 @@
 [0xff] END BLOCK
 
 
-310: Ultros2
+310: Ultros (Opera House)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
@@ -7919,7 +7919,7 @@
 [0xff] END BLOCK
 
 
-311: Ultros3
+311: Ultros (Esper Mountain)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x6
@@ -8064,7 +8064,7 @@
 [0xff] END BLOCK
 
 
-312: Chupon2
+312: Chupon (Airship)
 
 [] Battle
 [0xfd] WAIT
@@ -8081,7 +8081,7 @@
 [0xff] END BLOCK
 
 
-313: Siegfried2
+313: Siegfried (Ghost Train)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
@@ -8660,7 +8660,7 @@
 [0xff] END BLOCK
 
 
-328: Tritoch3
+328: Tritoch (Narshe Boss)
 
 [0xf0+3] CHOOSE SPELL
 	öRasp | öRasp | ºIce 3
@@ -8764,7 +8764,7 @@
 [0xff] END BLOCK
 
 
-332: Chadarnook2
+332: Chadarnook (Demon)
 
 [0xfc+3] CMD PRED
 	ETIMER > 0x28 0x0
@@ -8869,7 +8869,7 @@
 [0xff] END BLOCK
 
 
-334: Kefka3
+334: Kefka at Narshe
 
 [] Battle
 [0xfd] WAIT
@@ -9936,7 +9936,7 @@
 [0xff] END BLOCK
 
 
-360: Ultros4
+360: Ultros (Airship)
 
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x24 0x0
@@ -10357,7 +10357,7 @@
 378: Ifrit Clone
 
 [0xf1+1] TARGETTING
-	<UNK>
+	<UNK> 43
 [] ºFire
 [] ºFire 2
 [] ºFire 3
