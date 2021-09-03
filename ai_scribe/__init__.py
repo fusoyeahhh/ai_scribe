@@ -36,6 +36,7 @@ _NAME_ALIASES = {
     "Siegfried2": "Siegfried (Ghost Train)",
     "Chadarnook2": "Chadarnook (Demon)",
     "Chadarnook": "Chadarnook (Goddess)",
+    "Solider2": "Solider (Terra Flashback)",
 }
 
 def tableau_scripts(s1, s2):

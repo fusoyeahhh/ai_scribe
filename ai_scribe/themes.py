@@ -191,18 +191,19 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            # FIXME: sort out this
            "Presenter", "Whelk Head", "Dullahan", "SrBehemoth",
            "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
-           "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro",
+           "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro2",
            "Soul Saver", "Wrexsoul", "MagiMaster", "White Drgn",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
            "Girl", "Sleep", "Kefka2"}
+BOSSES = {_NAME_ALIASES.get(n, n) for n in BOSSES}
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Doom Drgn", "StormDrgn", "PearlDrgn"}
 BOSSES |= DRAGON
-EVENT_BATTLES = {"Merchant", "Guardian", "Tritoch", "Tritoch2"}#, "Shadow"}
+EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
 # FIXME: temporary
 # FIXME: find which "solider" is Terra's flashback sequence
