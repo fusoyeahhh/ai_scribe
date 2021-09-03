@@ -57,11 +57,6 @@ if __name__ == "__main__":
         exit()
     log.info(f"Found {len(fnames):d} ROMs")
 
-    # batching
-    batch = 9
-    bdir = f"test_{batch:d}"
-    #os.mkdir(bdir)
-
     prefix = "test"
     prefix = prefix or input(f"Enter a name for the new ROM (default {prefix})")
 
@@ -80,7 +75,13 @@ if __name__ == "__main__":
             0x10,  # TunnelArmr opening scene
         },
         "drop_targets": {},
+
+        "batch_id": 9,
     }
+
+    # batching
+    bdir = f"test_{conf['batch_id']:d}"
+    #os.mkdir(bdir)
 
     for i in range(16):
 
@@ -259,12 +260,12 @@ if __name__ == "__main__":
         low += hi
 
         log.debug(len(low), len(romfile))
-        with open(f"{bdir}/test.{batch}.{i}.smc", "wb") as fout:
+        with open(f"{bdir}/test.{conf['batch_id']}.{i}.smc", "wb") as fout:
             fout.write(bytes(low))
-        log.info(f"Generated ROM at {bdir}/test.{batch}.{i}.smc")
+        log.info(f"Generated ROM at {bdir}/test.{conf['batch_id']}.{i}.smc")
 
-        with open(f"{bdir}/test_scripts.{batch}.{i}.txt", "w") as fout:
+        with open(f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt", "w") as fout:
             for n, s in scripts.items():
                 # FIXME: insertion order still correct?
                 print(n + "\n\n" + s.translate() + "\n", file=fout)
-        log.info(f"Generated script spoiler at {bdir}/test_scripts.{batch}.{i}.txt")
+        log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
