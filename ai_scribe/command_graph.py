@@ -212,7 +212,7 @@ class CommandGraph:
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                            disallow_commands=[], weighted=True):
+                            disallow_commands=[], weighted=True, naborts=20):
         import numpy
         script = []
 
@@ -228,9 +228,10 @@ class CommandGraph:
         if not allow_empty_main_blocks and main_block_len == 0:
             main_block_len = 1
 
-        naborts = 0
+        from collections import defaultdict
+        aborts = defaultdict(lambda: 0)
         #while nff < 2:
-        while nff < 2 and naborts < 10:
+        while nff < 2 and naborts >= 0:
             if gptr not in g or len(g[gptr]) == 0:
                 #raise ValueError(f"Command Node {gptr} has no outgoing connections.")
                 # We reset as a backup
@@ -298,26 +299,29 @@ class CommandGraph:
             #elif main_block_len is None and numpy.random.randint(0, 10) < nff + 1:
                 # Roughly increasing probability of ending the block / script
                 #gptr = 0xFF
-            elif numpy.random.randint(0, 3) < nfc and nfc > 0 and script[-4] != 0xFC:
+            elif numpy.random.randint(0, 3) < nfc and nfc > 0 and script[-4] != 0xFC and script[-2] != 0xF1:
                 # The more times we add command predicates, the more likely we are
                 # to end the block, but avoid empty FC blocks
                 gptr = 0xFE
 
             # Can't have an end FC block without active command predicates
             if gptr == 0xFE and nfc == 0:
-                naborts += 1
+                aborts["bad FC block end"] += 1
+                naborts -= 1
                 continue
 
             # End / Reset blocks
             if gptr in {0xFE, 0xFF}:
                 # Close the block as long as we don't have an empty FC block
                 if nfc > 0 and script[-4] == 0xFC:
-                    naborts += 1
+                    aborts["empty FC"] += 1
+                    naborts -= 1
                     continue
                 # Don't leave a dangling target command
                 if len(script) >= 2 and script[-2] == 0xF1:
                     gptr = 0xF1
-                    naborts += 1
+                    aborts["dangling target"] += 1
+                    naborts -= 1
                     continue
                 nfc = 0
 
@@ -355,6 +359,7 @@ class CommandGraph:
             if gptr in {0xF0, 0xF4, 0xF6, "_"}:
                 ncmd += 1
 
+        assert nff == 2 and naborts >= 0, (nff, aborts)
         return script
 
     def generate_from_template(self, script, required={}, drop_events={}):
