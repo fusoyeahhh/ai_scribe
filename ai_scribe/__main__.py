@@ -11,6 +11,8 @@ log = logging.getLogger("ai_scribe")
 log.setLevel(logging.INFO)
 
 from . import command_graph
+from . import tableau_scripts
+from . import edit_cmd_arg_graph
 from . import scripting
 from .extract import *
 from .pack import _validate, randomize_scripts
@@ -140,7 +142,6 @@ if __name__ == "__main__":
                 log.debug(f"(After) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]) "
                           f"| extra space {extra_space} [{hex(extra_space)}]")
 
-                from . import tableau_scripts
                 log.info(f"--- {name} ---")
                 log.info(f"Created from {sset} + ")
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
@@ -164,20 +165,15 @@ if __name__ == "__main__":
             cmd_graph.cmd_arg_graphs[0xF0] = \
                 networkx.algorithms.compose(aug_attacks, cmd_graph.cmd_arg_graphs[0xF0])
 
-            def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
-                # remove "Nothing" from CHOOSE SPELL
-                if drop_nothing:
-                    cmd_graph.cmd_arg_graphs[0xF0].remove_nodes_from([0xFE])
-                # remove "Escape" for now
-                for cmd in {0xF0, "_"}:
-                    cmd_graph.cmd_arg_graphs[cmd].remove_nodes_from(drop_skills)
             DROP_SKILLS = {
                 0xC2, # escape
             }
             DROP_TARGETS = {
 
             }
+
             edit_cmd_arg_graph(cmd_graph, drop_skills=DROP_SKILLS)
+            assert 0xC2 not in cmd_graph.cmd_graph
 
             # bosses have already been randomized
             _sset -= BOSSES
