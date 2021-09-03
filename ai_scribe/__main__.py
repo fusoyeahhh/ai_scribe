@@ -217,10 +217,11 @@ if __name__ == "__main__":
             #assert len(already_processed) == 0, already_processed
             mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr) if k not in mod_scripts})
 
-            log.info(f"--- {name} ---")
-            log.info(f"Created from {sset} + ")
-            log.info("\n" + tableau_scripts(scripts[name].translate(),
-                                            mod_scripts[name].translate()))
+            for name in _sset:
+                log.info(f"--- {name} ---")
+                log.info(f"Created from {_sset} + ")
+                log.info("\n" + tableau_scripts(scripts[name].translate(),
+                                                mod_scripts[name].translate()))
 
         # Realign pointers
         scripts.update(mod_scripts)
