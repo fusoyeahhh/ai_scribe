@@ -6,7 +6,19 @@ from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
 # These enemies do not have names in the ROM
 _NAME_ALIASES = {
-
+    "": "Terra In Flashback",
+    #"2": "",
+    "3": "Cyan at Imperial Camp",
+    #"4": "",
+    #"5": "",
+    #"6": "",
+    "7": "Dummy?",
+    "8": "Dummy??",
+    "9": "Ifrit Clone",
+    #"10": "",
+    "11": "Dummy???",
+    "12": "Dummy????",
+    #"13": "",
 }
 
 def tableau_scripts(s1, s2):
