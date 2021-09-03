@@ -169,6 +169,7 @@ if __name__ == "__main__":
 
                 log.info(f"--- {name} ---")
                 log.info(f"Created from {sset} + ")
+                assert len(mod_scripts[name]._bytes) >= 2 and len(scripts[name]._bytes) >= 2
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
 
@@ -286,5 +287,5 @@ if __name__ == "__main__":
                 else:
                     print(tableau_scripts(scripts[n].translate(),
                                           "NO SCRIPT RANDOMIZATION"), file=fout)
-                print("\n")
+                print("\n", file=fout)
         log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
