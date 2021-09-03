@@ -10150,7 +10150,7 @@
 [0xff] END BLOCK
 
 
-366: 
+366: Terra In Flashback
 
 [] Fire Beam
 [0xf7+1] SPECIAL EVENT
@@ -10174,7 +10174,7 @@
 [0xff] END BLOCK
 
 
-368: 3
+368: Cyan at Imperial Camp
 
 [0xf0+3] CHOOSE SPELL
 	Joker Doom(really Dispatch) | Battle | Battle
@@ -10334,14 +10334,14 @@
 [0xff] END BLOCK
 
 
-375: 7
+375: Dummy?
 
 [] Battle
 [0xff] END BLOCK
 [0xff] END BLOCK
 
 
-376: 8
+376: Dummy??
 
 [] Battle
 [0xff] END BLOCK
@@ -10354,7 +10354,7 @@
 [0xff] END BLOCK
 
 
-378: 9
+378: Ifrit Clone
 
 [0xf1+1] TARGETTING
 	<UNK>
@@ -10419,7 +10419,7 @@
 [0xff] END BLOCK
 
 
-380: 11
+380: Dummy???
 
 [] Battle
 [0xff] END BLOCK
@@ -10515,7 +10515,7 @@
 [0xff] END BLOCK
 
 
-382: 12
+382: Dummy????
 
 [] Battle
 [0xff] END BLOCK
