@@ -4,6 +4,7 @@ log.setLevel(logging.INFO)
 
 from .syntax import SYNTAX
 
+from . import _NAME_ALIASES
 from . import scripting
 from .scripting import translate, _CHARS
 

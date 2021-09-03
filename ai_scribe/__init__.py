@@ -5,6 +5,11 @@ from .pack import _validate, randomize_scripts
 
 from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
+# These enemies do not have names in the ROM
+_NAME_ALIASES = {
+
+}
+
 def tableau_scripts(s1, s2):
     s1 = s1.replace("\t", "  ").split("\n")
     s2 = s2.replace("\t", "  ").split("\n")
