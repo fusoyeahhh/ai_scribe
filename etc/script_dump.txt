@@ -10357,7 +10357,7 @@
 378: Ifrit Clone
 
 [0xf1+1] TARGETTING
-	<UNK> 43
+	Kefka (at Thamasa)
 [] ºFire
 [] ºFire 2
 [] ºFire 3

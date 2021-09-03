@@ -310,6 +310,7 @@ TARGET_LIST = """00	Terra
 0C	Umaro
 0D	Banon
 0E	Leo
+2B	Kefka (at Thamasa)
 30	Monster #1
 31	Monster #2
 32	Monster #3
