@@ -6,6 +6,7 @@ import numpy
 from . import flags
 from . import syntax
 from .syntax import SYNTAX
+from .themes import ELEM_THEMES, STATUS_THEMES
 
 SYNTAX = {
     0xF0: (3, 0x100, "CHOOSE SPELL"),
@@ -391,6 +392,31 @@ class CommandGraph:
 
         return script[1:]
 
+
+def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
+    # remove "Nothing" from CHOOSE SPELL
+    if drop_nothing:
+        cmd_graph.cmd_arg_graphs[0xF0].remove_nodes_from([0xFE])
+    # remove "Escape" for now
+    for cmd in {0xF0, "_"}:
+        cmd_graph.cmd_arg_graphs[cmd].remove_nodes_from(drop_skills)
+
+def augment_cmd_graph(cmd_graph, status=False, elemental=False):
+    # Add in a random status/element theme
+    themes, aug_attacks = {}, networkx.DiGraph()
+    if elemental:
+        themes.update(ELEM_THEMES.copy())
+    if status:
+        themes.update(STATUS_THEMES.copy())
+
+    if themes:
+        aug_attacks = random.choice([*themes.values()])
+    aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
+
+    cmd_graph.cmd_arg_graphs[0xF0] = \
+        networkx.algorithms.compose(aug_attacks, cmd_graph.cmd_arg_graphs[0xF0])
+
+    return cmd_graph
 
 def generate_from_graph(g, arg_g, start_cmd="^"):
 

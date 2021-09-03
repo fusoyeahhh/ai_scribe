@@ -12,7 +12,6 @@ log.setLevel(logging.INFO)
 
 from . import command_graph
 from . import tableau_scripts
-from . import edit_cmd_arg_graph
 from . import scripting
 from .extract import *
 from .pack import _validate, randomize_scripts
@@ -62,6 +61,7 @@ if __name__ == "__main__":
 
     # configuration
     conf = {
+        # Banned skills / commands / events
         "drop_skills": {
             0xC2,  # escape
         },
@@ -75,6 +75,23 @@ if __name__ == "__main__":
             0x10,  # TunnelArmr opening scene
         },
         "drop_targets": {},
+
+        # SPICE
+        "spice": {
+            # will pick a random element and merge in random elemental attacks from category
+            "boss_elemental": True,
+            # will pick a random status and merge in random status attacks from category
+            "boss_status": False,
+            # will pick a random element and merge in random elemental attacks from category
+            "normal_elemental": False,
+            # will pick a random status and merge in random status attacks from category
+            "normal_status": True,
+        },
+
+        # AI behavior modification
+        # enemies already with events may have them swapped with others
+        # the 'drop_events' configuration above is still respected
+        "talkative": True,
 
         "batch_id": 9,
     }
@@ -119,13 +136,12 @@ if __name__ == "__main__":
             cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
 
             # Allow for random messages
-            cmd_graph.cmd_arg_graphs[0xF3] = full_graph.cmd_arg_graphs[0xF3]
+            if conf["talkative"]:
+                cmd_graph.cmd_arg_graphs[0xF3] = full_graph.cmd_arg_graphs[0xF3]
 
-            themes = ELEM_THEMES.copy()
-            #themes.update(STATUS_THEMES)
-            #themes = STATUS_THEMES.copy()
-            aug_attacks = random.choice([*themes.values()])
-            aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
+            # add a little spice
+            command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["boss_status"],
+                                                       elemental=conf["spice"]["boss_elemental"])
 
             # Randomize bosses
             bosses = _sset & BOSSES
@@ -165,16 +181,9 @@ if __name__ == "__main__":
 
             # Spice goes here
             # Add in a random status/element theme
-            #themes = ELEM_THEMES.copy()
-            #themes.update(STATUS_THEMES)
-            themes = STATUS_THEMES.copy()
-            aug_attacks = random.choice([*themes.values()])
-            aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
-            # FIXME: use augment
-            cmd_graph.cmd_arg_graphs[0xF0] = \
-                networkx.algorithms.compose(aug_attacks, cmd_graph.cmd_arg_graphs[0xF0])
-
-            edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+            command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
+                                                       elemental=conf["spice"]["normal_elemental"])
+            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
             # bosses have already been randomized
