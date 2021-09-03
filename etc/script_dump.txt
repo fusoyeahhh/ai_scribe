@@ -6889,14 +6889,14 @@
 [0xf8+2] VAR MATH
 	0x3 0x81
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | Nothing | ºFire 2
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºFire 2 | Nothing
 [0xff] END BLOCK
@@ -6989,7 +6989,7 @@
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºIce 2 | Nothing
 [0xf8+2] VAR MATH
@@ -6998,7 +6998,7 @@
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºIce 2 | Nothing
 [0xff] END BLOCK
@@ -7055,14 +7055,14 @@
 [0xf8+2] VAR MATH
 	0x3 0x81
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | Nothing | ºBolt 2
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf1+1] TARGETTING
-	<UNK> 17
+	<UNK> 0x11
 [0xf0+3] CHOOSE SPELL
 	Nothing | ºBolt 2 | Nothing
 [0xff] END BLOCK
@@ -10522,7 +10522,10 @@
 [0xff] END BLOCK
 
 
-383: 13
+383: Dummy?????
 
+[] Battle
+[0xff] END BLOCK
+[0xff] END BLOCK
 
 
