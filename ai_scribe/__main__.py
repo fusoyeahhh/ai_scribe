@@ -231,13 +231,14 @@ if __name__ == "__main__":
                                                 mod_scripts[name].translate()))
 
         # Realign pointers
-        scripts.update(mod_scripts)
-        script_length_after = sum(map(len, scripts.values()))
+        export = scripts.copy()
+        export.update(mod_scripts)
+        script_length_after = sum(map(len, export.values()))
         logging.debug(hex(0xFC050 - 0xF8700), hex(script_length_after))
         scr, ptrs = [], [0]
         for k in names:
-            s = scripts.get(k, b"\xFF\xFF")
-            if k not in scripts:
+            s = export.get(k, b"\xFF\xFF")
+            if k not in export:
                 log.warning(k, "not found in script bank, appending empty script.")
             scr.append(s)
             ptrs.append(ptrs[-1] + len(scr[-1]))
@@ -275,6 +276,15 @@ if __name__ == "__main__":
 
         with open(f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt", "w") as fout:
             for n, s in scripts.items():
-                # FIXME: insertion order still correct?
-                print(n + "\n\n" + s.translate() + "\n", file=fout)
+                #print(n + "\n\n" + s.translate() + "\n", file=fout)
+                print(f"--- {n} ---", file=fout)
+                print(f"Randomized | Original", file=fout)
+                #print(f"Created from {sset}", file=fout)
+                if n in mod_scripts:
+                    print(tableau_scripts(scripts[n].translate(),
+                                          mod_scripts[n].translate()), file=fout)
+                else:
+                    print(tableau_scripts(scripts[n].translate(),
+                                          "NO SCRIPT RANDOMIZATION"), file=fout)
+                print("\n")
         log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
