@@ -102,47 +102,5 @@ def extract(romfile=None, return_names=False):
         return scripts, names
     return scripts
 
-def _write_new(scripts, romfile):
-    # DEPRECATED
-    import command_graph
-    cmd_graph = command_graph.CommandGraph()
-    cmd_graph.from_scripts(scripts)
-
-    NEW_SCRIPT = [240, 0x14, 0x14, 0x14, 253, 241, 54, 1, 255, 255]
-    romout = romfile[:0xF8400] + bytearray([0] * 384 * 2) + romfile[:0xF8700]
-    romout = romfile[:0xF8700] + bytearray(NEW_SCRIPT) + romfile[0xF8700 + len(NEW_SCRIPT):]
-
-    # with open("test2.smc", "wb") as fout:
-    #     fout.write(romout)
-
-    WHELK_HEAD = 81
-    WHELK_SHELL = 266
-
-    WHELK_SCRIPT = list(scripts.values())[81]
-    SHELL_SCRIPT = list(scripts.values())[266]
-
-    NEW_WHELK_SCRIPT = cmd_graph.generate_from_graph()
-    #NEW_WHELK_SCRIPT = [252, 1, 241, 54, 186, 5, 253, 255, 255]
-    NEW_WHELK_SCRIPT = [240, 235, 254, 213, 255, 241, 75, 240, 114, 230, 230, 255]
-    pad_bytes = len(WHELK_SCRIPT) - len(NEW_WHELK_SCRIPT)
-    print(translate(NEW_WHELK_SCRIPT))
-    NEW_WHELK_SCRIPT += [0xFF] * pad_bytes
-
-    NEW_SHELL_SCRIPT = cmd_graph.generate_from_graph()
-    #NEW_SHELL_SCRIPT = [240, 238, 238, 238, 253, 241, 54, 1, 255, 255]
-    NEW_SHELL_SCRIPT = [244, 5, 0, 60, 248, 132, 132, 253, 241, 71, 244, 5, 0, 16, 253, 250, 9, 1, 54, 255, 252, 68, 253, 54, 247, 5, 255]
-    pad_bytes = len(SHELL_SCRIPT) - len(NEW_SHELL_SCRIPT)
-    print(translate(NEW_SHELL_SCRIPT))
-    NEW_SHELL_SCRIPT += [0xFF] * pad_bytes
-
-    romout = romfile[:]
-    romout = romfile.replace(WHELK_SCRIPT, bytearray(NEW_WHELK_SCRIPT)) \
-                    .replace(SHELL_SCRIPT, bytearray(NEW_SHELL_SCRIPT))
-
-    # check byte difference
-
-    with open("working/test.smc", "wb") as fout:
-        fout.write(romout)
-
 if __name__ == "__main__":
     extract()
