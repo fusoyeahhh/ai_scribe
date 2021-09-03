@@ -173,6 +173,7 @@ if __name__ == "__main__":
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
 
+                mod_scripts[name].validate()
                 assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
             cmd_graph = command_graph.CommandGraph()
@@ -228,6 +229,7 @@ if __name__ == "__main__":
             for name in _sset:
                 log.info(f"--- {name} ---")
                 log.info(f"Created from {_sset} + ")
+                mod_scripts[name].validate()
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
 

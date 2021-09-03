@@ -100,6 +100,10 @@ class Script:
     def to_script_objs(self):
         pass
 
+    def validate(self):
+        assert self._bytes.endswith(b'\xFF')
+        return True
+
     #def __repr__(self):
     def translate(self):
         return translate(self._bytes)
