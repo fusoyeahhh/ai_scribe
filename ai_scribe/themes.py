@@ -1,3 +1,5 @@
+from . import _NAME_ALIASES
+
 #
 # Areas
 #
@@ -175,6 +177,7 @@ AREA_SETS = [
      "Girl", "Sleep",
      "Kefka2"},
 ]
+AREA_SETS = [{_NAME_ALIASES.get(n, n) for n in s} for s in AREA_SETS]
 
 # Bosses
 BOSSES = {"Whelk", "Head", "Marshal", "M?TekArmor", "Ipooh", "Vargas", "Ultros",

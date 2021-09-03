@@ -82,6 +82,9 @@ def extract(romfile=None, return_names=False):
             i += 1
             _name = name + str(i)
 
+    # Alias blank names to something more useful
+    names = [_NAME_ALIASES.get(n, n) for n in names]
+
     names = dict(zip(names, script_ptrs))
     # Detect if BC has changed the scripts or their structure in some way
     is_bc = detect_bc(script_ptrs)
