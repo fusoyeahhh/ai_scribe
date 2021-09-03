@@ -11,6 +11,8 @@ _CHARS.update({180 + i: chr(j) for i, j in enumerate(range(48, 48 + 10))})
 _CHARS[191] = "?"
 _CHARS[197] = "."
 _CHARS[255] = ""
+_CHARS[254] = " "
+_CHARS[196] = "-"
 
 def translate(script):
     script = [*script].copy()
