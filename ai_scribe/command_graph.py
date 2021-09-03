@@ -422,33 +422,3 @@ def augment_cmd_graph(cmd_graph, status=False, elemental=False):
         networkx.algorithms.compose(aug_attacks, cmd_graph.cmd_arg_graphs[0xF0])
 
     return cmd_graph
-
-def generate_from_graph(g, arg_g, start_cmd="^"):
-
-    script = []
-
-    gptr = g[start_cmd]
-    nff = 0
-    while nff < 2:
-        gptr = numpy.random.choice(list(gptr))
-        try:
-
-            if numpy.random.randint(0, 10) < nff + 1:
-                gptr = 0xFF
-
-            gptr = int(gptr)
-            if gptr == 0xFF:
-                nff += 1
-            script.append(gptr)
-        except ValueError:
-            pass
-
-        # Need we arguments to command?
-        if gptr in arg_g:
-            nargs = SYNTAX[gptr][0]
-            script.extend(expand(arg_g, gptr, nargs or 0))
-
-        # append arguments
-        gptr = g[gptr]
-
-    return script
