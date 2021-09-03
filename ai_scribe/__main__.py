@@ -6,8 +6,9 @@ import numpy
 import networkx.algorithms
 
 import logging
+logging.basicConfig()
 log = logging.getLogger("ai_scribe")
-log.setLevel("INFO")
+log.setLevel(logging.INFO)
 
 from . import command_graph
 from . import scripting
@@ -140,10 +141,10 @@ if __name__ == "__main__":
                           f"| extra space {extra_space} [{hex(extra_space)}]")
 
                 from . import tableau_scripts
-                print("---", name, "---")
-                print(f"Created from {sset} + ")
-                print(tableau_scripts(scripts[name].translate(),
-                                      mod_scripts[name].translate()))
+                log.info(f"--- {name} ---")
+                log.info(f"Created from {sset} + ")
+                log.info("\n" + tableau_scripts(scripts[name].translate(),
+                                                mod_scripts[name].translate()))
 
                 assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
@@ -215,6 +216,11 @@ if __name__ == "__main__":
                 log.warning(f"{already_processed} already randomized, and will be skipped this time.")
             #assert len(already_processed) == 0, already_processed
             mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr) if k not in mod_scripts})
+
+            log.info(f"--- {name} ---")
+            log.info(f"Created from {sset} + ")
+            log.info("\n" + tableau_scripts(scripts[name].translate(),
+                                            mod_scripts[name].translate()))
 
         # Realign pointers
         scripts.update(mod_scripts)

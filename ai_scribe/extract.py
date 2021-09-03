@@ -1,3 +1,7 @@
+import logging
+log = logging.getLogger("ai_scribe")
+log.setLevel(logging.INFO)
+
 from .syntax import SYNTAX
 
 from . import scripting
