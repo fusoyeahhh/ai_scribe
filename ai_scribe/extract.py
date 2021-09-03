@@ -38,16 +38,17 @@ def extract_scripts_bc():
 
 def extract_scripts(romfile, script_ptrs, names):
     # scripts = dict(zip(script_ptrs, names[:-1]))
-    script_ptrs = sorted(script_ptrs) + [0xFC050 - 0xF7000]
 
     scripts = dict(zip(script_ptrs, names))
+    scripts = dict(sorted(scripts.items(), key=lambda t: t[0]))
+    script_ptrs = [*scripts] + [0xFC050 - 0xF7000]
+
+    #scripts = {v: k for k, v in scripts.items()}
     for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
         s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
-        print(name, s.name + "\n", s.translate())
-        # FIXME: don't override this
-        s.name = name
+        log.debug(name, s.name + "\n", s.translate())
         assert s.name == name, (s.name, name)
         assert s._bytes == scripts[name]
         scripts[name] = s
