@@ -49,7 +49,7 @@ def translate(script):
             if v == 0xF0:
                 v = " | ".join([flags.SPELL_LIST[s] for s in script[:nbytes]])
             elif v == 0xF1:
-                v = " | ".join([flags.TARGET_LIST.get(s, "<UNK>") for s in script[:nbytes]])
+                v = " | ".join([flags.TARGET_LIST.get(s, f"<UNK> {s}") for s in script[:nbytes]])
             elif v == 0xF6:
                 v = f"{'use' if script[0] == 0 else 'throw'} {flags.ITEM_LIST[script[1]]} {flags.ITEM_LIST[script[2]]}"
             elif v == 0xF4:
