@@ -156,7 +156,6 @@ if __name__ == "__main__":
                                                         required=required,
                                                         drop_events=conf["drop_events"])
 
-                scripting.Script.validate(bytes(bscr))
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
                 extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
@@ -171,6 +170,7 @@ if __name__ == "__main__":
 
                 log.info(f"--- {name} ---")
                 log.info(f"Created from {sset} + ")
+                scripting.Script.validate(bytes(bscr))
                 assert len(mod_scripts[name]._bytes) >= 2 and len(scripts[name]._bytes) >= 2
                 log.info("\n" + tableau_scripts(scripts[name].translate(),
                                                 mod_scripts[name].translate()))
