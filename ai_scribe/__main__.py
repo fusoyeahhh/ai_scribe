@@ -106,8 +106,8 @@ if __name__ == "__main__":
         "copies_per_batch": 16,
 
         # write out the base script file if not None
-        #"write_base_scripts": "script_dump.txt",
-         "write_base_scripts": None,
+        "write_base_scripts": "script_dump.txt",
+        #"write_base_scripts": None,
     }
 
     if conf["write_base_scripts"] is not None:
