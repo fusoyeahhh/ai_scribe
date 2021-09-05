@@ -142,7 +142,7 @@ if __name__ == "__main__":
         t1, t2 = 0, 0
         for set_idx in range(len(AREA_SETS)):
             # Set of scripts to change
-            _sset = AREA_SETS[set_idx]
+            _sset = AREA_SETS[set_idx].copy()
 
             # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
             _sset &= set(scripts.keys())
