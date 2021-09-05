@@ -61,6 +61,12 @@ if __name__ == "__main__":
 
     # configuration
     conf = {
+        # Randomization methodology
+        # BC's name changes will confuse the area-base listing
+        # randomization, so this will allow the method to continue
+        # even if some of the scripts are "missing"
+        # (actually named something else)
+        "allow_missing_scripts": True,
         # Banned skills / commands / events
         "drop_skills": {
             0xC2,  # escape
@@ -123,15 +129,26 @@ if __name__ == "__main__":
             # Set of scripts to change
             _sset = AREA_SETS[set_idx]
 
+            # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
+            _sset &= set(scripts.keys())
+
             # We get a "window" around the current area, with one area lookback and two area lookforward
             sset = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
 
             # Check to make sure we cover all the enemies in the set with scripts
             omitted = sset - set(scripts.keys())
-            if omitted:
-                raise ValueError("Found enemies in requested change list "
+            if omitted and conf["allow_missing_scripts"]:
+                log.warning("Found enemies in requested change list "
+                            "which has no corresponding vanilla script: "
+                            f"{omitted}")
+            elif omitted:
+                    raise ValueError("Found enemies in requested change list "
                                  "which has no corresponding vanilla script: "
                                  f"{omitted}")
+
+            # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
+            _sset &= set(scripts.keys())
+            sset &= set(scripts.keys())
 
             cmd_graph = command_graph.CommandGraph()
             cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
