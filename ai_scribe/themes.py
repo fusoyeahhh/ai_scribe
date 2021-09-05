@@ -177,7 +177,7 @@ AREA_SETS = [
      "Girl", "Sleep",
      "Kefka2"},
 ]
-AREA_SETS = [{_NAME_ALIASES.get(n, n) for n in s} for s in AREA_SETS]
+#AREA_SETS = [{_NAME_ALIASES.get(n, n) for n in s} for s in AREA_SETS]
 
 # Bosses
 BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
@@ -197,7 +197,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
            "Girl", "Sleep", "Kefka2"}
-BOSSES = {_NAME_ALIASES.get(n, n) for n in BOSSES}
+#BOSSES = {_NAME_ALIASES.get(n, n) for n in BOSSES}
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
