@@ -142,7 +142,7 @@ if __name__ == "__main__":
                             "which has no corresponding vanilla script: "
                             f"{omitted}")
             elif omitted:
-                    raise ValueError("Found enemies in requested change list "
+                raise ValueError("Found enemies in requested change list "
                                  "which has no corresponding vanilla script: "
                                  f"{omitted}")
 
