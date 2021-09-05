@@ -134,7 +134,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
     return scripts
 
 def extract(romfile=None, return_names=False):
-    romfile = "Final Fantasy III (U) (V1.0) [!].smc"
+    #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
     #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
 
     with open(romfile, "rb") as fin:
