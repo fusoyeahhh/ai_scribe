@@ -312,7 +312,7 @@ if __name__ == "__main__":
             for n, s in scripts.items():
                 #print(n + "\n\n" + s.translate() + "\n", file=fout)
                 print(f"--- {n} ---", file=fout)
-                print(f"Randomized | Original", file=fout)
+                print(f"Original | Randomized", file=fout)
                 #print(f"Created from {sset}", file=fout)
                 if n in mod_scripts:
                     print(tableau_scripts(scripts[n].translate(),
