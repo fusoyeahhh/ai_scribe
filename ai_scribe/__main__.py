@@ -59,9 +59,6 @@ if __name__ == "__main__":
         exit()
     log.info(f"Found {len(fnames):d} ROMs")
 
-    prefix = "test"
-    prefix = prefix or input(f"Enter a name for the new ROM (default {prefix})")
-
     # configuration
     conf = {
         # Randomization methodology
