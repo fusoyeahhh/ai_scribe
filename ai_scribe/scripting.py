@@ -140,8 +140,8 @@ class Script:
         return True
 
     #def __repr__(self):
-    def translate(self):
-        return translate(self._bytes)
+    def translate(self, **kwargs):
+        return translate(self._bytes, **kwargs)
 
     def entropy(self, rhs=None):
         from collections import Counter
