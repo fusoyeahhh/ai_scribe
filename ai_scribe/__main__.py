@@ -36,13 +36,14 @@ if __name__ == "__main__":
         log.info(f"Reading script data from {srcrom}")
         scripts, names = extract(srcrom, return_names=True)
     except OSError:
-        log.error("One or more of the provided paths didn't work, please try again or report as a bug.")
+        log.error("The provided base script path didn't work, please try again or report as a bug.")
         exit()
 
     full_graph = command_graph.CommandGraph()
     full_graph.from_scripts({k: v._bytes for k, v in scripts.items()})
 
-    inpth = "base_roms" or input("Provide a path to either a folder with prerandomized ROMs, or a single "
+    #inpth = "base_roms" or input("Provide a path to either a folder with prerandomized ROMs, or a single "
+    inpth = input("Provide a path to either a folder with prerandomized ROMs, or a single "
                   "(vanilla or otherwise) ROM: ") or "base_roms"
     if not os.path.exists(inpth):
         log.error("One or more of the provided paths didn't work, please try again or report as a bug.")
