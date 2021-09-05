@@ -126,6 +126,7 @@ if __name__ == "__main__":
             romfile = fin.read()
 
         if conf["give_min_mp"]:
+            log.info("Giving minimum MP to all enemies.")
             give_base_mp(romfile)
 
         scripts, names = extract(srcrom, return_names=True)
