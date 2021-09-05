@@ -11,7 +11,7 @@ log = logging.getLogger("ai_scribe")
 log.setLevel(logging.INFO)
 
 from . import command_graph
-from . import tableau_scripts
+from . import tableau_scripts, give_base_mp
 from . import scripting
 from .extract import *
 from .pack import randomize_scripts
@@ -101,6 +101,8 @@ if __name__ == "__main__":
         # enemies already with events may have them swapped with others
         # the 'drop_events' configuration above is still respected
         "talkative": True,
+        # do we give weak enemies 20 MP minimum to use on skills?
+        "give_min_mp": False,
 
         "batch_id": 9,
         "copies_per_batch": 16,
@@ -125,6 +127,9 @@ if __name__ == "__main__":
         log.debug(fname)
         with open(fname, "rb") as fin:
             romfile = fin.read()
+
+        if conf["give_min_mp"]:
+            give_base_mp(romfile)
 
         scripts, names = extract(srcrom, return_names=True)
 
