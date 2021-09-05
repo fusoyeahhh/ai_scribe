@@ -201,12 +201,12 @@ if __name__ == "__main__":
                 log.debug(f"(After) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]) "
                           f"| extra space {extra_space} [{hex(extra_space)}]")
 
-                log.info(f"--- {name} ---")
-                log.info(f"Created from {sset} + ")
+                log.debug(f"--- {name} ---")
+                log.debug(f"Created from {sset} + ")
                 scripting.Script.validate(bytes(bscr))
                 assert len(mod_scripts[name]._bytes) >= 2 and len(scripts[name]._bytes) >= 2
-                log.info("\n" + tableau_scripts(scripts[name].translate(),
-                                                mod_scripts[name].translate()))
+                log.debug("\n" + tableau_scripts(scripts[name].translate(),
+                                                 mod_scripts[name].translate()))
 
                 assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
 
@@ -261,11 +261,11 @@ if __name__ == "__main__":
             mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr) if k not in mod_scripts})
 
             for name in _sset:
-                log.info(f"--- {name} ---")
-                log.info(f"Created from {_sset} + ")
+                log.debug(f"--- {name} ---")
+                log.debug(f"Created from {_sset} + ")
                 scripting.Script.validate(mod_scripts[name]._bytes)
-                log.info("\n" + tableau_scripts(scripts[name].translate(),
-                                                mod_scripts[name].translate()))
+                log.debug("\n" + tableau_scripts(scripts[name].translate(),
+                                                 mod_scripts[name].translate()))
 
         # Realign pointers
         export = scripts.copy()
