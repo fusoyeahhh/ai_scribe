@@ -94,13 +94,14 @@ if __name__ == "__main__":
         "talkative": True,
 
         "batch_id": 9,
+        "copies_per_batch": 16,
     }
 
     # batching
     bdir = f"test_{conf['batch_id']:d}"
     #os.mkdir(bdir)
 
-    for i in range(16):
+    for i in range(conf["copies_per_batch"]):
 
         fname = numpy.random.choice(fnames)
         log.debug(fname)
