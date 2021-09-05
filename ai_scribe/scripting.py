@@ -69,7 +69,10 @@ def translate(script, memblk=False, allow_partial=False):
             elif v == 0xF4:
                 v = " | ".join([flags.CMD_LIST.get(s, "{ILLEGAL}") for s in script[:nbytes]])
             elif v == 0xFA:
-                v = f"{flags.ANIMATIONS[script[0]]} {hex(script[1])} {hex(script[2])}"
+                try:
+                    v = f"{flags.ANIMATIONS[script[0]]} {hex(script[1])} {hex(script[2])}"
+                except IndexError:
+                    v = f"UNPARSEABLE {hex(script[0])}"
             elif v == 0xFC:
                 v = f"{flags.FC_MODIFIERS.get(script[0], script[0])} {hex(script[1])} {hex(script[2])}"
             elif v == 0xFB:
