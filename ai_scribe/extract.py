@@ -174,10 +174,6 @@ def extract(romfile=None, return_names=False):
     names = dict(zip(names, script_ptrs))
     scripts = extract_scripts(romfile, script_ptrs, names)
 
-    with open("script_dump.txt", "w") as fout:
-        for i, (name, script) in enumerate(scripts.items()):
-            print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
-
     if return_names:
         return scripts, names
     return scripts

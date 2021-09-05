@@ -103,7 +103,16 @@ if __name__ == "__main__":
 
         "batch_id": 9,
         "copies_per_batch": 16,
+
+        # write out the base script file if not None
+        #"write_base_scripts": "script_dump.txt",
+         "write_base_scripts": None,
     }
+
+    if conf["write_base_scripts"] is not None:
+        with open(conf["write_base_scripts"], "w") as fout:
+            for i, (name, script) in enumerate(scripts.items()):
+                print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
 
     # batching
     bdir = f"test_{conf['batch_id']:d}"
