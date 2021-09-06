@@ -182,7 +182,7 @@ if __name__ == "__main__":
             # FIXME: this removes a required link between commands, might need to replace it a placeholder
             #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(conf["drop_events"])
 
-            required = {0xFC, 0xF9, 0xF7, 0xFB}
+            required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 # This only reduces the length from the original script
                 bscr = cmd_graph.generate_from_template(scripts[name]._bytes,
