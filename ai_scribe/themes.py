@@ -62,8 +62,6 @@ AREA_SETS = [
     {"Crane", "Crane2"},
     # Terra's Flashback
     #{"Soldier"?},
-    # Triangle Island
-    {"Intangir"},
     # Cave to the Sealed Gate
     {"Apparite", "Coelecite", "Ing", "Lich", "Zombone", "Ninja"},
     # Sealed Gate
@@ -78,6 +76,8 @@ AREA_SETS = [
     #{"Kefka [Thamasa]", "(Red?Esper)"},
     # Battle With Imperial Air Force
     {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon"},
+    # Triangle Island
+    {"Intangir"},
     # Floating Continent
     {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey Drgn", "AtmaWeapon"},
     # Floating Continent (Escape)
