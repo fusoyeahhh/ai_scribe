@@ -8,28 +8,6 @@ from . import syntax
 from .syntax import SYNTAX
 from .themes import ELEM_THEMES, STATUS_THEMES
 
-SYNTAX = {
-    0xF0: (3, 0x100, "CHOOSE SPELL"),
-    # Targetting technically only uses 1 byte, but the next is the attack
-    0xF1: (1, 0x101, "TARGETTING"),
-    0xF2: (3, 0x102, "CHANGE FORMATION"),
-    0xF3: (2, 0x103, "DISPLAY MESSAGE"),
-    0xF4: (3, 0x104, "USE COMMAND"),
-    0xF5: (3, 0x105, "CHANGE FORMATION"),
-    0xF6: (3, 0x106, "THROW / USE ITEM"),
-    0xF7: (1, 0x107, "SPECIAL EVENT"),
-    0xF8: (2, 0x108, "VAR MATH"),
-    0xF9: (3, 0x109, "VAR MANIP"),
-    0xFA: (3, 0x10A, "SPECIAL ACTION"),
-    0xFB: (2, 0x10B, "MISC."),
-    0xFC: (3, None, "CMD PRED"),
-    0xFD: (None, None, "WAIT"),
-    0xFE: (None, None, "END FC BLOCK"),
-    0xFF: (None, None, "END BLOCK"),
-
-    "_": (1, 0x10C, "DO SKILL"),
-}
-
 def expand(arg_g, cmd_byte=0xF0, nargs=3):
     stack = []
 
@@ -82,6 +60,29 @@ class CommandGraph:
             self.cmd_arg_graphs.get(key, networkx.Digraph()),
             augment.get(key, networkx.Digraph()))
             for key in set(self.cmd_arg_graphs) | set(augment)}
+
+    def to_text_repr(self):
+        tstr = ""
+        for _name in self.cmd_graph.nodes():
+            name = SYNTAX[_name][-1]
+            tstr += f"\n{name}: " + " ".join([SYNTAX[n][-1] + f" [{w['weight']}]"
+                                              for n, w in self.cmd_graph[_name].items()])
+            if _name not in self.cmd_arg_graphs:
+                continue
+            for u, v, w in self.cmd_arg_graphs[_name].edges.data():
+                w = w.get("weight", None)
+                if _name in {0xF0, "_"}:
+                    try:
+                        u = flags.SPELL_LIST[u]
+                    except TypeError:
+                        u = "UNK"
+                    try:
+                        v = flags.SPELL_LIST[v]
+                    except TypeError:
+                        v = "UNK"
+                tstr += f"\n\t{u} --[{w}]--> {v}"
+
+        return tstr
 
     @classmethod
     def merge(cls, *graphs):
