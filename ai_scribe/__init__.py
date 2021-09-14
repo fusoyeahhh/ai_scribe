@@ -47,7 +47,7 @@ def give_base_mp(romfile):
 
     ptr = ENEMY_DATA_OFFSET + ENEMY_MP_REL_OFFSET
     for i in range(ENEMY_DATA_BLOCKS):
-        mp = int.from_bytes(romfile[ptr:ptr + 2], "little")
+        mp = max(20, int.from_bytes(romfile[ptr:ptr + 2], "little"))
         romfile = romfile[:ptr] + mp.to_bytes(2, "little") + romfile[ptr + 2:]
         ptr += ENEMY_DATA_SIZE
 
