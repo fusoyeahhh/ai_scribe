@@ -65,22 +65,25 @@ class CommandGraph:
         tstr = ""
         for _name in self.cmd_graph.nodes():
             name = SYNTAX[_name][-1]
-            tstr += f"\n{name}: " + " ".join([SYNTAX[n][-1] + f" [{w['weight']}]"
+            tstr += f"\n{name} [{_name}]: " + " ".join([SYNTAX[n][-1] + f" [{w['weight']}]"
                                               for n, w in self.cmd_graph[_name].items()])
             if _name not in self.cmd_arg_graphs:
                 continue
-            for u, v, w in self.cmd_arg_graphs[_name].edges.data():
-                w = w.get("weight", None)
-                if _name in {0xF0, "_"}:
-                    try:
-                        u = flags.SPELL_LIST[u]
-                    except TypeError:
-                        u = "UNK"
-                    try:
-                        v = flags.SPELL_LIST[v]
-                    except TypeError:
-                        v = "UNK"
-                tstr += f"\n\t{u} --[{w}]--> {v}"
+            #for u, v, w in self.cmd_arg_graphs[_name].nodes():
+            for n in self.cmd_arg_graphs[_name].nodes():
+                try:
+                    _n = flags.SPELL_LIST[n] if n != _name else name
+                except TypeError:
+                    _n = "UNK"
+                tstr += f"\n\t{_n} --[{None}]-->"
+                for v, w in self.cmd_arg_graphs[_name][n].items():
+                    #w = w.get("weight", None)
+                    if _name in {0xF0, "_"}:
+                        try:
+                            v = flags.SPELL_LIST[v]
+                        except TypeError:
+                            v = "UNK"
+                    tstr += f" {v}"
 
         return tstr
 
