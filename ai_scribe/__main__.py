@@ -15,6 +15,7 @@ from . import tableau_scripts, give_base_mp
 from . import scripting
 from .extract import *
 from .pack import randomize_scripts
+from .flags import ESPERS, DESPERATIONS
 
 from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
 
@@ -70,7 +71,9 @@ if __name__ == "__main__":
         # Banned skills / commands / events
         "drop_skills": {
             0xC2,  # escape
-        },
+            0xC8,  # seize
+            0xEA,  # BabaBreath
+        } | set(ESPERS) | set(DESPERATIONS),
         "drop_events": {
             0x5,  # Wedge and Vicks Whelk tutorial
             0x6,  # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
