@@ -17,7 +17,7 @@ from .extract import *
 from .pack import randomize_scripts
 from .flags import ESPERS, DESPERATIONS
 
-from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES
+from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES, EVENT_BATTLES
 
 if __name__ == "__main__":
 
@@ -68,6 +68,8 @@ if __name__ == "__main__":
         # even if some of the scripts are "missing"
         # (actually named something else)
         "allow_missing_scripts": True,
+        # Do not randomize
+        "do_not_randomize": set(EVENT_BATTLES),
         # Banned skills / commands / events
         "drop_skills": {
             0x7D,  # Bio Blast / Super Ball
@@ -148,6 +150,7 @@ if __name__ == "__main__":
         for set_idx in range(len(AREA_SETS)):
             # Set of scripts to change
             _sset = AREA_SETS[set_idx].copy()
+            _sset -= conf["do_not_randomize"]
 
             # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
             _sset &= set(scripts.keys())

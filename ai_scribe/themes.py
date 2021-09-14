@@ -203,7 +203,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Doom Drgn", "StormDrgn", "PearlDrgn"}
 BOSSES |= DRAGON
-EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2"}#, "Shadow"}
+EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
 # FIXME: temporary
 # FIXME: find which "solider" is Terra's flashback sequence
