@@ -70,8 +70,10 @@ if __name__ == "__main__":
         "allow_missing_scripts": True,
         # Banned skills / commands / events
         "drop_skills": {
-            0xC2,  # escape
-            0xC8,  # seize
+            0x7D,  # Bio Blast / Super Ball
+            0x7E,  # Flash
+            0xC2,  # Escape
+            0xC8,  # Seize
             0xEA,  # BabaBreath
         } | set(ESPERS) | set(DESPERATIONS),
         "drop_events": {
