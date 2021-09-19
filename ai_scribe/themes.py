@@ -158,7 +158,7 @@ AREA_SETS = [
      # WoR Opera House
      "Dirt Drgn",
      # Mobliz
-     "Phunbaba", "Phunbaba2", "Phunbaba2", "Phunbaba3",
+     "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
      # Colloseum
      # need Shadow battle id
      "Chupon2", "Siegfried2"},#, "Shadow"},
@@ -193,6 +193,8 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
            "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro2",
            "Soul Saver", "Wrexsoul", "MagiMaster", "White Drgn",
+           "Chadarnook", "Chadarnook2",
+           "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
