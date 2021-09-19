@@ -192,8 +192,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            "Presenter", "Whelk Head", "Dullahan", "SrBehemoth",
            "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
            "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro2",
-           "Soul Saver", "Wrexsoul", "MagiMaster", "White Drgn",
-           "Chadarnook", "Chadarnook2",
+           "Soul Saver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
            "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
@@ -203,7 +202,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
-          "Gold Drgn", "Doom Drgn", "StormDrgn", "PearlDrgn"}
+          "Gold Drgn", "Doom Drgn", "StormDrgn", "White Drgn"}
 BOSSES |= DRAGON
 EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
