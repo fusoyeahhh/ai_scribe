@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
         # tracks the marginal budget we have on free space
         extra_space = 0
-        log.debug(hex(sum(map(len, scripts.values()))), hex(0xFC050 - 0xF8700))
+        log.debug((hex(sum(map(len, scripts.values()))), hex(0xFC050 - 0xF8700)))
 
         script_length_orig = sum(map(len, scripts.values()))
         scr, ptrs = [], []
@@ -257,7 +257,7 @@ if __name__ == "__main__":
             t2 += sum(map(len, _scr))
             extra_space = total_len - sum(map(len, _scr))
             log.debug("v. ptr | m. ptr | ptr diff | total m. bytes | allowed m. bytes | extra | m. set")
-            log.debug(hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)), total_len, extra_space, _sset)
+            log.debug(" | ".join(map(str, (hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)), total_len, extra_space, _sset))))
 
             # This means that the enemy has been randomized more than once. In the interests of keeping
             # bookkeeping more simple, we'll just explicitly disallow this for now
@@ -293,28 +293,28 @@ if __name__ == "__main__":
 
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
-        log.debug(hex(len(low)), len(ptrs), len(scr), len(names))
+        log.debug((hex(len(low)), len(ptrs), len(scr), len(names)))
         # Last one is superfluous
         for ptr in ptrs[:-1]:
             low += int.to_bytes(ptr, 2, byteorder="little")
-        log.debug(hex(len(low)), "== 0xF8700")
+        log.debug((hex(len(low)), "== 0xF8700"))
 
         for s in scr:
             low += bytes(s)
-        log.debug(hex(len(low)), "?= 0xFC050")
+        log.debug((hex(len(low)), "?= 0xFC050"))
         low_block_diff = 0xFC050 - len(low)
-        log.debug(low_block_diff, script_length_orig - script_length_after)
+        log.debug((low_block_diff, script_length_orig - script_length_after))
         if low_block_diff > 0:
             log.debug(f"Script block underrun, buffering {low_block_diff} bytes")
             low += bytes([255] * low_block_diff)
         elif low_block_diff < 0:
             log.debug(f"Script block overrun, truncating {-low_block_diff} bytes")
             low = low[:0xFC050]
-        log.debug(hex(len(low)), "== 0xFC050")
+        log.debug((hex(len(low)), "== 0xFC050"))
         assert len(low) == 0xFC050
         low += hi
 
-        log.debug(len(low), len(romfile))
+        log.debug((len(low), len(romfile)))
         with open(f"{bdir}/test.{conf['batch_id']}.{i}.smc", "wb") as fout:
             fout.write(bytes(low))
         log.info(f"Generated ROM at {bdir}/test.{conf['batch_id']}.{i}.smc")
