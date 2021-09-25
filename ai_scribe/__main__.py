@@ -108,6 +108,8 @@ if __name__ == "__main__":
         # do we give weak enemies 20 MP minimum to use on skills?
         "give_min_mp": False,
 
+        # number of retries for script generation failure
+        "num_retries": 20,
         "batch_id": 9,
         "copies_per_batch": 16,
 
@@ -241,7 +243,8 @@ if __name__ == "__main__":
             t1 += total_len - extra_space
 
             main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(_sset))), 1)
-            gen_kwargs = {"disallow_commands": {0xF7, 0xF2}}
+            gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
+                          "naborts": conf["num_retries"]}
             _scr, _ptrs = randomize_scripts(cmd_graph, n=len(_sset),
                                             #main_block_avg=main_block_avg,
                                             main_block_avg=5,
