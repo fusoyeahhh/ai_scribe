@@ -95,6 +95,8 @@ class CommandGraph:
         return g
 
     def visualize(self, fname=None):
+        import matplotlib
+        matplotlib.use("agg")
         from matplotlib import pyplot
         #fname = fname or f"{self.name}_cmd_graph.png"
 
@@ -132,8 +134,10 @@ class CommandGraph:
         node_colors = [_COLORS.get(d.get("type", None), "green")
                                 for k, d in cgrp.nodes.items()]
 
-        fig = pyplot.figure(figsize=(8, 8))
+        fig = pyplot.figure(figsize=(20, 20))
         networkx.drawing.draw_networkx(cgrp, node_color=node_colors, labels=node_labels)
+        if fname:
+            pyplot.savefig(fname)
         return fig
 
     def from_scripts(self, scripts, on_parse_error='raise'):
