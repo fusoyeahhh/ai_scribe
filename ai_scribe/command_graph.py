@@ -391,6 +391,10 @@ class CommandGraph:
             if gptr in {0xF0, 0xF4, 0xF6, "_"}:
                 ncmd += 1
 
+        if not (nff == 2 and naborts >= 0):
+            exit("Failed to generate script within the prescribe number of attempts. "
+                 "Exiting to avoid potential infinite loops")
+
         assert nff == 2 and naborts >= 0, (nff, aborts)
         return script
 
