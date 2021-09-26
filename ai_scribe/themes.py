@@ -1,3 +1,4 @@
+import networkx
 from . import _NAME_ALIASES
 
 #
@@ -215,19 +216,33 @@ BOSSES |= EVENT_BATTLES
 HUMAN = []
 MTEK = []
 
+import pandas
+import os
+skills = pandas.read_csv("etc/skill_data.csv")
+sort_by = {"Power", "MP Cost"}
+
+# Sanitize
+def _sanitize(pstr):
+    pstr = pstr.replace("*", "")
+    if "/" in pstr:
+        pstr = pstr.split("/")[0]
+    return pstr.replace("(", "").replace(")", "")
+
+for prm in sort_by:
+    skills[prm] = skills[prm].astype(str).apply(_sanitize).astype(int)
+
+skills = skills.sort_values(by=list(sort_by))
+
 #
 # Elements
 #
-import pandas
-import os
-skills = pandas.read_csv("etc/skill_data.csv").sort_values(by=["Power", "MP Cost"])
-import networkx
-
 ELEM_THEMES = {}
 for elem in {"ice", "fire", "lightning", "water", "wind", "earth", "pearl", "poison"}:
     _elem = skills.loc[skills["Elements"].str.contains(elem.capitalize())]["Spell Name"]
     g = networkx.generators.fast_gnp_random_graph(len(_elem), 3 / len(elem), directed=True)
     ELEM_THEMES[elem] = networkx.relabel_nodes(g, dict(enumerate(_elem.index)))
+
+    #for skill in _elem:
 
 #
 # Statuses
