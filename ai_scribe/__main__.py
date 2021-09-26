@@ -111,7 +111,7 @@ if __name__ == "__main__":
         "give_min_mp": False,
 
         # number of retries for script generation failure
-        "num_retries": 20,
+        "num_retries": 100,
         "batch_id": 9,
         "copies_per_batch": 16,
 
