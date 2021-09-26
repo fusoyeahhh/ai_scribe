@@ -246,6 +246,8 @@ if __name__ == "__main__":
             # bosses have already been randomized
             _sset -= BOSSES
 
+            log.debug(cmd_graph.to_text_repr())
+
             # Total length of scripts + extra_space
             # extra_space is basically the offset from the vanilla pointer
             # it can be plus or minus
