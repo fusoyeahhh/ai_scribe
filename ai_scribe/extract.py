@@ -69,7 +69,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
             #raise ValueError(f"Script for {name} is invalid.")
             invalid[name] = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
         s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
-        log.debug(name, s.name + "\n", s.translate())
+        log.debug(name + " " + s.name + "\n" + s.translate())
         assert s.name == name, (s.name, name)
         assert s._bytes == scripts[name]
         scripts[name] = s
