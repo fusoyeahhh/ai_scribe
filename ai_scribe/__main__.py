@@ -79,6 +79,8 @@ if __name__ == "__main__":
             0xC2,  # Escape
             0xC8,  # Seize
             0xEA,  # BabaBreath
+            0xD5,  # Engulf --- NOTE: this only prevents other enemies from picking it up,
+                   # Zone Eater is exempt from randomization
         } | set(ESPERS) | set(DESPERATIONS),
         "drop_events": {
             0x5,  # Wedge and Vicks Whelk tutorial
