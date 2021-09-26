@@ -116,11 +116,15 @@ if __name__ == "__main__":
         "num_retries": 100,
         "batch_id": 9,
         "copies_per_batch": 16,
+        #"random_seed": 0,
 
         # write out the base script file if not None
         "write_base_scripts": "script_dump.txt",
         #"write_base_scripts": None,
     }
+
+    random.seed(conf.get("random_seed", 0))
+    numpy.random.seed(conf.get("random_seed", 0))
 
     if conf["write_base_scripts"] is not None:
         with open(conf["write_base_scripts"], "w") as fout:
