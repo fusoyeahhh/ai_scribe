@@ -64,7 +64,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
         try:
-            scripting.Script.validate(scripts[name])
+            scripting.Script.validate(scripts[name], allow_empty_fc=True)
         except Exception as e:
             #raise ValueError(f"Script for {name} is invalid.")
             invalid[name] = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
