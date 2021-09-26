@@ -193,6 +193,8 @@ if __name__ == "__main__":
             # add a little spice
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["boss_status"],
                                                        elemental=conf["spice"]["boss_elemental"])
+            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+            log.debug(cmd_graph.to_text_repr())
 
             # Randomize bosses
             bosses = _sset & BOSSES
