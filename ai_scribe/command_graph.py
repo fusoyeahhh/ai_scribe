@@ -71,10 +71,12 @@ class CommandGraph:
                 continue
             #for u, v, w in self.cmd_arg_graphs[_name].nodes():
             for n in self.cmd_arg_graphs[_name].nodes():
-                try:
-                    _n = flags.SPELL_LIST[n] if n != _name else name
-                except TypeError:
-                    _n = "UNK"
+                _n = str(n)
+                if _name in {0xF0, "_"}:
+                    try:
+                        _n = flags.SPELL_LIST[n] if n != _name else name
+                    except TypeError:
+                        _n = "UNK"
                 tstr += f"\n\t{_n} --[{None}]-->"
                 for v, w in self.cmd_arg_graphs[_name][n].items():
                     #w = w.get("weight", None)
@@ -82,7 +84,7 @@ class CommandGraph:
                         try:
                             v = flags.SPELL_LIST[v]
                         except TypeError:
-                            v = "UNK"
+                            pass
                     tstr += f" {v}"
 
         return tstr
