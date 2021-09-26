@@ -19,7 +19,7 @@ from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES, EVENT_BATTLES
 
 # We have to do this here or else the submodules will override it.
 log = logging.getLogger("ai_scribe")
-log.setLevel(logging.DEBUG)
+log.setLevel(logging.INFO)
 
 if __name__ == "__main__":
 
