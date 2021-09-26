@@ -61,13 +61,13 @@ class CommandGraph:
             augment.get(key, networkx.Digraph()))
             for key in set(self.cmd_arg_graphs) | set(augment)}
 
-    def to_text_repr(self):
+    def to_text_repr(self, suppress_args=False):
         tstr = ""
         for _name in self.cmd_graph.nodes():
             name = SYNTAX[_name][-1]
             tstr += f"\n{name} [{_name}]: " + " ".join([SYNTAX[n][-1] + f" [{w['weight']}]"
                                               for n, w in self.cmd_graph[_name].items()])
-            if _name not in self.cmd_arg_graphs:
+            if suppress_args or _name not in self.cmd_arg_graphs:
                 continue
             #for u, v, w in self.cmd_arg_graphs[_name].nodes():
             for n in self.cmd_arg_graphs[_name].nodes():
