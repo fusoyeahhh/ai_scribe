@@ -293,7 +293,7 @@ FF:??????????""".replace("Lagomorph*", "Nothing").split("\n")
 
 SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
 
-ESPERS = {k: v for k, v in enumerate(SPELL_LIST) if v in range(0x36, 0x54)}
+ESPERS = {k: v for k, v in enumerate(SPELL_LIST) if v in range(0x36, 0x50)}
 DESPERATIONS = {k: v for k, v in enumerate(SPELL_LIST) if v in range(0xF0, 0xFE)}
 
 TARGET_LIST = """00	Terra
