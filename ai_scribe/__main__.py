@@ -7,8 +7,6 @@ import networkx.algorithms
 
 import logging
 logging.basicConfig()
-log = logging.getLogger("ai_scribe")
-log.setLevel(logging.INFO)
 
 from . import command_graph
 from . import tableau_scripts, give_base_mp
@@ -18,6 +16,10 @@ from .pack import randomize_scripts
 from .flags import ESPERS, DESPERATIONS
 
 from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES, EVENT_BATTLES
+
+# We have to do this here or else the submodules will override it.
+log = logging.getLogger("ai_scribe")
+log.setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
 
