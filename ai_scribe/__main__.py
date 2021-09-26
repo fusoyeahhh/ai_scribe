@@ -223,7 +223,8 @@ if __name__ == "__main__":
 
                 log.debug(f"--- {name} ---")
                 log.debug(f"Created from {sset} + ")
-                scripting.Script.validate(bytes(bscr))
+                # Empty FC blocks can be inherited from the original script
+                scripting.Script.validate(bytes(bscr), allow_empty_fc=True)
                 assert len(mod_scripts[name]._bytes) >= 2 and len(scripts[name]._bytes) >= 2
                 log.debug("\n" + tableau_scripts(scripts[name].translate(),
                                                  mod_scripts[name].translate()))
