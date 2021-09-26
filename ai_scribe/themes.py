@@ -158,7 +158,7 @@ AREA_SETS = [
      # WoR Opera House
      "Dirt Drgn",
      # Mobliz
-     "Phunbaba", "Phunbaba2", "Phunbaba2", "Phunbaba3",
+     "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
      # Colloseum
      # need Shadow battle id
      "Chupon2", "Siegfried2"},#, "Shadow"},
@@ -192,7 +192,9 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            "Presenter", "Whelk Head", "Dullahan", "SrBehemoth",
            "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
            "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro2",
-           "Soul Saver", "Wrexsoul", "MagiMaster", "White Drgn",
+           "Soul Saver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
+           "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
+           "Doom Gaze",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
@@ -201,7 +203,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
-          "Gold Drgn", "Doom Drgn", "StormDrgn", "PearlDrgn"}
+          "Gold Drgn", "Doom Drgn", "Storm Drgn", "White Drgn"}
 BOSSES |= DRAGON
 EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
