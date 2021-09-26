@@ -220,12 +220,46 @@ class CommandGraph:
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                            disallow_commands=[], weighted=True, naborts=20):
+                            disallow_commands=[], weighted=True, naborts=20, strict=True):
         import numpy
         script = []
 
         # Make a copy, because we can modify the graph in flight
         g = self.cmd_graph.copy()
+
+        # Handle disallowed commands
+        # Basically, we're 'contracting' the graph by allowing the jump to 'skip'
+        # over the disallowed command, while preserving the ability to jump to
+        # outgoing connections of the disallowed node itself
+        for gptr in set(g.nodes) - disallow_commands:
+            for cmd in set(g[gptr]) & disallow_commands:
+                # The contraction process, by default, changes edges between u and v into self loops
+                # on the linked node. While it's not fatal to have this behavior, to keep things
+                # a bit cleaner, we'll ensure the link to the start char is broken before the contraction
+                # so that no self-loops on the start cmd happen
+                if start_cmd in g[cmd]:
+                    g.remove_edge(cmd, start_cmd)
+                if cmd in g[start_cmd]:
+                    g.remove_edge(start_cmd, cmd)
+                # This contracts for only this node, and it's a permanent change for this run through
+                #print(self.cmd_graph.edges)
+                g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
+                #print(gptr, cmd, g.edges)
+
+        # We also have to break a potential link between 0xFC and 0xF{E,F} so we don't try and create
+        # empty FC blocks
+
+        # NOTE: This order is bad since contractions from above may cause a
+        # 0xFC -> 0xFE -> 0xFF chain which it then discards the right two links
+        # and there's no way to end the counter block
+        # FIXME: doesn't really work with strict mode and contractions
+        #if 0xFC in g and 0xFE in g:
+            #g = networkx.algorithms.minors.contracted_nodes(g, 0xFC, 0xFE)
+        #if 0xFC in g and 0xFF in g:
+            #g = networkx.algorithms.minors.contracted_nodes(g, 0xFC, 0xFF)
+
+        # This is needed or the counter block generation will never end
+        assert 0xFF in g and len(g.in_edges(0xFF)) > 0
 
         gptr = start_cmd
         nff, nfc, ncmd = 0, 0, 0
@@ -244,22 +278,6 @@ class CommandGraph:
                 #raise ValueError(f"Command Node {gptr} has no outgoing connections.")
                 # We reset as a backup
                 gptr = start_cmd
-
-            # Handle disallowed commands
-            # Basically, we're 'contracting' the graph by allowing the jump to 'skip'
-            # over the disallowed command, while preserving the ability to jump to
-            # outgoing connections of the disallowed node itself
-            for cmd in set(g[gptr]) & disallow_commands:
-                # The contraction process, by default, changes edges between u and v into self loops
-                # on the linked node. While it's not fatal to have this behavior, to keep things
-                # a bit cleaner, we'll ensure the link to the start char is broken before the contraction
-                # so that no self-loops on the start cmd happen
-                if start_cmd in g[cmd]:
-                    g.remove_edge(cmd, start_cmd)
-                if cmd in g[start_cmd]:
-                    g.remove_edge(start_cmd, cmd)
-                # This contracts for only this node, and it's a permanent change for this run through
-                g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
 
             # Select the next command to jump to
             if len(g[gptr]) > 0:
@@ -314,6 +332,8 @@ class CommandGraph:
 
             # Can't have an end FC block without active command predicates
             if gptr == 0xFE and nfc == 0:
+                if strict:
+                    exit("GENERATION: EXCEPTION bad FC block end")
                 aborts["bad FC block end"] += 1
                 naborts -= 1
                 continue
@@ -322,11 +342,15 @@ class CommandGraph:
             if gptr in {0xFE, 0xFF}:
                 # Close the block as long as we don't have an empty FC block
                 if nfc > 0 and script[-4] == 0xFC:
+                    if strict:
+                        exit(f"GENERATION: ABORT empty FC {hex(gptr)} {nfc}")
                     aborts["empty FC"] += 1
                     naborts -= 1
                     continue
                 # Don't leave a dangling target command
                 if len(script) >= 2 and script[-2] == 0xF1:
+                    if strict:
+                        exit("GENERATION: ABORT dangling target")
                     gptr = 0xF1
                     aborts["dangling target"] += 1
                     naborts -= 1
