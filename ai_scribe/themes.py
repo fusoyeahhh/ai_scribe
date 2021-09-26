@@ -1,4 +1,5 @@
 import networkx
+import random
 from . import _NAME_ALIASES
 
 #
@@ -239,10 +240,19 @@ skills = skills.sort_values(by=list(sort_by))
 ELEM_THEMES = {}
 for elem in {"ice", "fire", "lightning", "water", "wind", "earth", "pearl", "poison"}:
     _elem = skills.loc[skills["Elements"].str.contains(elem.capitalize())]["Spell Name"]
+
+    g = networkx.DiGraph()
+    for i, skill in skills.loc[_elem.index].iterrows():
+        p1 = skill["Power"]
+        for i2, skill2 in skills.loc[_elem.index].iterrows():
+            p2 = skill2["Power"]
+            if p2 < p1:
+                continue
+            if random.randint(0, p2) < p1:
+                g.add_edge(i, i2)
+
     g = networkx.generators.fast_gnp_random_graph(len(_elem), 3 / len(elem), directed=True)
     ELEM_THEMES[elem] = networkx.relabel_nodes(g, dict(enumerate(_elem.index)))
-
-    #for skill in _elem:
 
 #
 # Statuses
@@ -252,6 +262,17 @@ for status in {'Poison', 'Petrify', 'Death', 'Slow', 'Mute', 'Safe',
                'Sleep', 'Confuse', 'Haste', 'Stop', 'Berserk', 'Float', 'Imp',
                'Rflect', 'Shell', 'Vanish', 'Quick'}:
     _status = skills.loc[skills["Statuses"].str.contains(status.capitalize())]["Spell Name"]
+
+    g = networkx.DiGraph()
+    for i, skill in skills.loc[_status.index].iterrows():
+        p1 = skill["Power"]
+        for i2, skill2 in skills.loc[_status.index].iterrows():
+            p2 = skill2["Power"]
+            if p2 < p1:
+                continue
+            if random.randint(0, p2) < p1:
+                g.add_edge(i, i2)
+
     g = networkx.generators.fast_gnp_random_graph(len(_status), 3 / len(status), directed=True)
     STATUS_THEMES[status.lower()] = networkx.relabel_nodes(g, dict(enumerate(_status.index)))
 
