@@ -441,7 +441,9 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
         cmd_graph.cmd_arg_graphs[0xF0].remove_nodes_from([0xFE])
     # remove "Escape" for now
     for cmd in {0xF0, "_"}:
-        cmd_graph.cmd_arg_graphs[cmd].remove_nodes_from(drop_skills)
+        # Leave the command in, as it roots the argument graph
+        # it will get filtered in expand
+        cmd_graph.cmd_arg_graphs[cmd].remove_nodes_from(drop_skills - {cmd})
 
 def augment_cmd_graph(cmd_graph, status=False, elemental=False):
     # Add in a random status/element theme
