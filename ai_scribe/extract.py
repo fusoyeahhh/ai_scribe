@@ -87,7 +87,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
 
             # Try to validate
             try:
-                scripting.Script.validate(_script)
+                scripting.Script.validate(_script, allow_empty_fc=True)
             except Exception as e:
                 log.debug(e)
                 continue

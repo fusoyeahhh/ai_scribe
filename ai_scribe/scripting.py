@@ -116,7 +116,7 @@ class Script:
         pass
 
     @classmethod
-    def validate(cls, script):
+    def validate(cls, script, allow_empty_fc=False):
         if not script[-1] == 0xFF:
             assert script.endswith(b'\xFF'), translate(script, memblk=True, allow_partial=True)
             return False
@@ -133,6 +133,13 @@ class Script:
         # This checks that the script isn't "empty"
         #if ffi2 <= 1:
             #return False
+
+        # Check for empty FC blocks
+        for i in range(len(script) - 5):
+            if not allow_empty_fc and script[i] == 0xFC and script[i + 4] in {0xFE, 0XFF}:
+                raise ValueError(f"Script hase empty FC block\n" +
+                                 translate(script, memblk=True, allow_partial=True))
+                return False
 
         # Translating can reveal parsing errors
         try:
