@@ -110,7 +110,7 @@ if __name__ == "__main__":
         # the 'drop_events' configuration above is still respected
         "talkative": True,
         # do we give weak enemies 20 MP minimum to use on skills?
-        "give_min_mp": False,
+        "give_min_mp": True,
 
         # number of retries for script generation failure
         "num_retries": 100,
