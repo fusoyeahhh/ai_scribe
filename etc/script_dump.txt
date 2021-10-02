@@ -608,7 +608,7 @@
 [0xf9+3] VAR MANIP
 	0x0 0x9 0x1
 [0xf7+1] SPECIAL EVENT
-	0x6
+	Terra, Locke, and Edgar: M-M-M-MAGIC!?
 [0xff] END BLOCK
 
 
@@ -5022,7 +5022,7 @@
 [0xf9+3] VAR MANIP
 	0x0 0x3 0x0
 [0xf7+1] SPECIAL EVENT
-	0x5
+	Biggs, Wedge, and Terra: Whelk introduction
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	ETIMER > 0xa 0x0
@@ -5138,7 +5138,7 @@
 [0xfc+3] CMD PRED
 	IF SPELL USED 0x5d 0x5d
 [0xf7+1] SPECIAL EVENT
-	0x9
+	Vargas dies from Pummel
 [0xf5+3] ALTER FORMATION
 	0xb 0x1 0xff
 [0xfe] END FC BLOCK
@@ -5153,7 +5153,7 @@
 [0xf3+2] DISPLAY MESSAGE
 	0x42 0x0
 [0xf7+1] SPECIAL EVENT
-	0x7
+	Sabin enters the Vargas battle
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
@@ -5164,7 +5164,7 @@
 [0xfc+3] CMD PRED
 	IF HP < 0x36 0x51
 [0xf7+1] SPECIAL EVENT
-	0x8
+	Vargas hits Sabin with Doom Fist
 [0xf9+3] VAR MANIP
 	0x1 0x0 0x1
 [0xfe] END FC BLOCK
@@ -5176,7 +5176,7 @@
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x0 0x0
 [0xf7+1] SPECIAL EVENT
-	0x10
+	Locke and Celes: TunnelArmr introduction
 [0xf9+3] VAR MANIP
 	0x0 0x0 0x0
 [0xfe] END FC BLOCK
@@ -6139,7 +6139,7 @@
 287: Tritoch
 
 [0xf7+1] SPECIAL EVENT
-	0x4
+	Biggs, Wedge, and Terra: Tritoch scene
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -6149,7 +6149,7 @@
 288: Tritoch2
 
 [0xf7+1] SPECIAL EVENT
-	0x12
+	Esper Terra: Tritoch scene
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -7075,7 +7075,7 @@
 [0xf9+3] VAR MANIP
 	0x1 0x0 0x1
 [0xf7+1] SPECIAL EVENT
-	0x1f
+	Wrexsoul: Possession cutscene
 [] Zinger
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
@@ -7535,7 +7535,7 @@
 [0xfc+3] CMD PRED
 	IF NOT VAR BIT 0x24 0x0
 [0xf7+1] SPECIAL EVENT
-	0x20
+	Final Kefka: ???
 [0xf9+3] VAR MANIP
 	0x1 0x24 0x0
 [0xfe] END FC BLOCK
@@ -7711,7 +7711,7 @@
 [0xf3+2] DISPLAY MESSAGE
 	0x9 0x0
 [0xf7+1] SPECIAL EVENT
-	0xa
+	post-Ultros Lete River party separation
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF ELEM ATK 0x1 0x0
@@ -7986,7 +7986,7 @@
 [0xfc+3] CMD PRED
 	IF HP < 0x36 0x50
 [0xf7+1] SPECIAL EVENT
-	0x16
+	Relm enters the Ultros battle
 [0xf9+3] VAR MANIP
 	0x1 0x0 0x4
 [0xfc+3] CMD PRED
@@ -8328,7 +8328,7 @@
 [0xf5+3] ALTER FORMATION
 	0x0 0x0 0x2
 [0xf7+1] SPECIAL EVENT
-	0xf
+	Locke steals the merchant's clothes
 [0xf5+3] ALTER FORMATION
 	0x0 0x1 0x1
 [0xff] END BLOCK
@@ -10154,7 +10154,7 @@
 
 [] Fire Beam
 [0xf7+1] SPECIAL EVENT
-	0x11
+	Terra and Kefka: flashback scene
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -10168,7 +10168,7 @@
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf7+1] SPECIAL EVENT
-	0x1d
+	Kefka at Imperial Camp(?)
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -10230,14 +10230,14 @@
 [0xf9+3] VAR MANIP
 	0x1 0xd 0x1
 [0xf7+1] SPECIAL EVENT
-	0xd
+	Gau joins the party on the Veldt
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IF DAMAGED 0x0 0x0
 [0xf7+1] SPECIAL EVENT
-	0x1c
+	YOU SCARE MONSTERS. GO AWAY.
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -10259,7 +10259,7 @@
 [0xf5+3] ALTER FORMATION
 	0xb 0x3 0x2
 [0xf7+1] SPECIAL EVENT
-	0x17
+	Kefka kills Leo
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -10317,7 +10317,7 @@
 [0xf5+3] ALTER FORMATION
 	0x0 0x0 0x8
 [0xf7+1] SPECIAL EVENT
-	0xe
+	Locke steals the officer's clothes
 [0xf5+3] ALTER FORMATION
 	0x0 0x1 0x4
 [0xff] END BLOCK
@@ -10362,7 +10362,7 @@
 [] ºFire 2
 [] ºFire 3
 [0xf7+1] SPECIAL EVENT
-	0x1a
+	Kefka transforms fake Ifrit into magicite
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xff] END BLOCK
@@ -10376,42 +10376,42 @@
 [0xfc+3] CMD PRED
 	IS FORM # = 0x80 0x1
 [0xf7+1] SPECIAL EVENT
-	0x13
+	Battle on the Small Bridge (pt 1: vs. Kefka)
 [0xf5+3] ALTER FORMATION
 	0x0 0x1 0x1
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IS FORM # = 0x81 0x1
 [0xf7+1] SPECIAL EVENT
-	0x14
+	Battle on the Small Bridge (pt 2: Espers rampage)
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IS FORM # = 0x82 0x1
 [0xf7+1] SPECIAL EVENT
-	0x15
+	Battle on the Small Bridge (pt 3: Espers attack airship)
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IS FORM # = 0x85 0x1
 [0xf7+1] SPECIAL EVENT
-	0x18
+	Battle of Thamasa: Espers emerge to defend
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IS FORM # = 0x86 0x1
 [0xf7+1] SPECIAL EVENT
-	0x19
+	Kefka w/ soldiers at Sealed Gate: Dummied Scene
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
 [0xfc+3] CMD PRED
 	IS FORM # = 0x89 0x1
 [0xf7+1] SPECIAL EVENT
-	0x1e
+	Kefka vs Gestahl
 [0xfb+2] MISC.
 	END BATTLE 0x0
 [0xfe] END FC BLOCK
