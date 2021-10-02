@@ -119,17 +119,22 @@ if __name__ == "__main__":
         #"random_seed": 0,
 
         # write out the base script file if not None
-        "write_base_scripts": "script_dump.txt",
-        #"write_base_scripts": None,
+        #"write_base_scripts": "etc/script_dump.txt",
+        "write_base_scripts": None,
+        "script_dump_only": False,
     }
 
     random.seed(conf.get("random_seed", 0))
     numpy.random.seed(conf.get("random_seed", 0))
 
     if conf["write_base_scripts"] is not None:
+        log.info(f"Writing base script translation to {conf['write_base_scripts']}")
         with open(conf["write_base_scripts"], "w") as fout:
             for i, (name, script) in enumerate(scripts.items()):
                 print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
+    if conf["script_dump_only"]:
+        log.info("Script dump finished, exiting.")
+        exit()
 
     # batching
     bdir = f"test_{conf['batch_id']:d}"
