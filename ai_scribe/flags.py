@@ -665,11 +665,12 @@ FC_MODIFIERS = {
 }
 
 SPECIAL_EVENTS = {
-    # 0x0->0x3 are some combination of:
-    # 0x0 may be a 'null' byte (e.g. no event queued)
-    # pre-battle character animations
-    # post-battle character victory animations
-    # ...and...?
+    # 0x0->0x3 are not used directly by enemy scripts
+    0x0: "Prebattle character animations (?)",
+    0x1: "Victory animations (?)",
+    0x2: "[UNUSED]",
+    0x3: "[UNUSED]",
+
     0x4: "Biggs, Wedge, and Terra: Tritoch scene",
     0x5: "Biggs, Wedge, and Terra: Whelk introduction",
     0x6: "Terra, Locke, and Edgar: M-M-M-MAGIC!?",
