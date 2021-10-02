@@ -664,6 +664,46 @@ FC_MODIFIERS = {
     0x1C: "ALWAYS"
 }
 
+SPECIAL_EVENTS = {
+    # 0x0->0x3 are some combination of:
+    # 0x0 may be a 'null' byte (e.g. no event queued)
+    # pre-battle character animations
+    # post-battle character victory animations
+    # ...and...?
+    0x4: "Biggs, Wedge, and Terra: Tritoch scene",
+    0x5: "Biggs, Wedge, and Terra: Whelk introduction",
+    0x6: "Terra, Locke, and Edgar: M-M-M-MAGIC!?",
+    0x7: "Sabin enters the Vargas battle",
+    0x8: "Vargas hits Sabin with Doom Fist",
+    0x9: "Vargas dies from Pummel",
+    0xA: "post-Ultros Lete River party separation",
+
+    # Next two not used by enemy scripts
+    0xB: "Shadow leaves the party",
+    0xC: "[UNUSED]",
+
+    0xD: "Gau joins the party on the Veldt",
+    0xE: "Locke steals the officer's clothes",
+    0xF: "Locke steals the merchant's clothes",
+    0x10: "Locke and Celes: TunnelArmr introduction",
+    0x11: "Terra and Kefka: flashback scene",
+    0x12: "Esper Terra: Tritoch scene",
+    0x13: "Battle on the Small Bridge (pt 1: vs. Kefka)",
+    0x14: "Battle on the Small Bridge (pt 2: Espers rampage)",
+    0x15: "Battle on the Small Bridge (pt 3: Espers attack airship)",
+    0x16: "Relm enters the Ultros battle",
+    0x17: "Kefka kills Leo",
+    0x18: "Battle of Thamasa: Espers emerge to defend",
+    0x19: "Kefka w/ soldiers at Sealed Gate: Dummied Scene",
+    0x1A: "Kefka transforms fake Ifrit into magicite",
+    0x1B: "[UNUSED]",
+    0x1C: "YOU SCARE MONSTERS. GO AWAY.",
+    0x1D: "Kefka at Imperial Camp(?)",
+    0x1E: "Kefka vs Gestahl",
+    0x1F: "Wrexsoul: Possession cutscene",
+    0x20: "Final Kefka: ???",
+}
+
 MISC = {
     # 0	Sets the target(s) battle timer to 0
     0x0: "TARG BAT TIME RESET",

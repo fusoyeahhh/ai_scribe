@@ -38,6 +38,17 @@ def _check_and_fix_script_exceptions(name, script):
 
     return script
 
+def identify_special_event_scripts(scripts):
+    events = {}
+    for name, script in scripts.items():
+        # In vanilla (and probably BC) 0xF5 can't appear in an
+        # enemy script unless it refers to an argument or variable of
+        # some kind (e.g. *not* the desperation attack byte)
+        if 0xF7 in script._bytes:
+            events[name] = script
+
+    return events
+
 def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
     # scripts = dict(zip(script_ptrs, names[:-1]))
 
