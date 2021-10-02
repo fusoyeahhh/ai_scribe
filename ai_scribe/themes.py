@@ -186,8 +186,8 @@ BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
           "TunnelArmr", "GhostTrain", "Piranha", "Rizopas",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number 024", "Number 128", "Left Blade", "Right Blade",
-          "Crane", "Crane2", "Ultros3", "Flame Eater" "Air Force",
-          "Laser Gun", "Missile Bay", "Speck", "Ultros4", "Chupon",
+          "Crane", "Crane2", "Ultros3", "Flame Eater", "Air Force",
+          "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon",
           "AtmaWeapon", "Nerapa"}
 BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
            # FIXME: sort out this
@@ -207,7 +207,7 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Doom Drgn", "Storm Drgn", "White Drgn"}
 BOSSES |= DRAGON
-EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)" "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
+EVENT_BATTLES = {"Merchant", "Guardian", "Solider (Terra Flashback)", "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
 # Merchant, Guardian are included to preserve special event activation
 # FIXME: temporary
 # FIXME: find which "solider" is Terra's flashback sequence
