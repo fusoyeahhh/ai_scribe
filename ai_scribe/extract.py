@@ -62,19 +62,28 @@ EVENT_TO_CANONICAL_NAME_MAP = {
     0x1C: "Gau",
     0x1D: "2",
     0x1E: "10",
+    0x1F: "Wrexsoul",
     0x20: "Kefka2",
 }
 def identify_special_event_scripts(scripts):
-    events = {}
+    rename = {}
     for name, script in scripts.items():
-        # In vanilla (and probably BC) 0xF5 can't appear in an
+        # In vanilla (and probably BC) 0xF7 can't appear in an
         # enemy script unless it refers to an argument or variable of
         # some kind (e.g. *not* the desperation attack byte)
         if 0xF7 in script._bytes:
             idx = script._bytes.index(0xF7)
-            events[name] = script[idx + 1]
+            rename[name] = script._bytes[idx + 1]
 
-    return events
+    return rename
+
+def identify_zone_eater(scripts, rename=False):
+    for name, script in scripts.items():
+        if 0xD5 in script._bytes:
+            if rename:
+                scripts["Zone Eater"] = scripts.pop(name)
+            return name
+    return None
 
 def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
     # scripts = dict(zip(script_ptrs, names[:-1]))
@@ -221,14 +230,29 @@ def extract(romfile=None, return_names=False):
     log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
 
     # Alias blank names to something more useful
-    # FIXME: can't alias names if they've been changed
-    # Moreover, since the renaming is order dependent ('kefka2' -> ...)
-    # we can't even alias bosses consistently
     if not is_bc:
         names = [_NAME_ALIASES.get(n, n) for n in names]
 
     names = dict(zip(names, script_ptrs))
     scripts = extract_scripts(romfile, script_ptrs, names)
+
+    # can't alias names if they've been changed
+    # Moreover, since the renaming is order dependent ('kefka2' -> ...)
+    # we can't even aliases bosses consistently
+    # This block attempts to fix this by searching for special events or skills
+    # and renaming them back to the vanilla equivalents
+    if is_bc:
+        # identify a few key enemies and name them back to their vanilla equivalents
+        _name = identify_zone_eater(scripts, rename=True)
+        log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
+
+        # Find all special event scripts and ensure they are also vanilla
+        # This eases the location of potentially relocated / unnamed scripts
+        # and their protection against being randomized
+        for name, value in identify_special_event_scripts(scripts).items():
+            _name = EVENT_TO_CANONICAL_NAME_MAP[value]
+            log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
+            scripts[_name] = scripts.pop(name)
 
     if return_names:
         return scripts, names
