@@ -144,6 +144,24 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
 
     return scripts
 
+def extract_battle_msgs(romfile):
+    battle_msg_ptrs  = romfile[0xFDFE0:0xFE1E0]
+    battle_msg_ptrs = [int.from_bytes(bytes([low, high]), "little") + 0xF0000
+                        for low, high in zip(battle_msg_ptrs[::2], battle_msg_ptrs[1::2])]
+
+    # bookend the ptrs on the end
+    battle_msg_ptrs.append(0xFF44F)
+    battle_msg_ptrs = sorted([t[::-1] for t in enumerate(battle_msg_ptrs)], key=lambda t: t[0])
+    battle_msgs = {}
+    for ptr1, ptr2 in zip(battle_msg_ptrs[:-1], battle_msg_ptrs[1:]):
+            ptr1, i = ptr1
+            ptr2 = ptr2[0]
+            battle_msgs[i] = romfile[ptr1:ptr2]
+
+            # TODO: translate
+
+    return battle_msgs
+
 def extract(romfile=None, return_names=False):
     #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
     #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
