@@ -38,6 +38,32 @@ def _check_and_fix_script_exceptions(name, script):
 
     return script
 
+EVENT_TO_CANONICAL_NAME_MAP = {
+    0x4: "Tritoch",
+    0x5: "Whelk",
+    0x6: "M-TekArmor",
+    0x7: "Vargas",
+    0x8: "Vargas",
+    0x9: "Vargas",
+    0xA: "Ultros",
+    0xD: "Gau",
+    0xE: "Officer",
+    0xF: "Merchant",
+    0x10: "TunnelArmr",
+    0x11: "",
+    0x12: "Tritoch2",
+    0x13: "10",
+    0x14: "10",
+    0x15: "10",
+    0x16: "Ultros3",
+    0x17: "5",
+    0x18: "10",
+    0x1A: "9",
+    0x1C: "Gau",
+    0x1D: "2",
+    0x1E: "10",
+    0x20: "Kefka2",
+}
 def identify_special_event_scripts(scripts):
     events = {}
     for name, script in scripts.items():
@@ -45,7 +71,8 @@ def identify_special_event_scripts(scripts):
         # enemy script unless it refers to an argument or variable of
         # some kind (e.g. *not* the desperation attack byte)
         if 0xF7 in script._bytes:
-            events[name] = script
+            idx = script._bytes.index(0xF7)
+            events[name] = script[idx + 1]
 
     return events
 

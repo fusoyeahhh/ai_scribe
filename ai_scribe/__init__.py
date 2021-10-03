@@ -13,7 +13,7 @@ _NAME_ALIASES = {
     "11": "Dummy???",
     "12": "Dummy????",
     "13": "Dummy?????",
-    "Kefka": "Kefka at Imperial Camp",
+    "Kefka": "Final Kefka (scene mgr.)??",
     "Kefka2": "Final Kefka",
     "Kefka3": "Kefka at Narshe",
     "Guardian": "Guardian at Vector",
