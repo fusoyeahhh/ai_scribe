@@ -207,6 +207,8 @@ BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Doom Drgn", "Storm Drgn", "White Drgn"}
 BOSSES |= DRAGON
+
+# Merchant, Guardian are included to preserve special event activation
 EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
                  # Terra and Soliders in flashback battle
                  #"", "Soldier2",
@@ -215,9 +217,8 @@ EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
                  # On the bridge / FC controller and Kefka script
                  "10", "6",
                  "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
-# Merchant, Guardian are included to preserve special event activation
+
 # FIXME: temporary
-# FIXME: find which "solider" is Terra's flashback sequence
 BOSSES |= EVENT_BATTLES
 
 # TODO: By type
