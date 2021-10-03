@@ -306,7 +306,7 @@ if __name__ == "__main__":
         for k in names:
             s = export.get(k, b"\xFF\xFF")
             if k not in export:
-                log.warning(k, "not found in script bank, appending empty script.")
+                log.warning(f"{k} not found in script bank, appending empty script.")
             scr.append(s)
             ptrs.append(ptrs[-1] + len(scr[-1]))
             if ptrs[-1] >= 0xFC050 - 0xF8700:
