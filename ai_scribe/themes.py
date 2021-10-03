@@ -185,16 +185,16 @@ AREA_SETS = [
 BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
           "TunnelArmr", "GhostTrain", "Piranha", "Rizopas",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
-          "Number 024", "Number 128", "Left Blade", "Right Blade",
-          "Crane", "Crane2", "Ultros3", "Flame Eater", "Air Force",
+          "Number 024", "Number 128", "Left Blade", "RightBlade",
+          "Crane", "Crane2", "Ultros3", "FlameEater", "Air Force",
           "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon",
           "AtmaWeapon", "Nerapa"}
-BOSSES |= {"Tentacle", "Tentacle1", "Tentacle2", "Tentacle3",
+BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            # FIXME: sort out this
            "Presenter", "Whelk Head", "Dullahan", "SrBehemoth",
-           "SrBehemoth2", "Hidon", "Hidonite", "Hidonite1", "Hidonite2",
-           "Hidonite3", "Katana Soul", "Master Pug", "Pug", "Pugs", "Umaro2",
-           "Soul Saver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
+           "SrBehemoth2", "Hidon", "Hidonite", "Hidonite2", "Hidonite3",
+           "Hidonite4", "KatanaSoul", "Master Pug", "Pug", "Pugs", "Umaro2",
+           "SoulSaver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
            "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
            "Doom Gaze",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
@@ -249,6 +249,7 @@ ELEM_THEMES = {}
 for elem in {"ice", "fire", "lightning", "water", "wind", "earth", "pearl", "poison"}:
     _elem = skills.loc[skills["Elements"].str.contains(elem.capitalize())]["Spell Name"]
 
+    # FIXME: make this work
     g = networkx.DiGraph()
     for i, skill in skills.loc[_elem.index].iterrows():
         p1 = skill["Power"]
