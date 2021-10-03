@@ -8,6 +8,7 @@ import networkx.algorithms
 import logging
 logging.basicConfig()
 
+from . import _NAME_ALIASES
 from . import command_graph
 from . import tableau_scripts, give_base_mp
 from . import scripting
@@ -342,6 +343,7 @@ if __name__ == "__main__":
         log.info(f"Generated ROM at {bdir}/test.{conf['batch_id']}.{i}.smc")
 
         with open(f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt", "w") as fout:
+            n = _NAME_ALIASES.get(n, n)
             for n, s in scripts.items():
                 #print(n + "\n\n" + s.translate() + "\n", file=fout)
                 print(f"--- {n} ---", file=fout)

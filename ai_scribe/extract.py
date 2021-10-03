@@ -4,7 +4,6 @@ log.setLevel(logging.INFO)
 
 from .syntax import SYNTAX
 
-from . import _NAME_ALIASES
 from . import scripting
 from .scripting import translate, _CHARS
 
@@ -228,10 +227,6 @@ def extract(romfile=None, return_names=False):
     # Detect if BC has changed the scripts or their structure in some way
     is_bc = detect_bc(script_ptrs)
     log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
-
-    # Alias blank names to something more useful
-    if not is_bc:
-        names = [_NAME_ALIASES.get(n, n) for n in names]
 
     names = dict(zip(names, script_ptrs))
     scripts = extract_scripts(romfile, script_ptrs, names)
