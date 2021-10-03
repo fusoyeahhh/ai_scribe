@@ -241,10 +241,13 @@ def extract(romfile=None, return_names=False):
     # we can't even aliases bosses consistently
     # This block attempts to fix this by searching for special events or skills
     # and renaming them back to the vanilla equivalents
+    # FIXME: this will cause some crucial event scripts to be clipped if we go over
+    # TODO: ensure all event scripts are written to beginning of block
     if is_bc:
         # identify a few key enemies and name them back to their vanilla equivalents
         _name = identify_zone_eater(scripts, rename=True)
         log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
+        names["Zone Eater"] = names.pop(_name)
 
         # Find all special event scripts and ensure they are also vanilla
         # This eases the location of potentially relocated / unnamed scripts
@@ -252,6 +255,7 @@ def extract(romfile=None, return_names=False):
         for name, value in identify_special_event_scripts(scripts).items():
             _name = EVENT_TO_CANONICAL_NAME_MAP[value]
             log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
+            names[_name] = names.pop(name)
             scripts[_name] = scripts.pop(name)
 
     if return_names:
