@@ -224,6 +224,7 @@ BOSSES |= EVENT_BATTLES
 # TODO: By type
 HUMAN = []
 MTEK = []
+LEVEL_BASED = []
 
 import pandas
 import os
