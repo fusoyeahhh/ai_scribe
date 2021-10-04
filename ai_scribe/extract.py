@@ -243,6 +243,11 @@ def extract(romfile=None, return_names=False):
         _name = identify_zone_eater(scripts, rename=True)
         log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
         names["Zone Eater"] = names.pop(_name)
+        scripts[_name] = scripts.pop(name)
+        # Rename L255. back
+        log.debug(f"Identified MagiMaster as L255.Magic, renaming back to avoid confusion.")
+        names["MagiMaster"] = names.pop("L.255Magic")
+        scripts["MagiMaster"] = scripts.pop("L.255Magic")
 
         # Find all special event scripts and ensure they are also vanilla
         # This eases the location of potentially relocated / unnamed scripts
@@ -252,6 +257,16 @@ def extract(romfile=None, return_names=False):
             log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
             names[_name] = names.pop(name)
             scripts[_name] = scripts.pop(name)
+
+        # Detect Espers
+        from .flags import ESPERS
+        espers = (set(names) & set(ESPERS.values())) - {"Tritoch"}
+        assert len(espers) == 2
+        rename = dict(zip(("Ifrit", "Shiva"), espers))
+        for n, e in rename.items():
+            scripts[n] = scripts.pop(e)
+            names[n] = names.pop(e)
+            log.debug(f"Identified {n} as {e}, renaming back to avoid confusion.")
 
     if return_names:
         return scripts, names

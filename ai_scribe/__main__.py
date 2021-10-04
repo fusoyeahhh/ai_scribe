@@ -298,27 +298,61 @@ if __name__ == "__main__":
                 log.debug("\n" + tableau_scripts(scripts[name].translate(),
                                                  mod_scripts[name].translate()))
 
+        # FIXME: move to pack module
         # Realign pointers
         export = scripts.copy()
         export.update(mod_scripts)
         script_length_after = sum(map(len, export.values()))
         logging.debug(hex(0xFC050 - 0xF8700), hex(script_length_after))
-        scr, ptrs = [], [0]
-        for k in names:
+
+        # Split the enemies into scripts that need to be written
+        # first, so as to not soft-lock the game at some point
+        # because of truncation
+        write_first = set(identify_special_event_scripts(scripts))
+        write_first |= BOSSES | conf["do_not_randomize"]
+        #if is_bc
+        write_first &= set(names)
+
+        # FIXME: this doesn't really work
+        scr, ptrs = [None] * len(names), [None] * len(names)
+        last = 0
+        for n, k in enumerate(names):
+            if k not in write_first:
+                continue
             s = export.get(k, b"\xFF\xFF")
             if k not in export:
                 log.warning(f"{k} not found in script bank, appending empty script.")
-            scr.append(s)
-            ptrs.append(ptrs[-1] + len(scr[-1]))
-            if ptrs[-1] >= 0xFC050 - 0xF8700:
+            scr[n], ptrs[n] = s, last
+            last += len(s)
+
+        # FIXME: do Dummies last
+        # Make the first script a do nothing and point to zero
+        # instead on any irregularity
+
+        # Second pass
+        for n, k in enumerate(names):
+            if k in write_first:
+                continue
+            s = export.get(k, b"\xFF\xFF")
+            if k not in export:
+                log.warning(f"{k} not found in script bank, appending empty script.")
+            scr[n], ptrs[n] = s, last
+            last += len(s)
+            if ptrs[n] >= 0xFC050 - 0xF8700:
                 log.warning(f"Pointer outside script block, overriding to last {k}")
-                ptrs[-1] = ptrs[-2]
+                ptrs[n] = ptrs[-1]
+
+        from ai_scribe import pack
+        #import pdb; pdb.set_trace()
+        scr, ptrs = pack.pack_scripts(export, names, write_first)
+        assert None not in set(ptrs)
 
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
         log.debug((hex(len(low)), len(ptrs), len(scr), len(names)))
         # Last one is superfluous
-        for ptr in ptrs[:-1]:
+        #for ptr in ptrs[:-1]:
+        for ptr in ptrs:
             low += int.to_bytes(ptr, 2, byteorder="little")
         log.debug((hex(len(low)), "== 0xF8700"))
 
@@ -343,10 +377,10 @@ if __name__ == "__main__":
         log.info(f"Generated ROM at {bdir}/test.{conf['batch_id']}.{i}.smc")
 
         with open(f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt", "w") as fout:
-            n = _NAME_ALIASES.get(n, n)
             for n, s in scripts.items():
+                _n = _NAME_ALIASES.get(n, n)
                 #print(n + "\n\n" + s.translate() + "\n", file=fout)
-                print(f"--- {n} ---", file=fout)
+                print(f"--- {_n} ---", file=fout)
                 print(f"Original | Randomized", file=fout)
                 #print(f"Created from {sset}", file=fout)
                 if n in mod_scripts:
