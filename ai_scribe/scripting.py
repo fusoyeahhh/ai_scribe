@@ -68,6 +68,8 @@ def translate(script, memblk=False, allow_partial=False):
                 v = f"{'use' if script[0] == 0 else 'throw'} {flags.ITEM_LIST[script[1]]} {flags.ITEM_LIST[script[2]]}"
             elif v == 0xF4:
                 v = " | ".join([flags.CMD_LIST.get(s, "{ILLEGAL}") for s in script[:nbytes]])
+            elif v == 0xF7:
+                v = flags.SPECIAL_EVENTS.get(script[0], f"{{UNKNOWN, {hex(script[0])}}}")
             elif v == 0xFA:
                 try:
                     v = f"{flags.ANIMATIONS[script[0]]} {hex(script[1])} {hex(script[2])}"
