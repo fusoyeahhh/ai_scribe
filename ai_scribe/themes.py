@@ -157,6 +157,7 @@ AREA_SETS = [
      # Narshe Cliffs
      # FIXME: need correct numbering
      "Tritoch2",
+     "Ice Dragon",
      # WoR Opera House
      "Dirt Drgn",
      # Mobliz
