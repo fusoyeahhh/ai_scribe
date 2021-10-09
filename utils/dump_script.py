@@ -7,7 +7,7 @@ logging.basicConfig()
 log = logging.getLogger("ai_scribe")
 
 #from ai_scribe import tableau_scripts
-from ai_scribe.extract import extract
+from ai_scribe.extract import extract, extract_names
 
 argp = argparse.ArgumentParser()
 
@@ -17,6 +17,8 @@ argp.add_argument("-o", "--out-path", default='script_dump.txt',
                   help="Path to dump scripts to, default is 'script_dump.txt'.")
 argp.add_argument("-l", "--list-names", action='store_true',
                   help="List the names in the order they appear in the game's index.")
+argp.add_argument("-a", "--alias-duplicates", action='store_true', default=False,
+                  help="Alias duplicate names in list (e.g. blank names), default is false.")
 argp.add_argument("-s", "--print-scripts", action='append',
                   help="Print only these scripts to the console.")
 _ALLOWED_LEVELS = ", ".join(logging._nameToLevel)
@@ -35,17 +37,18 @@ if __name__ == "__main__":
         exit(f"Path {src} does not exist.")
 
     log.info(f"Reading {src}")
-    scripts, names = extract(src, return_names=True)
-    log.info(f"Found {len(scripts)} scripts")
 
     # Print only the names with their lookup order
     if args.list_names:
-        for name in names:
-            outstr = " ".join([f'({str(i).rjust(3)}) {n.ljust(12)}' for i, n in enumerate(names)])
-            while outstr:
-                print(outstr[:19 * 4])
-                outstr = outstr[19 * 4:]
-            exit()
+        names = extract_names(src, alias_duplicates=args.alias_duplicates)
+        outstr = " ".join([f'({str(i).rjust(3)}) {n.ljust(12)}' for i, n in enumerate(names)])
+        while outstr:
+            print(outstr[:19 * 4])
+            outstr = outstr[19 * 4:]
+        exit()
+
+    scripts, names = extract(src, return_names=True)
+    log.info(f"Found {len(scripts)} scripts")
 
     # Print only a selection of scripts
     if args.print_scripts and len(args.print_scripts) > 0:
