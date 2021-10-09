@@ -20,8 +20,8 @@ argp.add_argument("-l", "--list-names", action='store_true',
 argp.add_argument("-s", "--print-scripts", action='append',
                   help="Print only these scripts to the console.")
 _ALLOWED_LEVELS = ", ".join(logging._nameToLevel)
-argp.add_argument("-L", "--log-level", default='INFO',
-                  help=f"Set the log level. Default is INFO. Available choices are {_ALLOWED_LEVELS}.")
+argp.add_argument("-L", "--log-level", default='WARN',
+                  help=f"Set the log level. Default is WARN. Available choices are {_ALLOWED_LEVELS}.")
 
 if __name__ == "__main__":
     args = argp.parse_args()
