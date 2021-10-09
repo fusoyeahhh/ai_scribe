@@ -1,4 +1,5 @@
 import os
+import math
 import argparse
 
 import logging
@@ -7,6 +8,7 @@ logging.basicConfig()
 log = logging.getLogger("ai_scribe")
 
 #from ai_scribe import tableau_scripts
+from ai_scribe import _NAME_ALIASES
 from ai_scribe.extract import extract, extract_names
 
 argp = argparse.ArgumentParser()
@@ -41,10 +43,21 @@ if __name__ == "__main__":
     # Print only the names with their lookup order
     if args.list_names:
         names = extract_names(src, alias_duplicates=args.alias_duplicates)
-        outstr = " ".join([f'({str(i).rjust(3)}) {n.ljust(12)}' for i, n in enumerate(names)])
-        while outstr:
-            print(outstr[:19 * 4])
-            outstr = outstr[19 * 4:]
+        if args.alias_duplicates:
+            names = [_NAME_ALIASES.get(n, n) for n in names]
+
+        base = 34 if args.alias_duplicates else 12
+        n_per_line = 2 if args.alias_duplicates else 4
+
+        outstr, i = [], 0
+        for _ in range(int(math.ceil(len(names) / n_per_line))):
+            _, names = names[:n_per_line], names[n_per_line:]
+            idx = [f"({str(j).rjust(3)})" for j in range(i, i + n_per_line)]
+            i += n_per_line
+            outstr.append(" ".join([f'{j} {n[:base].ljust(base)}' for j, n in zip(idx, _)]))
+
+        outstr = "\n".join(outstr)
+        print(outstr)
         exit()
 
     scripts, names = extract(src, return_names=True)
