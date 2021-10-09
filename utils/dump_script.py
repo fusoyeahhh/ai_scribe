@@ -9,7 +9,7 @@ log = logging.getLogger("ai_scribe")
 
 #from ai_scribe import tableau_scripts
 from ai_scribe import _NAME_ALIASES
-from ai_scribe.extract import extract, extract_names
+from ai_scribe import extract
 
 argp = argparse.ArgumentParser()
 
@@ -39,28 +39,40 @@ if __name__ == "__main__":
         exit(f"Path {src} does not exist.")
 
     log.info(f"Reading {src}")
+    scripts, names = extract.extract(src, return_names=True)
+    log.info(f"Found {len(scripts)} scripts")
 
-    # Print only the names with their lookup order
+    # Print only the names with their lookup order and metadata
     if args.list_names:
-        names = extract_names(src, alias_duplicates=args.alias_duplicates)
-        if args.alias_duplicates:
-            names = [_NAME_ALIASES.get(n, n) for n in names]
+        scripts = [scripts[n] for n in names]
+
+        # Internal aliases
+        _names = extract.extract_names(src, alias_duplicates=args.alias_duplicates)
+        names = extract.extract_names(src, alias_duplicates=False)
+
+        ptrs = extract.extract_script_ptrs(src)
 
         base = 34 if args.alias_duplicates else 12
-        n_per_line = 2 if args.alias_duplicates else 4
+        n_per_line = 2 if args.alias_duplicates else 3
 
         outstr, i = [], 0
         for _ in range(int(math.ceil(len(names) / n_per_line))):
             chunk, names = names[:n_per_line], names[n_per_line:]
-            idx = [f"({str(j).rjust(3)})" for j in range(i, i + n_per_line)]
-            i += n_per_line
-            outstr.append(" ".join([f'{j} {n[:base].ljust(base)}' for j, n in zip(idx, chunk)]))
+            _chunk, _names = _names[:n_per_line], _names[n_per_line:]
 
+            aliases = [f" ({_NAME_ALIASES[n]})" if n in _NAME_ALIASES and args.alias_duplicates else ""
+                            for n in _chunk]
+            idx = [str(j).rjust(3) + ":" \
+                    + (f"{hex(ptrs[j] - 0xF8700)}+{hex(len(scripts[j]))}").ljust(12)
+                    for j in range(i, i + n_per_line)]
+            idx = [f"[{prefix}]" for prefix in idx]
+            i += n_per_line
+            outstr.append(" ".join([f'{j} {(n + a)[:base].ljust(base)}'
+                                        for j, n, a in zip(idx, chunk, aliases)]))
+
+        print("Script pointers are relative to 0xF8700")
         print("\n".join(outstr))
         exit()
-
-    scripts, names = extract(src, return_names=True)
-    log.info(f"Found {len(scripts)} scripts")
 
     # Print only a selection of scripts
     if args.print_scripts and len(args.print_scripts) > 0:
