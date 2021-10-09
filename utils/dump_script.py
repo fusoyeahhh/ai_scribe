@@ -22,7 +22,7 @@ argp.add_argument("-l", "--list-names", action='store_true',
 argp.add_argument("-a", "--alias-duplicates", action='store_true', default=False,
                   help="Alias duplicate names in list (e.g. blank names), default is false.")
 argp.add_argument("-s", "--print-scripts", action='append',
-                  help="Print only these scripts to the console.")
+                  help="Print only these scripts to the console. Will select by order if integer is given.")
 _ALLOWED_LEVELS = ", ".join(logging._nameToLevel)
 argp.add_argument("-L", "--log-level", default='WARN',
                   help=f"Set the log level. Default is WARN. Available choices are {_ALLOWED_LEVELS}.")
@@ -44,10 +44,10 @@ if __name__ == "__main__":
 
     # Print only the names with their lookup order and metadata
     if args.list_names:
+        # FIXME: to script length
         scripts = [scripts[n] for n in names]
 
         # Internal aliases
-        _names = extract.extract_names(src, alias_duplicates=args.alias_duplicates)
         names = extract.extract_names(src, alias_duplicates=False)
 
         ptrs = extract.extract_script_ptrs(src)
@@ -58,13 +58,14 @@ if __name__ == "__main__":
         outstr, i = [], 0
         for _ in range(int(math.ceil(len(names) / n_per_line))):
             chunk, names = names[:n_per_line], names[n_per_line:]
-            _chunk, _names = _names[:n_per_line], _names[n_per_line:]
 
-            aliases = [f" ({_NAME_ALIASES[n]})" if n in _NAME_ALIASES and args.alias_duplicates else ""
-                            for n in _chunk]
-            idx = [str(j).rjust(3) + ":" \
-                    + (f"{hex(ptrs[j] - 0xF8700)}+{hex(len(scripts[j]))}").ljust(12)
-                    for j in range(i, i + n_per_line)]
+            idx = [j for j in range(i, i + n_per_line)]
+            aliases = [f" ({_NAME_ALIASES[j]})" if j in _NAME_ALIASES and args.alias_duplicates else ""
+                             for j, n in zip(idx, chunk)]
+                             # for n in _chunk]
+            idx = [str(j).rjust(3) + ":"
+                   + (f"{hex(ptrs[j] - 0xF8700)}+{hex(len(scripts[j]))}").ljust(12)
+                    for j in idx]
             idx = [f"[{prefix}]" for prefix in idx]
             i += n_per_line
             outstr.append(" ".join([f'{j} {(n + a)[:base].ljust(base)}'
@@ -76,10 +77,18 @@ if __name__ == "__main__":
 
     # Print only a selection of scripts
     if args.print_scripts and len(args.print_scripts) > 0:
+        names = extract.extract_names(src, alias_duplicates=False)
         for name in args.print_scripts:
+            try:
+                name = int(name)
+            except ValueError:
+                # If this triggers, it's because it's not a parseable integer
+                pass
+
             if name not in scripts:
                 log.error(f"{name} not in ROM, skipping")
                 continue
+            print(name)
             print(f"{name}\n\n{scripts[name].translate()}\n")
         exit()
 
