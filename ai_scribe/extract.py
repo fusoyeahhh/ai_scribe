@@ -4,6 +4,7 @@ log.setLevel(logging.INFO)
 
 from .syntax import SYNTAX
 
+from . import _NAME_ALIASES
 from . import scripting
 from .scripting import translate, _CHARS
 
@@ -106,7 +107,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
 
     invalid = {}
     #scripts = {v: k for k, v in scripts.items()}
-    for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
+    for i, (sptr, eptr) in enumerate(zip(script_ptrs[:-1], script_ptrs[1:])):
         name = scripts.pop(sptr)
         scripts[name] = romfile[sptr:eptr]
         try:
@@ -118,7 +119,12 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
         log.debug(name + " " + s.name + "\n" + s.translate())
         assert s.name == name, (s.name, name)
         assert s._bytes == scripts[name]
-        scripts[name] = s
+
+        if i in _NAME_ALIASES:
+            scripts[i] = s
+        else:
+            scripts[name] = s
+        #scripts[name] = s
 
     # Handle scripts in nonstandard locations
     for ptr, name in non_std_ptrs.items():
