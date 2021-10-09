@@ -51,13 +51,12 @@ if __name__ == "__main__":
 
         outstr, i = [], 0
         for _ in range(int(math.ceil(len(names) / n_per_line))):
-            _, names = names[:n_per_line], names[n_per_line:]
+            chunk, names = names[:n_per_line], names[n_per_line:]
             idx = [f"({str(j).rjust(3)})" for j in range(i, i + n_per_line)]
             i += n_per_line
-            outstr.append(" ".join([f'{j} {n[:base].ljust(base)}' for j, n in zip(idx, _)]))
+            outstr.append(" ".join([f'{j} {n[:base].ljust(base)}' for j, n in zip(idx, chunk)]))
 
-        outstr = "\n".join(outstr)
-        print(outstr)
+        print("\n".join(outstr))
         exit()
 
     scripts, names = extract(src, return_names=True)
