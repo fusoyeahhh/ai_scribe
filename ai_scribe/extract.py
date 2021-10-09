@@ -197,7 +197,29 @@ def extract_battle_msgs(romfile):
 
     return battle_msgs
 
-def extract(romfile=None, return_names=False):
+def extract_names(romfile, alias_duplicates=True, offset=0xFC050, name_len=10, total_names=384):
+    if isinstance(romfile, str):
+        with open(romfile, "rb") as fin:
+            romfile = fin.read()
+
+    names = []
+    ptrs = [offset + name_len * idx for idx in range(total_names + 1)]
+    for s, e in zip(ptrs[:-1], ptrs[1:]):
+        _name = name = "".join([_CHARS.get(i, "?") for i in romfile[s:e]])
+
+        i = 1
+        while alias_duplicates:
+            if _name not in names:
+                names.append(_name)
+                break
+            i += 1
+            _name = name + str(i)
+        else:
+            names.append(_name)
+
+    return names
+
+def extract(romfile=None, return_names=False, force_bc=False):
     #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
     #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
 
