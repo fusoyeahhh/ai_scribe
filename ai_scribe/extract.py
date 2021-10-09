@@ -237,25 +237,8 @@ def extract(romfile=None, return_names=False, force_bc=False):
     with open(romfile, "rb") as fin:
         romfile = fin.read()
 
-    #SCRIPTS = romfile[SCRIPT_PTRS:0xF8900]
-    SCRIPTS = romfile[0xF8400:0xF8700]
-    script_ptrs = [int.from_bytes(bytes([low, high]), "little") + 0xF8700
-                                for low, high in zip(SCRIPTS[::2], SCRIPTS[1::2])]
-
-    name_idx = 0
-    names = []
-    #for sptr, eptr in zip(script_ptrs[:-1], script_ptrs[1:]):
-    for _ in range(len(script_ptrs)):
-        _name = romfile[0xFC050 + 10 * name_idx: 0xFC050 + 10 * (name_idx + 1)]
-        name_idx += 1
-        _name = name = "".join([_CHARS.get(i, "?") for i in _name])
-        i = 1
-        while True:
-            if _name not in names:
-                names.append(_name)
-                break
-            i += 1
-            _name = name + str(i)
+    script_ptrs = extract_script_ptrs(romfile)
+    names = extract_names(romfile)
 
     # Detect if BC has changed the scripts or their structure in some way
     is_bc = detect_bc(script_ptrs)
