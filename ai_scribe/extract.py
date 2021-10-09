@@ -219,6 +219,17 @@ def extract_names(romfile, alias_duplicates=True, offset=0xFC050, name_len=10, t
 
     return names
 
+def extract_script_ptrs(romfile, block_offset=0xF8700, offset=0xF8400, total_ptrs=384):
+    if isinstance(romfile, str):
+        with open(romfile, "rb") as fin:
+            romfile = fin.read()
+
+    chunk = romfile[offset:offset + total_ptrs * 2]
+    script_ptrs = [int.from_bytes(bytes([low, high]), "little") + block_offset
+                   for low, high in zip(chunk[::2], chunk[1::2])]
+
+    return script_ptrs
+
 def extract(romfile=None, return_names=False, force_bc=False):
     #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
     #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
