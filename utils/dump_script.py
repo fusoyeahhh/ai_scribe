@@ -111,4 +111,5 @@ if __name__ == "__main__":
     log.info(f"Writing translation to {dst}")
     with open(dst, "w") as fout:
         for i, (name, script) in enumerate(scripts.items()):
-            print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
+            print(f"{i}: {names[i]}\n\n{script.translate()}\n", file=fout)
+    log.info(f"Done")
