@@ -17,7 +17,7 @@ from .extract import ScriptSet
 from .pack import randomize_scripts
 from .flags import ESPERS, DESPERATIONS
 
-from .themes import AREA_SETS, STATUS_THEMES, ELEM_THEMES, BOSSES, EVENT_BATTLES
+from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS
 
 # We have to do this here or else the submodules will override it.
 log = logging.getLogger("ai_scribe")
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # (actually named something else)
         "allow_missing_scripts": True,
         # Do not randomize
-        "do_not_randomize": set(EVENT_BATTLES),
+        "do_not_randomize": set(EVENT_BATTLES) | set(SCRIPT_MANAGERS),
         # Banned skills / commands / events
         "drop_skills": {
             0x7D,  # Bio Blast / Super Ball

@@ -155,7 +155,6 @@ AREA_SETS = [
     # WoR Bosses (indp.)
     {"Doom Gaze",
      # Narshe Cliffs
-     # FIXME: need correct numbering
      "Tritoch2",
      "Ice Dragon",
      # WoR Opera House
@@ -197,7 +196,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            "Hidonite4", "KatanaSoul", "Master Pug", "Pug", "Pugs", "Umaro2",
            "SoulSaver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
            "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
-           "Doom Gaze",
+           "Doom Gaze", "Tritoch3",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
@@ -209,15 +208,23 @@ DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Doom Drgn", "Storm Drgn", "White Drgn"}
 BOSSES |= DRAGON
 
+# Kefka's various managers: Imperial Camp, Thamasa, Bridge, Final
+SCRIPT_MANAGERS = {"2", "5", "6", "10", "Kefka"}
+
 # Merchant, Guardian are included to preserve special event activation
 EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
-                 # Terra and Soliders in flashback battle
-                 #"", "Soldier2",
+                 # Terra and Soldiers in flashback battle
+                 "", "Soldier",
                  # Imperial camp
                  "Kefka",
-                 # On the bridge / FC controller and Kefka script
-                 "10", "6",
-                 "Tritoch", "Tritoch2", "Zone Eater"}#, "Shadow"}
+                 # Special events (Ifrit clone)
+                 "9",
+                 # Tritoch Scenes
+                 "Tritoch", "Tritoch2",
+                 # Don't mess with variable setting to preserve magicite receipt
+                 "Doom Gaze",
+                 # Ensure engulf is available
+                 "Zone Eater"}#, "Shadow"}
 
 # FIXME: temporary
 BOSSES |= EVENT_BATTLES
