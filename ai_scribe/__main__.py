@@ -415,4 +415,3 @@ if __name__ == "__main__":
                     log.warning(f"{hex(scr.ptr)} <-> {hex(export[n].ptr)}")
                     log.warning(tableau_scripts(scr.translate(), export[n].translate()))
                 assert scr._bytes == export[n]._bytes, n
-        exit()
