@@ -333,7 +333,7 @@ if __name__ == "__main__":
         # Split the enemies into scripts that need to be written
         # first, so as to not soft-lock the game at some point
         # because of truncation
-        write_first = set(identify_special_event_scripts(scripts.scripts))
+        write_first = set(identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
         #if is_bc
         #write_first = {scripts._get_index(n) for n in write_first}

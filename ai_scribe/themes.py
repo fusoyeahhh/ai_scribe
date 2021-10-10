@@ -222,6 +222,7 @@ EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
                  # Tritoch Scenes
                  "Tritoch", "Tritoch2",
                  # Don't mess with variable setting to preserve magicite receipt
+                 # FIXME: Do this by variable identification
                  "Doom Gaze",
                  # Ensure engulf is available
                  "Zone Eater"}#, "Shadow"}

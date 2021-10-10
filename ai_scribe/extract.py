@@ -139,16 +139,17 @@ EVENT_TO_CANONICAL_NAME_MAP = {
     0x20: "Kefka2",
 }
 def identify_special_event_scripts(scripts):
-    rename = {}
+    events = {}
     for name, script in scripts.items():
         # In vanilla (and probably BC) 0xF7 can't appear in an
         # enemy script unless it refers to an argument or variable of
         # some kind (e.g. *not* the desperation attack byte)
+        # FIXME: make has_xxx_byte and has_special_event, etc...
         if 0xF7 in script._bytes:
             idx = script._bytes.index(0xF7)
-            rename[name] = script._bytes[idx + 1]
+            events[script._bytes[idx + 1]] = name
 
-    return rename
+    return events
 
 def identify_zone_eater(scripts, rename=False):
     for name, script in scripts.items():
