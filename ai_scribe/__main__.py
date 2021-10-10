@@ -14,6 +14,7 @@ from . import tableau_scripts, give_base_mp
 from . import scripting
 from .extract import *
 from .extract import ScriptSet
+from . import pack
 from .pack import randomize_scripts
 from .flags import ESPERS, DESPERATIONS
 
@@ -322,7 +323,6 @@ if __name__ == "__main__":
                 log.debug("\n" + tableau_scripts(pool[name].translate(),
                                                  mod_scripts[name].translate()))
 
-        # FIXME: move to pack module
         # Realign pointers
         export = scripts.get_ordered_script_array()
         for n, s in mod_scripts.items():
@@ -335,12 +335,10 @@ if __name__ == "__main__":
         # because of truncation
         write_first = set(identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
-        #if is_bc
-        #write_first = {scripts._get_index(n) for n in write_first}
 
-        from ai_scribe import pack
         scr, ptrs = pack.pack_scripts(export, names, write_first)
 
+        # FIXME: move to pack module
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
         log.debug((hex(len(low)), len(ptrs), len(scr), len(names)))
@@ -371,20 +369,21 @@ if __name__ == "__main__":
 
         spoiler = f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt"
         with open(spoiler, "w") as fout:
-            for n, s in zip(names, export):
-                _n = _NAME_ALIASES.get(n, n)
-                print(f"--- {_n} ---", file=fout)
-                if n in _meta:
-                    print(_meta[n], file=fout)
+            for j, s in enumerate(export):
+               n = names[j]
+               _n = _NAME_ALIASES.get(j, n)
+               print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
+               if n in _meta:
+                   print(_meta[n], file=fout)
 
-                print(f"Original | Randomized", file=fout)
-                if n in mod_scripts:
-                    print(tableau_scripts(scripts[n].translate(),
-                                          mod_scripts[n].translate()), file=fout)
-                else:
-                    print(tableau_scripts(scripts[n].translate(),
-                                          "NO SCRIPT RANDOMIZATION"), file=fout)
-                print("", file=fout)
+               print(f"Original | Randomized", file=fout)
+               if n in mod_scripts:
+                   print(tableau_scripts(scripts.scripts[j].translate(),
+                                         mod_scripts[n].translate()), file=fout)
+               else:
+                   print(tableau_scripts(scripts.scripts[j].translate(),
+                                         "NO SCRIPT RANDOMIZATION"), file=fout)
+               print("", file=fout)
         log.info(f"Generated script spoiler at {spoiler}")
 
         #if conf['verify_rom']:
