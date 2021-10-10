@@ -369,7 +369,7 @@ if __name__ == "__main__":
             fout.write(bytes(low))
         log.info(f"Generated ROM at {outfname}")
 
-        spoiler = f"{bdir}/test.{conf['batch_id']}.{i}.txt"
+        spoiler = f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt"
         with open(spoiler, "w") as fout:
             for n, s in zip(names, export):
                 _n = _NAME_ALIASES.get(n, n)
@@ -385,7 +385,7 @@ if __name__ == "__main__":
                     print(tableau_scripts(scripts[n].translate(),
                                           "NO SCRIPT RANDOMIZATION"), file=fout)
                 print("", file=fout)
-        log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
+        log.info(f"Generated script spoiler at {spoiler}")
 
         #if conf['verify_rom']:
         if True:
