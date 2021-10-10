@@ -5,19 +5,26 @@ from .scripting import Script
 def package_rom(romfile, outf="test.smc"):
     pass
 
+# TODO: Have it use a unique message
+DEFAULT_SCRIPT = b'\xf3\x00\00\xff\xff'
 # Make a dict of the name -> script length
 # then write scripts in the order you want
 # construct pointers as the previous step happens
 # replace script length with cumulative offset
-def pack_scripts(export, names, write_first=set(), offset=0):
+def pack_scripts(export, orig_ptrs, write_first=set(), offset=0, use_default_script=True):
     # FIXME: do Dummies last
     # Make the first script a do nothing and point to zero
     # instead on any irregularity
-    # Have it use a unique message
 
     # TODO: assert s.name == n
     _ptrs, last = {}, offset
     ptrs, scr = [], []
+
+    # Start with 'error' script
+    if use_default_script:
+        scr.append(DEFAULT_SCRIPT)
+        last += len(DEFAULT_SCRIPT)
+
     for n in write_first:
         _ptrs[n] = last
         scr.append(export[n]._bytes)
@@ -34,9 +41,9 @@ def pack_scripts(export, names, write_first=set(), offset=0):
             ptrs.append(_ptrs[n])
             continue
 
-        if last + len(export[n]) > 0xFC050 - 0xF8700:
+        if last + len(export[n]) >= 0xFC050 - 0xF8700:
             log.warning(f"{n}: -> {hex(0xF8700 + last)} + {hex(len(export[n]))} [OVERRUN]")
-            ptrs.append(0)
+            ptrs.append(offset)
             # FIXME: overrun analysis
             #scr.append(export[n]._bytes)
             continue
