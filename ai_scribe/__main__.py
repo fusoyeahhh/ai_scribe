@@ -391,10 +391,28 @@ if __name__ == "__main__":
         if True:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
-            new_scripts, new_names = extract(outfname, return_names=True, force_bc=True)
+            new_scripts, new_names = extract(outfname, return_names=True)
             for n, scr in new_scripts.items():
-                #assert scr._bytes == export[n]._bytes, n
-                if scr._bytes != export[n]._bytes:
+                same = scr._bytes == export[n]._bytes
+
+                # Check for same to within padding
+                end = len(export[n]._bytes)
+                close = set(scr._bytes[end:]) == set(b'\xff')
+                close &= scr._bytes[:end] == scr._bytes[:end]
+
+                if scr.ptr == 0xF8700 and not same:
+                    log.debug(f"TRUNCATED: {n}")
+                    log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr)}")
+                    continue
+                elif close:
+                    log.debug(f"BUFFERED: {n}")
+                    log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr)}")
+                    log.debug(tableau_scripts(scr.translate(), export[n].translate()))
+                    continue
+                elif not same:
                     #print(n, scr._bytes, export[n]._bytes)
-                    print(f"DIFFERENCE: {n}")
-                    print(tableau_scripts(scr.translate(), export[n].translate()))
+                    log.warning(f"DIFFERENCE: {n}")
+                    log.warning(f"{hex(scr.ptr)} <-> {hex(export[n].ptr)}")
+                    log.warning(tableau_scripts(scr.translate(), export[n].translate()))
+                assert scr._bytes == export[n]._bytes, n
+        exit()

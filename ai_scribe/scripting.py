@@ -91,22 +91,27 @@ def add_one_time_trigger(script, trigger):
     return fire_once + trigger + script
 
 class Script:
-    def __init__(self, content=b"", name=None):
+    def __init__(self, content=b"", name=None, ptr=None):
+        self.ptr = ptr
         self._bytes = content
         self.name = name
 
-    PTR_NAME_OFFSET = 0xFC050 - 0xF8700
     @classmethod
     def from_rom(cls, ptr, plen, name, romfile):
         s = e = ptr
         e += plen
-        return Script(romfile[s:e], name)
+        return Script(romfile[s:e], name, ptr)
 
     def __len__(self):
         return len(self._bytes)
 
     def __bytes__(self):
         return self._bytes
+
+    def __repr__(self):
+        if self._bytes is None:
+            return "<Script: {self.name}, Empty>"
+        return f"<Script: {self.name}, {hex(self.ptr or 0)}+{len(self._bytes)}>"
 
     def to_graph(self):
         # FIXME: invert the dependency here?

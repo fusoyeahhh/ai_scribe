@@ -88,7 +88,8 @@ def get_subgraph(g, nodes=None):
     return g.subgraph(nodes)
 
 def non_vanilla_ptrs(script_ptrs):
-    return [ptr for ptr in script_ptrs if ptr not in range(0xF8700, 0xFC050)]
+    return [ptr for ptr in script_ptrs
+                    if ptr not in range(0xF8700, 0xFC050)]
 
 def detect_bc(script_ptrs):
     """
@@ -105,7 +106,8 @@ def _check_and_fix_script_exceptions(name, script):
         log.info("Mag Roader4 is known to have a script bug: it has no ending byte. Fix requested and applied")
         scripting.Script.validate(script._bytes)
     else:
-        raise ValueError(f"Got invalid script [{name}] with no known fix.")
+        details = script.translate(allow_partial=True, memblk=True)
+        raise ValueError(f"Got invalid script {str(script)} with no known fix. Script details follow:\n{details}")
 
     return script
 
@@ -156,30 +158,33 @@ def identify_zone_eater(scripts, rename=False):
             return name
     return None
 
-def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
-    # FIXME: index this properly
-    scripts = dict(zip(script_ptrs, names))
-    scripts = dict(sorted(scripts.items(), key=lambda t: t[0]))
+def extract_scripts(romfile, script_ptrs, names):
+    # FIXME: script_ptrs should index like an array to avoid duplicate names
+    scripts = dict(zip(names, script_ptrs))
+    scripts = dict(sorted(scripts.items(), key=lambda t: t[1]))
     _ptrs = scripts.copy()
 
     non_std_ptrs = non_vanilla_ptrs(script_ptrs)
-    non_std_ptrs = {ptr: name for ptr, name in scripts.items()
+    non_std_ptrs = {name: ptr for name, ptr in scripts.items()
                                             if ptr in non_std_ptrs}
 
     # We don't know if these bytes are used or not
     # FIXME: just clip the last script
     if len(non_std_ptrs) > 0:
-        unused_bytes = 0
-        scripts = {ptr: name for ptr, name in scripts.items()
-                                           if ptr not in non_std_ptrs}
+        scripts = {name: ptr for name, ptr in scripts.items()
+                                           if name not in non_std_ptrs}
 
-    # clip unused bytes at the end of the block
-    script_ptrs = [*scripts] + [0xFC050 - unused_bytes]
+    # TODO: make the final pointer None and scan the end of the block to truncate
+    # Define script boundaries
+    script_ptrs = sorted(set(scripts.values()) | {0xFC050})
+    script_ptrs = dict(zip(script_ptrs[:-1], script_ptrs[1:]))
 
     invalid = {}
     #scripts = {v: k for k, v in scripts.items()}
-    for i, (sptr, eptr) in enumerate(zip(script_ptrs[:-1], script_ptrs[1:])):
-        name = scripts.pop(sptr)
+    for i, name in enumerate(names):
+        if name in non_std_ptrs:
+            continue
+        sptr, eptr = scripts[i], script_ptrs[scripts[i]]
         bin_script = romfile[sptr:eptr]
         try:
             scripting.Script.validate(bin_script, allow_empty_fc=True)
@@ -187,7 +192,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
             #raise ValueError(f"Script for {name} is invalid.")
             invalid[name] = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
         s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
-        log.debug(f"{name} {s.name}\n{s.translate()}")
+        #log.debug(f"{name} {s.name}\n{s.translate()}")
         # FIXME: obviated
         assert s.name == name, (s.name, name)
         assert s._bytes == bin_script
@@ -195,7 +200,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
         scripts[name] = s
 
     # Handle scripts in nonstandard locations
-    for ptr, name in non_std_ptrs.items():
+    for name, ptr in non_std_ptrs.items():
         log.info(f"Non standard pointer location {hex(ptr)} -> {name}")
         # heuristic: count number of end blocks
         # This will be confused by the appearance of "Nothing" in skill selection lists
@@ -304,7 +309,7 @@ def extract_script_ptrs(romfile, block_offset=0xF8700, offset=0xF8400, total_ptr
 
     return script_ptrs
 
-def extract(romfile=None, return_names=False, force_bc=False):
+def extract(romfile=None, return_names=False):
     #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
     #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
 
@@ -317,13 +322,10 @@ def extract(romfile=None, return_names=False, force_bc=False):
     _names = [*range(len(names))]
 
     # Detect if BC has changed the scripts or their structure in some way
-    is_bc = force_bc or detect_bc(script_ptrs)
+    is_bc = detect_bc(script_ptrs)
     log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
 
-    if force_bc:
-        scripts = extract_scripts(romfile, script_ptrs, _names, unused_bytes=0)
-    else:
-        scripts = extract_scripts(romfile, script_ptrs, _names)
+    scripts = extract_scripts(romfile, script_ptrs, _names)
 
     # map script to canonical name
     #scripts = {n: scripts[idx] for idx, n in enumerate(_names)}
