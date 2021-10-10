@@ -10,6 +10,7 @@ log = logging.getLogger("ai_scribe")
 #from ai_scribe import tableau_scripts
 from ai_scribe import _NAME_ALIASES
 from ai_scribe import extract
+from ai_scribe import flags
 
 argp = argparse.ArgumentParser()
 
@@ -23,6 +24,8 @@ argp.add_argument("-a", "--alias-duplicates", action='store_true', default=False
                   help="Alias duplicate names in list (e.g. blank names), default is false.")
 argp.add_argument("-s", "--print-scripts", action='append',
                   help="Print only these scripts to the console. Will select by order if integer is given.")
+argp.add_argument("-V", "--verify-scripts", action='store_true',
+                  help="Do some verification checks on the scripts.")
 _ALLOWED_LEVELS = ", ".join(logging._nameToLevel)
 argp.add_argument("-L", "--log-level", default='WARN',
                   help=f"Set the log level. Default is WARN. Available choices are {_ALLOWED_LEVELS}.")
@@ -41,6 +44,17 @@ if __name__ == "__main__":
     log.info(f"Reading {src}")
     scripts, names = extract.extract(src, return_names=True)
     log.info(f"Found {len(scripts)} scripts")
+
+    if args.verify_scripts:
+        log.info(f"Verifying {src}")
+        # Ensure all events are present and in the correct places
+        special_events = extract.identify_special_event_scripts(scripts)
+        for event, sid in special_events.items():
+            print(f"{sid}: {flags.SPECIAL_EVENTS[event]} ({hex(event)})")
+        # NOTE: identify only gets one event per script, so script managers
+        # may not be fully represented here (E.g. Kefka, Vargas, etc...)
+        if len(special_events) < 15:
+            exit("The required number of special event bytes is not present.")
 
     # Print only the names with their lookup order and metadata
     if args.list_names:
