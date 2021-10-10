@@ -11,20 +11,42 @@ from .scripting import translate, _CHARS
 # Allow no more than this number of 0xFF bytes in a potential script
 _MAX_FF_TOLERANCE = 16
 
-# BC specific changes
-# Coloseum Chupon gets a fuller script (no longer Sneezes) [Nothing to change there]
-# Shiva / Ifrit become two random Espers [index 264, 265] -- realias
-# Umaro / Umaro2 become named after in game char [index 271, 272]
-# Tritoch / Tritoch2 becomes a random Esper [index 276, 277, 324] --- realias
-# TODO: check on Final Kefka manager [index 282]
-# Colossus is co-opted to a new entity [index 310]
-# K@N got weird [index 330]
-# Final Kefka got weird [index 310]
-# Magimaster is renamed [index 358]
-
 # FIXME: Helper class while we transition indexing schemes
 class ScriptSet:
     def _get_index(self, name):
+        # BC specific changes
+        if self.is_bc:
+            # Coloseum Chupon gets a fuller script (no longer Sneezes) [Nothing to change there]
+            # Final Kefka is something else now
+            if name == "Kefka3":
+                return 298
+            # Shiva / Ifrit become two random Espers [index 264, 265] -- realias
+            if name == "Shiva":
+                return 264
+            if name == "Ifrit":
+                return 265
+            # Umaro / Umaro2 become named after in game char [index 271, 272]
+            if name == "Umaro":
+                return 271
+            if name == "Umaro2":
+                return 272
+            # Tritoch / Tritoch2 becomes a random Esper [index 276, 277, 324] --- realias
+            if name == "Tritoch":
+                return 276
+            if name == "Tritoch2":
+                return 277
+            if name == "Tritoch3":
+                return 324
+            # Colossus is co-opted to a new entity [index 310]
+            if name == "Colossus":
+                return 310
+            # Magimaster is renamed [index 358]
+            if name == "MagiMaster":
+                return 358
+            # K@N got weird [index 330]
+            # Final Kefka got weird [index 310]
+            # TODO: check on Final Kefka manager [index 282]
+
         # case 1 --- in dedup aliases
         if name in self.aliased_names:
             return self.aliased_names.index(name)
@@ -43,11 +65,15 @@ class ScriptSet:
 
     def __init__(self, romfile):
         self.scripts = None
+        self.script_ptrs = None
         self.canonical_names = None
+        self.is_bc = False
         self.init_from_rom(romfile)
 
     def init_from_rom(self, romfile):
         self.scripts, self.canonical_names = extract(romfile, return_names=True)
+        self.script_ptrs = extract_script_ptrs(romfile)
+        self.is_bc = detect_bc(self.script_ptrs)
         self.aliased_names = extract_names(romfile, alias_duplicates=True)
 
     def __getitem__(self, name):
