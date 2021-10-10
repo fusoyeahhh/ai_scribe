@@ -43,9 +43,15 @@ class ScriptSet:
             # Magimaster is renamed [index 358]
             if name == "MagiMaster":
                 return 358
-            # K@N got weird [index 330]
-            # Final Kefka got weird [index 310]
-            # TODO: check on Final Kefka manager [index 282]
+            # Final Kefka is in a different place (282)
+            if name == "Kefka2":
+                return 282
+            if name == "5":
+                return 282
+            if name == "False Kefka":
+                # Maybe??
+                return 298
+            # TODO: tier manager seems to have disappeared?
 
         # case 1 --- in dedup aliases
         if name in self.aliased_names:
