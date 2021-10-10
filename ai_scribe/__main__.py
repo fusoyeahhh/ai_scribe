@@ -142,6 +142,8 @@ if __name__ == "__main__":
     #os.mkdir(bdir)
 
     for i in range(conf["copies_per_batch"]):
+        # carry some additional metadata around
+        _meta = {}
 
         fname = numpy.random.choice(fnames)
         log.debug(fname)
@@ -152,30 +154,57 @@ if __name__ == "__main__":
             log.info("Giving minimum MP to all enemies.")
             give_base_mp(romfile)
 
+        # FIXME: do we need to re-read this? Probably not.
         scripts, names = extract(srcrom, return_names=True)
+        log.info(f"Read {len(scripts)} total scripts from {srcrom}")
+        # FIXME: Temporary --- while we read from one rom and
+        # write to another (probably different seed) we'll
+        # need the name order from that rom, as well as any
+        # additional scripts which are encoded there. Once
+        # we can handle everything smoothly, this should go away
+        _scripts, _names = extract(fname, return_names=True)
+        # TODO: update from BC
+        if False:
+            _scripts.update(scripts)
+            scripts = _scripts
+
+        from .extract import ScriptSet
+        scripts = ScriptSet(srcrom)
+
+        #batt_msgs = extract_battle_msgs(srcrom)
 
         # tracks the marginal budget we have on free space
         extra_space = 0
-        log.debug((hex(sum(map(len, scripts.values()))), hex(0xFC050 - 0xF8700)))
+        script_length_orig = sum(map(len, scripts.scripts.values()))
+        log.debug((hex(script_length_orig), hex(0xFC050 - 0xF8700)))
 
-        script_length_orig = sum(map(len, scripts.values()))
         scr, ptrs = [], []
         mod_scripts = {}
         # FIXME: pointers for debugging purposes --- can remove when more confident
         t1, t2 = 0, 0
         for set_idx in range(len(AREA_SETS)):
-            # Set of scripts to change
-            _sset = AREA_SETS[set_idx].copy()
-            _sset -= conf["do_not_randomize"]
+            # Set of scripts to change (using names)
+            sset = AREA_SETS[set_idx].copy()
 
-            # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
-            _sset &= set(scripts.keys())
+            remove_from_pool = sset & conf["do_not_randomize"]
+            for name in remove_from_pool:
+                # Add offsets of scripts we won't change
+                t1 += len(scripts[name]._bytes)
+                t2 += len(scripts[name]._bytes)
+            # NOTE: This means that none of their commands / skills are in the pool either (probably okay)
+            sset -= remove_from_pool
+            log.debug(f"The following scripts have been removed from the pool, by request: {', '.join(remove_from_pool)}")
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
-            sset = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
+            pool = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
+
+            # FIXME: we will eventually want to stop relying on the old dedup scheme
+            pool = {n: scripts[n] for n in pool}
+            log.debug(f"Formed pool of {len(pool)} scripts to use this iteration.")
 
             # Check to make sure we cover all the enemies in the set with scripts
-            omitted = sset - set(scripts.keys())
+            """
+            omitted = set(pool) - set(scripts)
             if omitted and conf["allow_missing_scripts"]:
                 log.warning("Found enemies in requested change list "
                             "which has no corresponding vanilla script: "
@@ -184,13 +213,10 @@ if __name__ == "__main__":
                 raise ValueError("Found enemies in requested change list "
                                  "which has no corresponding vanilla script: "
                                  f"{omitted}")
-
-            # FIXME: BC renaming is responsible for the filter, could interfere weirdly with vanilla
-            _sset &= set(scripts.keys())
-            sset &= set(scripts.keys())
+            """
 
             cmd_graph = command_graph.CommandGraph()
-            cmd_graph.from_scripts({k: v._bytes for k, v in scripts.items() if k in sset})
+            cmd_graph.from_scripts({k: v._bytes for k, v in pool.items()})
 
             # Allow for random messages
             if conf["talkative"]:
@@ -203,7 +229,8 @@ if __name__ == "__main__":
             log.debug(cmd_graph.to_text_repr())
 
             # Randomize bosses
-            bosses = _sset & BOSSES
+            # FIXME: make flag for "allow bosses to be in pool" (currently true)
+            bosses = sset & BOSSES
 
             # FIXME: this removes a required link between commands, might need to replace it a placeholder
             #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(conf["drop_events"])
@@ -211,18 +238,22 @@ if __name__ == "__main__":
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 # This only reduces the length from the original script
-                bscr = cmd_graph.generate_from_template(scripts[name]._bytes,
+                bscr = cmd_graph.generate_from_template(pool[name]._bytes,
                                                         required=required,
                                                         drop_events=conf["drop_events"])
 
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
-                extra_space += len(scripts[name]._bytes) - len(mod_scripts[name]._bytes)
-                log.debug(f"Randomizing boss {name} ({len(scripts[name]._bytes)} vanilla bytes) "
+                _meta[name] = "type: from template\n"
+                _meta[name] += f"created from: {sset}\n"
+                _meta[name] += cmd_graph.to_text_repr()
+
+                extra_space += len(pool[name]._bytes) - len(mod_scripts[name]._bytes)
+                log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes) "
                           f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
                           f"(Before) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]\n"
                           f"{len(mod_scripts)} modified script so far.")
-                t1 += len(scripts[name]._bytes)
+                t1 += len(pool[name]._bytes)
                 t2 += len(mod_scripts[name]._bytes)
                 log.debug(f"(After) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]) "
                           f"| extra space {extra_space} [{hex(extra_space)}]")
@@ -231,41 +262,50 @@ if __name__ == "__main__":
                 log.debug(f"Created from {sset} + ")
                 # Empty FC blocks can be inherited from the original script
                 scripting.Script.validate(bytes(bscr), allow_empty_fc=True)
-                assert len(mod_scripts[name]._bytes) >= 2 and len(scripts[name]._bytes) >= 2
-                log.debug("\n" + tableau_scripts(scripts[name].translate(),
+                assert len(mod_scripts[name]._bytes) >= 2 and len(pool[name]._bytes) >= 2
+                log.debug("\n" + tableau_scripts(pool[name].translate(),
                                                  mod_scripts[name].translate()))
 
-                assert len(scripts[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(scripts[name]._bytes),  len(mod_scripts[name]._bytes))
+                assert len(pool[name]._bytes) >= len(mod_scripts[name]._bytes), (name, len(pool[name]._bytes),  len(mod_scripts[name]._bytes))
 
             cmd_graph = command_graph.CommandGraph()
             # NOTE: we may want to somehow preserve them, but they keep injecting a lot of 0xFC into scripts
             # Drop "bosses" for now
-            cmd_graph.from_scripts({k: scripts[k]._bytes for k in sset - BOSSES})
+            cmd_graph.from_scripts({k: pool[k]._bytes for k in sset - BOSSES})
 
             # Spice goes here
             # Add in a random status/element theme
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
                                                        elemental=conf["spice"]["normal_elemental"])
-            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+            # FIXME: come back to the empty arg graph problem
+            #command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
-            # bosses have already been randomized
-            _sset -= BOSSES
-
             log.debug(cmd_graph.to_text_repr())
+
+            for name in sset:
+                _meta[name] = "type: from template\n"
+                _meta[name] += f"created from: {sset}\n"
+                _meta[name] += cmd_graph.to_text_repr()
+
+            # bosses have already been randomized
+            sset -= BOSSES
 
             # Total length of scripts + extra_space
             # extra_space is basically the offset from the vanilla pointer
             # it can be plus or minus
-            total_len = sum(len(scripts[name]) for name in _sset) + extra_space
+            total_len = sum(len(pool[name]) for name in sset) + extra_space
             # increment vanilla pointer
             t1 += total_len - extra_space
 
-            main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(_sset))), 1)
+            main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(sset))), 1)
             # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
                           "naborts": conf["num_retries"], "strict": False}
-            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(_sset),
+            #if "Ultros2" in bosses:
+                #print(cmd_graph.to_text_repr())
+                #import pdb; pdb.set_trace()
+            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset),
                                             #main_block_avg=main_block_avg,
                                             main_block_avg=5,
                                             total_len=total_len, **gen_kwargs)
@@ -280,78 +320,49 @@ if __name__ == "__main__":
             t2 += sum(map(len, _scr))
             extra_space = total_len - sum(map(len, _scr))
             log.debug("v. ptr | m. ptr | ptr diff | total m. bytes | allowed m. bytes | extra | m. set")
-            log.debug(" | ".join(map(str, (hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)), total_len, extra_space, _sset))))
+            log.debug(" | ".join(map(str, (hex(t1), hex(t2), (t2 - t1), sum(map(len, _scr)),total_len, extra_space, sset))))
 
             # This means that the enemy has been randomized more than once. In the interests of keeping
             # bookkeeping more simple, we'll just explicitly disallow this for now
             #assert len(set(_sset & set(mod_scripts.keys()))) == 0, set(_sset & set(mod_scripts))
-            already_processed = set(_sset & set(mod_scripts))
+            already_processed = set(sset & set(mod_scripts))
             if len(already_processed) > 0:
                 log.warning(f"{already_processed} already randomized, and will be skipped this time.")
             #assert len(already_processed) == 0, already_processed
-            mod_scripts.update({k: scripting.Script(bytes(v), k) for k, v in zip(_sset, _scr) if k not in mod_scripts})
+            mod_scripts.update({k: scripting.Script(bytes(v), k)
+                                    for k, v in zip(sset, _scr) if k not in mod_scripts})
 
-            for name in _sset:
+            for name in sset:
                 log.debug(f"--- {name} ---")
-                log.debug(f"Created from {_sset} + ")
+                log.debug(f"Created from {sset} + ")
                 scripting.Script.validate(mod_scripts[name]._bytes)
-                log.debug("\n" + tableau_scripts(scripts[name].translate(),
+                log.debug("\n" + tableau_scripts(pool[name].translate(),
                                                  mod_scripts[name].translate()))
 
         # FIXME: move to pack module
         # Realign pointers
-        export = scripts.copy()
-        export.update(mod_scripts)
-        script_length_after = sum(map(len, export.values()))
+        export = scripts.get_ordered_script_array()
+        for n, s in mod_scripts.items():
+            export[scripts._get_index(n)] = s
+        script_length_after = sum(map(len, export))
         logging.debug(hex(0xFC050 - 0xF8700), hex(script_length_after))
 
         # Split the enemies into scripts that need to be written
         # first, so as to not soft-lock the game at some point
         # because of truncation
-        write_first = set(identify_special_event_scripts(scripts))
+        # FIXME: this is probably going to break
+        write_first = set(identify_special_event_scripts(scripts.scripts))
         write_first |= BOSSES | conf["do_not_randomize"]
         #if is_bc
         write_first &= set(names)
-
-        # FIXME: this doesn't really work
-        scr, ptrs = [None] * len(names), [None] * len(names)
-        last = 0
-        for n, k in enumerate(names):
-            if k not in write_first:
-                continue
-            s = export.get(k, b"\xFF\xFF")
-            if k not in export:
-                log.warning(f"{k} not found in script bank, appending empty script.")
-            scr[n], ptrs[n] = s, last
-            last += len(s)
-
-        # FIXME: do Dummies last
-        # Make the first script a do nothing and point to zero
-        # instead on any irregularity
-
-        # Second pass
-        for n, k in enumerate(names):
-            if k in write_first:
-                continue
-            s = export.get(k, b"\xFF\xFF")
-            if k not in export:
-                log.warning(f"{k} not found in script bank, appending empty script.")
-            scr[n], ptrs[n] = s, last
-            last += len(s)
-            if ptrs[n] >= 0xFC050 - 0xF8700:
-                log.warning(f"Pointer outside script block, overriding to last {k}")
-                ptrs[n] = ptrs[-1]
+        write_first = {scripts._get_index(n) for n in write_first}
 
         from ai_scribe import pack
-        #import pdb; pdb.set_trace()
         scr, ptrs = pack.pack_scripts(export, names, write_first)
-        assert None not in set(ptrs)
 
         # Rewrite to address space
         low, hi = romfile[:0xF8400], romfile[0xFC050:]
         log.debug((hex(len(low)), len(ptrs), len(scr), len(names)))
-        # Last one is superfluous
-        #for ptr in ptrs[:-1]:
         for ptr in ptrs:
             low += int.to_bytes(ptr, 2, byteorder="little")
         log.debug((hex(len(low)), "== 0xF8700"))
@@ -372,15 +383,20 @@ if __name__ == "__main__":
         low += hi
 
         log.debug((len(low), len(romfile)))
-        with open(f"{bdir}/test.{conf['batch_id']}.{i}.smc", "wb") as fout:
+        outfname = f"{bdir}/test.{conf['batch_id']}.{i}.smc"
+        with open(outfname, "wb") as fout:
             fout.write(bytes(low))
-        log.info(f"Generated ROM at {bdir}/test.{conf['batch_id']}.{i}.smc")
+        log.info(f"Generated ROM at {outfname}")
 
-        with open(f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt", "w") as fout:
-            for n, s in scripts.items():
+        spoiler = f"{bdir}/test.{conf['batch_id']}.{i}.txt"
+        with open(spoiler, "w") as fout:
+            #for n, s in scripts.items():
+            for n, s in zip(names, export):
                 _n = _NAME_ALIASES.get(n, n)
                 #print(n + "\n\n" + s.translate() + "\n", file=fout)
                 print(f"--- {_n} ---", file=fout)
+                if n in _meta:
+                    print(_meta[n], file=fout)
                 print(f"Original | Randomized", file=fout)
                 #print(f"Created from {sset}", file=fout)
                 if n in mod_scripts:
@@ -391,3 +407,15 @@ if __name__ == "__main__":
                                           "NO SCRIPT RANDOMIZATION"), file=fout)
                 print("", file=fout)
         log.info(f"Generated script spoiler at {bdir}/test_scripts.{conf['batch_id']}.{i}.txt")
+
+        #if conf['verify_rom']:
+        if True:
+            log.info(f"Rechecking and verifying {outfname}")
+            outfname = os.path.realpath(outfname)
+            new_scripts, new_names = extract(outfname, return_names=True, force_bc=True)
+            for n, scr in new_scripts.items():
+                #assert scr._bytes == export[n]._bytes, n
+                if scr._bytes != export[n]._bytes:
+                    #print(n, scr._bytes, export[n]._bytes)
+                    print(f"DIFFERENCE: {n}")
+                    print(tableau_scripts(scr.translate(), export[n].translate()))
