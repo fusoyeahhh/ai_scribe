@@ -44,9 +44,6 @@ if __name__ == "__main__":
 
     # Print only the names with their lookup order and metadata
     if args.list_names:
-        # FIXME: to script length
-        scripts = [scripts[n] for n in names]
-
         # Internal aliases
         names = extract.extract_names(src, alias_duplicates=False)
 
@@ -78,18 +75,22 @@ if __name__ == "__main__":
     # Print only a selection of scripts
     if args.print_scripts and len(args.print_scripts) > 0:
         names = extract.extract_names(src, alias_duplicates=False)
-        for name in args.print_scripts:
+        for _name in args.print_scripts:
+            name = None
             try:
-                name = int(name)
+                name = names.index(_name)
+            except ValueError:
+                pass
+            try:
+                name = name if name is not None else int(_name)
             except ValueError:
                 # If this triggers, it's because it's not a parseable integer
-                pass
-
-            if name not in scripts:
-                log.error(f"{name} not in ROM, skipping")
+                # and it's not an addressable name
+                log.error(f"{_name} not in ROM, skipping")
                 continue
-            print(name)
-            print(f"{name}\n\n{scripts[name].translate()}\n")
+
+            print(f"{_name} -> {name}")
+            print(f"{_name}\n\n{scripts[name].translate()}")
         exit()
 
     # Print the whole script block to a file

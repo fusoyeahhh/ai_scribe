@@ -11,6 +11,51 @@ from .scripting import translate, _CHARS
 # Allow no more than this number of 0xFF bytes in a potential script
 _MAX_FF_TOLERANCE = 16
 
+# BC specific changes
+# Coloseum Chupon gets a fuller script (no longer Sneezes) [Nothing to change there]
+# Shiva / Ifrit become two random Espers [index 264, 265] -- realias
+# Umaro / Umaro2 become named after in game char [index 271, 272]
+# Tritoch / Tritoch2 becomes a random Esper [index 276, 277, 324] --- realias
+# TODO: check on Final Kefka manager [index 282]
+# Colossus is co-opted to a new entity [index 310]
+# K@N got weird [index 330]
+# Final Kefka got weird [index 310]
+# Magimaster is renamed [index 358]
+
+# FIXME: Helper class while we transition indexing schemes
+class ScriptSet:
+    def _get_index(self, name):
+        # case 1 --- in dedup aliases
+        if name in self.aliased_names:
+            return self.aliased_names.index(name)
+
+        # case 2 --- in aliases
+        if name in _NAME_ALIASES:
+            return _NAME_ALIASES[name]
+
+        # case 3 --- integer index, not in aliases
+        if isinstance(name, int):
+            # Has to be an index
+            return name
+
+        # case 4 string, not aliased, must be canonical name
+        return self.canonical_names.index(name)
+
+    def __init__(self, romfile):
+        self.scripts = None
+        self.canonical_names = None
+        self.init_from_rom(romfile)
+
+    def init_from_rom(self, romfile):
+        self.scripts, self.canonical_names = extract(romfile, return_names=True)
+        self.aliased_names = extract_names(romfile, alias_duplicates=True)
+
+    def __getitem__(self, name):
+        return self.scripts[self._get_index(name)]
+
+    def get_ordered_script_array(self):
+        return [self.scripts[n] for n in range(len(self.scripts))]
+
 def get_subgraph(g, nodes=None):
     import functools
     nodes = nodes or functools.reduce(list.__add__, [list(g[cmd]) for cmd in SYNTAX])
@@ -29,7 +74,7 @@ def detect_bc(script_ptrs):
 
 _FIX_MAG_ROADER = True
 def _check_and_fix_script_exceptions(name, script):
-    if name == "Mag Roader4" and _FIX_MAG_ROADER:
+    if name in {"Mag Roader4", 243} and _FIX_MAG_ROADER:
         script._bytes += b'\xFF'
         log.info("Mag Roader4 is known to have a script bug: it has no ending byte. Fix requested and applied")
         scripting.Script.validate(script._bytes)
@@ -86,8 +131,7 @@ def identify_zone_eater(scripts, rename=False):
     return None
 
 def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
-    # scripts = dict(zip(script_ptrs, names[:-1]))
-
+    # FIXME: index this properly
     scripts = dict(zip(script_ptrs, names))
     scripts = dict(sorted(scripts.items(), key=lambda t: t[0]))
     _ptrs = scripts.copy()
@@ -97,6 +141,7 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
                                             if ptr in non_std_ptrs}
 
     # We don't know if these bytes are used or not
+    # FIXME: just clip the last script
     if len(non_std_ptrs) > 0:
         unused_bytes = 0
         scripts = {ptr: name for ptr, name in scripts.items()
@@ -109,22 +154,19 @@ def extract_scripts(romfile, script_ptrs, names, unused_bytes=7):
     #scripts = {v: k for k, v in scripts.items()}
     for i, (sptr, eptr) in enumerate(zip(script_ptrs[:-1], script_ptrs[1:])):
         name = scripts.pop(sptr)
-        scripts[name] = romfile[sptr:eptr]
+        bin_script = romfile[sptr:eptr]
         try:
-            scripting.Script.validate(scripts[name], allow_empty_fc=True)
+            scripting.Script.validate(bin_script, allow_empty_fc=True)
         except Exception as e:
             #raise ValueError(f"Script for {name} is invalid.")
             invalid[name] = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
         s = scripting.Script.from_rom(sptr, eptr - sptr, name, romfile)
-        log.debug(name + " " + s.name + "\n" + s.translate())
+        log.debug(f"{name} {s.name}\n{s.translate()}")
+        # FIXME: obviated
         assert s.name == name, (s.name, name)
-        assert s._bytes == scripts[name]
+        assert s._bytes == bin_script
 
-        if i in _NAME_ALIASES:
-            scripts[i] = s
-        else:
-            scripts[name] = s
-        #scripts[name] = s
+        scripts[name] = s
 
     # Handle scripts in nonstandard locations
     for ptr, name in non_std_ptrs.items():
@@ -210,7 +252,7 @@ def extract_names(romfile, alias_duplicates=True, offset=0xFC050, name_len=10, t
 
     names = []
     ptrs = [offset + name_len * idx for idx in range(total_names + 1)]
-    for s, e in zip(ptrs[:-1], ptrs[1:]):
+    for idx, (s, e) in enumerate(zip(ptrs[:-1], ptrs[1:])):
         _name = name = "".join([_CHARS.get(i, "?") for i in romfile[s:e]])
 
         i = 1
@@ -244,14 +286,21 @@ def extract(romfile=None, return_names=False, force_bc=False):
         romfile = fin.read()
 
     script_ptrs = extract_script_ptrs(romfile)
-    names = extract_names(romfile)
+    # Canonical names
+    names = extract_names(romfile, alias_duplicates=False)
+    _names = [*range(len(names))]
 
     # Detect if BC has changed the scripts or their structure in some way
-    is_bc = detect_bc(script_ptrs)
+    is_bc = force_bc or detect_bc(script_ptrs)
     log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
 
-    names = dict(zip(names, script_ptrs))
-    scripts = extract_scripts(romfile, script_ptrs, names)
+    if force_bc:
+        scripts = extract_scripts(romfile, script_ptrs, _names, unused_bytes=0)
+    else:
+        scripts = extract_scripts(romfile, script_ptrs, _names)
+
+    # map script to canonical name
+    #scripts = {n: scripts[idx] for idx, n in enumerate(_names)}
 
     # can't alias names if they've been changed
     # Moreover, since the renaming is order dependent ('kefka2' -> ...)
@@ -260,25 +309,44 @@ def extract(romfile=None, return_names=False, force_bc=False):
     # and renaming them back to the vanilla equivalents
     # FIXME: this will cause some crucial event scripts to be clipped if we go over
     # TODO: ensure all event scripts are written to beginning of block
-    if is_bc:
+    #if is_bc:
+    if False:
         # identify a few key enemies and name them back to their vanilla equivalents
-        _name = identify_zone_eater(scripts, rename=True)
-        log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
-        names["Zone Eater"] = names.pop(_name)
-        scripts[_name] = scripts.pop(name)
+        _name = identify_zone_eater(scripts)
+        name = "Zone Eater"
+        if name in names:
+            log.debug(f"Identified {name} as {_name}, swapping to avoid confusion.")
+            # FIXME: you can't swap these, I think
+            # FIXME: the name order can't change, since insertion order in the dict maps
+            # to the index of the name in the rom
+            # Maybe make a copy of the script with a "*" prepended as a reminder to
+            # handle it specially
+            names[_name], names[name] = names[name], names[_name]
+            scripts[_name], scripts[name] = scripts[name], scripts[_name]
+        else:
+            log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
+            names["Zone Eater"] = names.pop(_name)
+            scripts[_name] = scripts.pop(name)
+
         # Rename L255. back
-        log.debug(f"Identified MagiMaster as L255.Magic, renaming back to avoid confusion.")
-        names["MagiMaster"] = names.pop("L.255Magic")
-        scripts["MagiMaster"] = scripts.pop("L.255Magic")
+        if "L.255Magic" in names:
+            log.debug(f"Identified MagiMaster as L255.Magic, renaming back to avoid confusion.")
+            names["MagiMaster"] = names.pop("L.255Magic")
+            scripts["MagiMaster"] = scripts.pop("L.255Magic")
 
         # Find all special event scripts and ensure they are also vanilla
         # This eases the location of potentially relocated / unnamed scripts
         # and their protection against being randomized
         for name, value in identify_special_event_scripts(scripts).items():
             _name = EVENT_TO_CANONICAL_NAME_MAP[value]
-            log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
-            names[_name] = names.pop(name)
-            scripts[_name] = scripts.pop(name)
+            if _name in names:
+                log.debug(f"Identified {name} as {_name}, swapping to avoid confusion.")
+                names[_name], names[name] = names[name], names[_name]
+                scripts[_name], scripts[name] = scripts[name], scripts[_name]
+            else:
+                log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
+                names[_name] = names.pop(name)
+                scripts[_name] = scripts.pop(name)
 
         # Detect Espers
         from .flags import ESPERS

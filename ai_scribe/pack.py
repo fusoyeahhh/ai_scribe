@@ -13,6 +13,7 @@ def pack_scripts(export, names, write_first=set(), offset=0):
     # FIXME: do Dummies last
     # Make the first script a do nothing and point to zero
     # instead on any irregularity
+    # Have it use a unique message
 
     # TODO: assert s.name == n
     _ptrs, last = {}, offset
@@ -20,19 +21,33 @@ def pack_scripts(export, names, write_first=set(), offset=0):
     for n in write_first:
         _ptrs[n] = last
         scr.append(export[n]._bytes)
-        log.debug(f"{n}: {hex(names[n])} -> {hex(0xF8700 + last)}")
-        last += len(export[n])
+        slen = len(export[n])
+        # FIXME: restore pointer rewriting
+        #log.debug(f">{n}: {hex(names[n])} -> {hex(0xF8700 + last)} +{hex(slen)}")
+        log.debug(f">{n}: -> {hex(0xF8700 + last)} +{hex(slen)}")
+        last += slen
 
     # TODO: remap pointers in actual dictionary
-    for n in names:
+    #for n in names:
+    for n in range(len(export)):
         if n in write_first:
             ptrs.append(_ptrs[n])
-        else:
-            ptrs.append(last)
-            scr.append(export[n]._bytes)
-            log.debug(f"{n}: {hex(names[n])} -> {hex(0xF8700 + last)}")
-            last += len(export[n])
+            continue
 
+        if last + len(export[n]) > 0xFC050 - 0xF8700:
+            log.warning(f"{n}: -> {hex(0xF8700 + last)} + {hex(len(export[n]))} [OVERRUN]")
+            ptrs.append(0)
+            # FIXME: overrun analysis
+            #scr.append(export[n]._bytes)
+            continue
+
+        ptrs.append(last)
+        scr.append(export[n]._bytes)
+        slen = len(export[n])
+        log.debug(f"{n}: -> {hex(0xF8700 + last)} +{hex(slen)}")
+        last += slen
+
+    assert None not in set(ptrs)
     return scr, ptrs
 
 

@@ -147,7 +147,7 @@ class Script:
         try:
             translate(script)
         except:
-            print(translate(script, memblk=True, allow_partial=True))
+            #print(translate(script, memblk=True, allow_partial=True))
             raise ValueError("Couldn't translate script.")
         return True
 

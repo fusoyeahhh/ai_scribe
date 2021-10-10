@@ -12,6 +12,7 @@ def expand(arg_g, cmd_byte=0xF0, nargs=3):
     stack = []
 
     gptr = arg_g[cmd_byte]
+    assert len(gptr) > 0 and set(gptr) != {cmd_byte}
     while len(stack) < nargs:
         try:
             gptr = numpy.random.choice(list(gptr))
@@ -222,7 +223,7 @@ class CommandGraph:
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                            disallow_commands=[], weighted=True, naborts=20, strict=True):
+                            disallow_commands={}, weighted=True, naborts=20, strict=True):
         import numpy
         script = []
 
@@ -441,7 +442,8 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
     # remove "Nothing" from CHOOSE SPELL
     if drop_nothing:
         cmd_graph.cmd_arg_graphs[0xF0].remove_nodes_from([0xFE])
-    # remove "Escape" for now
+
+    # remove banned skills
     for cmd in {0xF0, "_"}:
         # Leave the command in, as it roots the argument graph
         # it will get filtered in expand
