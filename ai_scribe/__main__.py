@@ -302,9 +302,6 @@ if __name__ == "__main__":
             # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
                           "naborts": conf["num_retries"], "strict": False}
-            #if "Ultros2" in bosses:
-                #print(cmd_graph.to_text_repr())
-                #import pdb; pdb.set_trace()
             _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset),
                                             #main_block_avg=main_block_avg,
                                             main_block_avg=5,
