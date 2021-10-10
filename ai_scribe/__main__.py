@@ -156,21 +156,10 @@ if __name__ == "__main__":
             log.info("Giving minimum MP to all enemies.")
             give_base_mp(romfile)
 
-        # FIXME: do we need to re-read this? Probably not.
-        scripts, names = extract(srcrom, return_names=True)
+        scripts, names = extract(fname, return_names=True)
         log.info(f"Read {len(scripts)} total scripts from {srcrom}")
-        # FIXME: Temporary --- while we read from one rom and
-        # write to another (probably different seed) we'll
-        # need the name order from that rom, as well as any
-        # additional scripts which are encoded there. Once
-        # we can handle everything smoothly, this should go away
-        _scripts, _names = extract(fname, return_names=True)
-        # TODO: update from BC
-        if False:
-            _scripts.update(scripts)
-            scripts = _scripts
 
-        scripts = ScriptSet(srcrom)
+        scripts = ScriptSet(fname)
 
         #batt_msgs = extract_battle_msgs(srcrom)
 
