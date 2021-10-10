@@ -293,6 +293,8 @@ FF:??????????""".replace("Lagomorph*", "Nothing").split("\n")
 
 SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
 
+CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
+
 ESPERS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
 DESPERATIONS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0xF0, 0xFE)}
 
@@ -750,3 +752,11 @@ C	Monsters(s) flashes for a long time
 D	Screen flashes like boss death""".split("\n")
 
 ANIMATIONS = [anim.split("\t")[-1] for anim in ANIMATIONS]
+
+# Monster appear/disappear animations
+ENT_ANIMATIONS = [
+    "Instant", "Smoke", "Jump", "From Side", "Water",
+    "Top with Swirl?", "Water again?", "Side Syncrhonized",
+    "From Top", "From Bottom", "Diagonal Fade [Small only]",
+    "Diagonal", "Boss Burn", "Blink", "Chadarnook", "Kefka"
+]
