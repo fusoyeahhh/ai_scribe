@@ -224,6 +224,9 @@ EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
                  # Don't mess with variable setting to preserve magicite receipt
                  # FIXME: Do this by variable identification
                  "Doom Gaze",
+                 # don't interfere with Gau recruit and BC reuses this
+                 # for Final/False Kefka related things
+                 "4",
                  # Ensure engulf is available
                  "Zone Eater"}#, "Shadow"}
 
