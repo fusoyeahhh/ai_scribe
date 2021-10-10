@@ -13,6 +13,7 @@ from . import command_graph
 from . import tableau_scripts, give_base_mp
 from . import scripting
 from .extract import *
+from .extract import ScriptSet
 from .pack import randomize_scripts
 from .flags import ESPERS, DESPERATIONS
 
@@ -168,7 +169,6 @@ if __name__ == "__main__":
             _scripts.update(scripts)
             scripts = _scripts
 
-        from .extract import ScriptSet
         scripts = ScriptSet(srcrom)
 
         #batt_msgs = extract_battle_msgs(srcrom)
@@ -201,19 +201,6 @@ if __name__ == "__main__":
             # FIXME: we will eventually want to stop relying on the old dedup scheme
             pool = {n: scripts[n] for n in pool}
             log.debug(f"Formed pool of {len(pool)} scripts to use this iteration.")
-
-            # Check to make sure we cover all the enemies in the set with scripts
-            """
-            omitted = set(pool) - set(scripts)
-            if omitted and conf["allow_missing_scripts"]:
-                log.warning("Found enemies in requested change list "
-                            "which has no corresponding vanilla script: "
-                            f"{omitted}")
-            elif omitted:
-                raise ValueError("Found enemies in requested change list "
-                                 "which has no corresponding vanilla script: "
-                                 f"{omitted}")
-            """
 
             cmd_graph = command_graph.CommandGraph()
             cmd_graph.from_scripts({k: v._bytes for k, v in pool.items()})
@@ -277,7 +264,6 @@ if __name__ == "__main__":
             # Add in a random status/element theme
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
                                                        elemental=conf["spice"]["normal_elemental"])
-            # FIXME: come back to the empty arg graph problem
             command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
@@ -347,12 +333,10 @@ if __name__ == "__main__":
         # Split the enemies into scripts that need to be written
         # first, so as to not soft-lock the game at some point
         # because of truncation
-        # FIXME: this is probably going to break
         write_first = set(identify_special_event_scripts(scripts.scripts))
-        write_first |= BOSSES | conf["do_not_randomize"]
+        write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
         #if is_bc
-        write_first &= set(names)
-        write_first = {scripts._get_index(n) for n in write_first}
+        #write_first = {scripts._get_index(n) for n in write_first}
 
         from ai_scribe import pack
         scr, ptrs = pack.pack_scripts(export, names, write_first)
@@ -387,15 +371,13 @@ if __name__ == "__main__":
 
         spoiler = f"{bdir}/test.{conf['batch_id']}.{i}.txt"
         with open(spoiler, "w") as fout:
-            #for n, s in scripts.items():
             for n, s in zip(names, export):
                 _n = _NAME_ALIASES.get(n, n)
-                #print(n + "\n\n" + s.translate() + "\n", file=fout)
                 print(f"--- {_n} ---", file=fout)
                 if n in _meta:
                     print(_meta[n], file=fout)
+
                 print(f"Original | Randomized", file=fout)
-                #print(f"Created from {sset}", file=fout)
                 if n in mod_scripts:
                     print(tableau_scripts(scripts[n].translate(),
                                           mod_scripts[n].translate()), file=fout)
