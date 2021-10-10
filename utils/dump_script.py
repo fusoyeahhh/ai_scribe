@@ -55,6 +55,7 @@ if __name__ == "__main__":
         # may not be fully represented here (E.g. Kefka, Vargas, etc...)
         if len(special_events) < 15:
             exit("The required number of special event bytes is not present.")
+        exit()
 
     # Print only the names with their lookup order and metadata
     if args.list_names:
