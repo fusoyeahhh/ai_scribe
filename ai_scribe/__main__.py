@@ -278,7 +278,7 @@ if __name__ == "__main__":
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
                                                        elemental=conf["spice"]["normal_elemental"])
             # FIXME: come back to the empty arg graph problem
-            #command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
             log.debug(cmd_graph.to_text_repr())

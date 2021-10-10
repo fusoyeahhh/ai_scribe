@@ -447,7 +447,11 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
     for cmd in {0xF0, "_"}:
         # Leave the command in, as it roots the argument graph
         # it will get filtered in expand
-        cmd_graph.cmd_arg_graphs[cmd].remove_nodes_from(drop_skills - {cmd})
+        subgraph = cmd_graph.cmd_arg_graphs[cmd]
+        subgraph.remove_nodes_from(drop_skills - {cmd})
+        if len(subgraph.nodes) <= 1 and cmd in cmd_graph.cmd_graph:
+           cmd_graph.cmd_graph.remove_node(cmd)
+
 
 def augment_cmd_graph(cmd_graph, status=False, elemental=False):
     # Add in a random status/element theme
