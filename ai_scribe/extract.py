@@ -157,14 +157,6 @@ def identify_special_event_scripts(scripts):
 
     return events
 
-def identify_zone_eater(scripts, rename=False):
-    for name, script in scripts.items():
-        if 0xD5 in script._bytes:
-            if rename:
-                scripts["Zone Eater"] = scripts.pop(name)
-            return name
-    return None
-
 def extract_scripts(romfile, script_ptrs, names):
     # FIXME: script_ptrs should index like an array to avoid duplicate names
     scripts = dict(zip(names, script_ptrs))
@@ -317,9 +309,6 @@ def extract_script_ptrs(romfile, block_offset=0xF8700, offset=0xF8400, total_ptr
     return script_ptrs
 
 def extract(romfile=None, return_names=False):
-    #romfile = "Final Fantasy III (U) (V1.0) [!].smc"
-    #romfile = "base_roms/Final_Fantasy_3_Textless.1620609722.smc"
-
     with open(romfile, "rb") as fin:
         romfile = fin.read()
 
@@ -336,62 +325,6 @@ def extract(romfile=None, return_names=False):
 
     # map script to canonical name
     #scripts = {n: scripts[idx] for idx, n in enumerate(_names)}
-
-    # can't alias names if they've been changed
-    # Moreover, since the renaming is order dependent ('kefka2' -> ...)
-    # we can't even aliases bosses consistently
-    # This block attempts to fix this by searching for special events or skills
-    # and renaming them back to the vanilla equivalents
-    # FIXME: this will cause some crucial event scripts to be clipped if we go over
-    # TODO: ensure all event scripts are written to beginning of block
-    #if is_bc:
-    if False:
-        # identify a few key enemies and name them back to their vanilla equivalents
-        _name = identify_zone_eater(scripts)
-        name = "Zone Eater"
-        if name in names:
-            log.debug(f"Identified {name} as {_name}, swapping to avoid confusion.")
-            # FIXME: you can't swap these, I think
-            # FIXME: the name order can't change, since insertion order in the dict maps
-            # to the index of the name in the rom
-            # Maybe make a copy of the script with a "*" prepended as a reminder to
-            # handle it specially
-            names[_name], names[name] = names[name], names[_name]
-            scripts[_name], scripts[name] = scripts[name], scripts[_name]
-        else:
-            log.debug(f"Identified Zone Eater as {_name}, renaming back to avoid confusion.")
-            names["Zone Eater"] = names.pop(_name)
-            scripts[_name] = scripts.pop(name)
-
-        # Rename L255. back
-        if "L.255Magic" in names:
-            log.debug(f"Identified MagiMaster as L255.Magic, renaming back to avoid confusion.")
-            names["MagiMaster"] = names.pop("L.255Magic")
-            scripts["MagiMaster"] = scripts.pop("L.255Magic")
-
-        # Find all special event scripts and ensure they are also vanilla
-        # This eases the location of potentially relocated / unnamed scripts
-        # and their protection against being randomized
-        for name, value in identify_special_event_scripts(scripts).items():
-            _name = EVENT_TO_CANONICAL_NAME_MAP[value]
-            if _name in names:
-                log.debug(f"Identified {name} as {_name}, swapping to avoid confusion.")
-                names[_name], names[name] = names[name], names[_name]
-                scripts[_name], scripts[name] = scripts[name], scripts[_name]
-            else:
-                log.debug(f"Identified {name} as {_name}, renaming back to avoid confusion.")
-                names[_name] = names.pop(name)
-                scripts[_name] = scripts.pop(name)
-
-        # Detect Espers
-        from .flags import ESPERS
-        espers = (set(names) & set(ESPERS.values())) - {"Tritoch"}
-        assert len(espers) == 2
-        rename = dict(zip(("Ifrit", "Shiva"), espers))
-        for n, e in rename.items():
-            scripts[n] = scripts.pop(e)
-            names[n] = names.pop(e)
-            log.debug(f"Identified {n} as {e}, renaming back to avoid confusion.")
 
     if return_names:
         return scripts, names
