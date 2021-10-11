@@ -121,6 +121,9 @@ if __name__ == "__main__":
         "copies_per_batch": 16,
         #"random_seed": 0,
 
+        # Should we reload the written ROM and verify it?
+        "verify_rom": True,
+
         # write out the base script file if not None
         #"write_base_scripts": "etc/script_dump.txt",
         "write_base_scripts": None,
@@ -214,6 +217,7 @@ if __name__ == "__main__":
 
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
+                log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes)")
                 # This only reduces the length from the original script
                 bscr = cmd_graph.generate_from_template(pool[name]._bytes,
                                                         required=required,
@@ -226,8 +230,7 @@ if __name__ == "__main__":
                 _meta[name] += cmd_graph.to_text_repr()
 
                 extra_space += len(pool[name]._bytes) - len(mod_scripts[name]._bytes)
-                log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes) "
-                          f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
+                log.debug(f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
                           f"(Before) Vanilla ptr: {t1} [{hex(t1)}] | modified ptr: {t2} [{hex(t2)}]\n"
                           f"{len(mod_scripts)} modified script so far.")
                 t1 += len(pool[name]._bytes)
@@ -273,6 +276,8 @@ if __name__ == "__main__":
             total_len = sum(len(pool[name]) for name in sset) + extra_space
             # increment vanilla pointer
             t1 += total_len - extra_space
+
+            log.debug(f"Randomizing over {pool}")
 
             main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(sset))), 1)
             # disallow commands and strict can cause conflicts
@@ -375,8 +380,7 @@ if __name__ == "__main__":
                print("", file=fout)
         log.info(f"Generated script spoiler at {spoiler}")
 
-        #if conf['verify_rom']:
-        if True:
+        if conf['verify_rom']:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
             new_scripts, new_names = extract(outfname, return_names=True)
