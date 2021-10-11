@@ -277,6 +277,7 @@ class CommandGraph:
         aborts = defaultdict(lambda: 0)
         #while nff < 2:
         while nff < 2 and naborts >= 0:
+            last = gptr
             if gptr not in g or len(g[gptr]) == 0:
                 #raise ValueError(f"Command Node {gptr} has no outgoing connections.")
                 # We reset as a backup
@@ -344,14 +345,14 @@ class CommandGraph:
             # End / Reset blocks
             if gptr in {0xFE, 0xFF}:
                 # Close the block as long as we don't have an empty FC block
-                if nfc > 0 and script[-4] == 0xFC:
+                if nfc > 0 and last == 0xFC:
                     if strict:
                         exit(f"GENERATION: ABORT empty FC {hex(gptr)} {nfc}")
                     aborts["empty FC"] += 1
                     naborts -= 1
                     continue
                 # Don't leave a dangling target command
-                if len(script) >= 2 and script[-2] == 0xF1:
+                if len(script) >= 2 and last == 0xF1:
                     if strict:
                         exit("GENERATION: ABORT dangling target")
                     gptr = 0xF1
