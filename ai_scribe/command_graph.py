@@ -83,7 +83,10 @@ class CommandGraph:
                     #w = w.get("weight", None)
                     if _name in {0xF0, "_"}:
                         try:
-                            v = flags.SPELL_LIST[v]
+                            if _name == v:
+                                v = name
+                            else:
+                                v = flags.SPELL_LIST[v]
                         except TypeError:
                             pass
                     tstr += f" {v}"
@@ -223,7 +226,7 @@ class CommandGraph:
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                            disallow_commands={}, weighted=True, naborts=20, strict=True):
+                            disallow_commands=set(), weighted=True, naborts=20, strict=True):
         import numpy
         script = []
 
