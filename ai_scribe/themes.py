@@ -205,7 +205,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
-          "Gold Drgn", "Doom Drgn", "Storm Drgn", "White Drgn"}
+          "Gold Drgn", "Skull Drgn", "Storm Drgn", "White Drgn"}
 BOSSES |= DRAGON
 
 # Kefka's various managers: Imperial Camp, Thamasa, Bridge, Final
