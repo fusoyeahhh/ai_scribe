@@ -263,7 +263,7 @@ if __name__ == "__main__":
             log.debug(cmd_graph.to_text_repr())
 
             for name in sset:
-                _meta[name] = "type: from template\n"
+                _meta[name] = "type: from graph\n"
                 _meta[name] += f"created from: {sset}\n"
                 _meta[name] += cmd_graph.to_text_repr()
 
