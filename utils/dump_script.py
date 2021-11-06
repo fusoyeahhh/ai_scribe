@@ -50,15 +50,33 @@ if __name__ == "__main__":
         # Check on formation alterations and changes
         print("--- FORMATION ALTERATIONS ---")
         alts = extract.identify_formation_alterations(scripts)
-        for sid, alt in alts.items():
+        # FIXME: there can be more than one
+        for sid, (anim, act, targ) in alts.items():
             name = names[sid]
-            print(f"{name} ({sid}): {alt[0]} {alt[1]}")
+            FORM_ALT = {
+                0: "UNHIDE AT MAX HP",
+                1: "KILLED",
+                2: "UNHIDE AT CUR HP",
+                3: "HIDE AT MAX HP",
+                4: "HIDE AT CUR HP",
+            }
+            act = FORM_ALT.get(act, "???")
+            try:
+                anim = flags.ENT_ANIMATIONS[anim]
+            except IndexError:
+                anim = f"UNKNOWN ({anim})"
+            targs = [i for i in range(8) if i & (1 << i)]
+            targs = "self" if len(targs) == 0 else "{" + ", ".join(targs) + "}"
+            print(f"{name} ({sid}):\n\t{act} {targs} with animation {anim}")
 
         print("--- FORMATION CHANGES ---")
-        changes = extract.identify_formation_changes(scripts)
+        changes = extract.identify_formation_swaps(scripts)
         for sid, chng in changes.items():
             name = names[sid]
-            print(f"{name} ({sid}): {chng[0]} {chng[1]}")
+            to_form = 0x100 * chng[2] + chng[1]
+            max_hp = (to_form & 0x8000) == 0x8000
+            to_form = ((to_form << 1) & 0xFFF) >> 1
+            print(f"{name} ({sid}):\n\tunknown, should be zero: {chng[0]} to form {to_form} with max hp? {max_hp}")
 
         # Ensure all events are present and in the correct places
         special_events = extract.identify_special_event_scripts(scripts)

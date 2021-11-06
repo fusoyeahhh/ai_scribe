@@ -758,5 +758,6 @@ ENT_ANIMATIONS = [
     "Instant", "Smoke", "Jump", "From Side", "Water",
     "Top with Swirl?", "Water again?", "Side Syncrhonized",
     "From Top", "From Bottom", "Diagonal Fade [Small only]",
-    "Diagonal", "Boss Burn", "Blink", "Chadarnook", "Kefka"
+    "Diagonal", "Boss Burn", "Blink", "Chadarnook", "Kefka", "???",
+    "Dissolve (Final Kefka)"
 ]

@@ -166,7 +166,7 @@ def identify_formation_alterations(scripts):
         # FIXME: make has_xxx_byte and has_special_event, etc...
         if 0xF5 in script._bytes:
             idx = script._bytes.index(0xF5)
-            alts[name] = tuple(script._bytes[idx + 1:idx + 3])
+            alts[name] = tuple(script._bytes[idx + 1:idx + 4])
 
     return alts
 
@@ -179,7 +179,7 @@ def identify_formation_swaps(scripts):
         # FIXME: make has_xxx_byte and has_special_event, etc...
         if 0xF2 in script._bytes:
             idx = script._bytes.index(0xF2)
-            swaps[name] = tuple(script._bytes[idx + 1:idx + 3])
+            swaps[name] = tuple(script._bytes[idx + 1:idx + 4])
 
     return swaps
 
