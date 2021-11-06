@@ -47,6 +47,16 @@ if __name__ == "__main__":
 
     if args.verify_scripts:
         log.info(f"Verifying {src}")
+        print("--- SPECIAL ANIMATIONS ---")
+        alts = extract.identify_special_animations(scripts)
+        # FIXME: there can be more than one
+        for sid, (anim, targ, unkn) in alts.items():
+            name = names[sid]
+            anim = flags.ANIMATIONS[anim]
+            targs = [i for i in range(8) if i & (1 << i)]
+            targs = "self" if len(targs) == 0 else "{" + ", ".join(targs) + "}"
+            print(f"{name} ({sid}):\n\t{targs} {anim} with unknown byte val {unkn}")
+
         # Check on formation alterations and changes
         print("--- FORMATION ALTERATIONS ---")
         alts = extract.identify_formation_alterations(scripts)

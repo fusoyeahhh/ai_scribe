@@ -183,6 +183,19 @@ def identify_formation_swaps(scripts):
 
     return swaps
 
+def identify_special_animations(scripts):
+    anim = {}
+    for name, script in scripts.items():
+        # In vanilla (and probably BC) 0xFA can't appear in an
+        # enemy script unless it refers to an argument or variable of
+        # some kind (e.g. *not* the desperation attack byte)
+        # FIXME: make has_xxx_byte and has_special_event, etc...
+        if 0xFA in script._bytes:
+            idx = script._bytes.index(0xFA)
+            anim[name] = tuple(script._bytes[idx + 1:idx + 4])
+
+    return anim
+
 def extract_scripts(romfile, script_ptrs, names):
     # FIXME: script_ptrs should index like an array to avoid duplicate names
     scripts = dict(zip(names, script_ptrs))
