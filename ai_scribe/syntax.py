@@ -74,6 +74,11 @@ class Cmd:
     def to_str(self):
         return f"[{hex(self.byteval)}] {self.descr}\n"
 
+    def __str__(self):
+        args = ", ".join(map(str, [typ.__name__ if isinstance(typ, type) else "enum" for typ in self._argument_types]))
+        base = f"[{hex(self.byteval)}] {self.descr}"
+        return base + f" +{self.nargs} -> {args}: | shuffle? {self.arg_shuffle_allowed}"
+
 class EndBlock(Cmd):
     """
     The first EndBlock signifies the end of the "main" command block.
