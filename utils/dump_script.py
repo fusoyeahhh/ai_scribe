@@ -47,10 +47,25 @@ if __name__ == "__main__":
 
     if args.verify_scripts:
         log.info(f"Verifying {src}")
+        # Check on formation alterations and changes
+        print("--- FORMATION ALTERATIONS ---")
+        alts = extract.identify_formation_alterations(scripts)
+        for sid, alt in alts.items():
+            name = names[sid]
+            print(f"{name} ({sid}): {alt[0]} {alt[1]}")
+
+        print("--- FORMATION CHANGES ---")
+        changes = extract.identify_formation_changes(scripts)
+        for sid, chng in changes.items():
+            name = names[sid]
+            print(f"{name} ({sid}): {chng[0]} {chng[1]}")
+
         # Ensure all events are present and in the correct places
         special_events = extract.identify_special_event_scripts(scripts)
+        print("--- SPECIAL EVENTS ---")
         for event, sid in special_events.items():
-            print(f"{sid}: {flags.SPECIAL_EVENTS[event]} ({hex(event)})")
+            name = names[sid]
+            print(f"{name} ({sid}): {flags.SPECIAL_EVENTS[event]} ({hex(event)})")
         # NOTE: identify only gets one event per script, so script managers
         # may not be fully represented here (E.g. Kefka, Vargas, etc...)
         if len(special_events) < 15:

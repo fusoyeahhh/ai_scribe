@@ -157,6 +157,32 @@ def identify_special_event_scripts(scripts):
 
     return events
 
+def identify_formation_alterations(scripts):
+    alts = {}
+    for name, script in scripts.items():
+        # In vanilla (and probably BC) 0xF5 can't appear in an
+        # enemy script unless it refers to an argument or variable of
+        # some kind (e.g. *not* the desperation attack byte)
+        # FIXME: make has_xxx_byte and has_special_event, etc...
+        if 0xF5 in script._bytes:
+            idx = script._bytes.index(0xF5)
+            alts[name] = tuple(script._bytes[idx + 1:idx + 3])
+
+    return alts
+
+def identify_formation_swaps(scripts):
+    swaps = {}
+    for name, script in scripts.items():
+        # In vanilla (and probably BC) 0xF2 can't appear in an
+        # enemy script unless it refers to an argument or variable of
+        # some kind (e.g. *not* the desperation attack byte)
+        # FIXME: make has_xxx_byte and has_special_event, etc...
+        if 0xF2 in script._bytes:
+            idx = script._bytes.index(0xF2)
+            swaps[name] = tuple(script._bytes[idx + 1:idx + 3])
+
+    return swaps
+
 def extract_scripts(romfile, script_ptrs, names):
     # FIXME: script_ptrs should index like an array to avoid duplicate names
     scripts = dict(zip(names, script_ptrs))
