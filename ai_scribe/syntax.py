@@ -24,6 +24,7 @@ SYNTAX = {
     "^": (None, None, "BEGIN SCRIPT"),
 }
 
+# FIXME: merge with SYNTAX
 _CMD_REF = {}
 
 
