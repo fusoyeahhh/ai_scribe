@@ -212,7 +212,7 @@ BOSSES |= DRAGON
 SCRIPT_MANAGERS = {"2", "5", "6", "10", "Kefka"}
 
 # Merchant, Guardian are included to preserve special event activation
-EVENT_BATTLES = {"Merchant", "Officer", "Guardian",
+EVENT_BATTLES = {"Merchant", "B.Day Suit", "Officer", "Guardian",
                  # Terra and Soldiers in flashback battle
                  "", "Soldier",
                  # Imperial camp
