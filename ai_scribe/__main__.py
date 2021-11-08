@@ -16,7 +16,7 @@ from .extract import *
 from .extract import ScriptSet
 from . import pack
 from .pack import randomize_scripts
-from .flags import ESPERS, DESPERATIONS
+from .flags import ESPERS, DESPERATIONS, _CMD_LIST
 
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS
 
@@ -102,10 +102,20 @@ if __name__ == "__main__":
             "boss_elemental": True,
             # will pick a random status and merge in random status attacks from category
             "boss_status": False,
+            # will pick a random theme from the commands theme
+            # NOTE: This is not the same as the commands themselves
+            "boss_command": True,
+
             # will pick a random element and merge in random elemental attacks from category
             "normal_elemental": False,
             # will pick a random status and merge in random status attacks from category
             "normal_status": True,
+            # will pick a random theme from the commands theme
+            # NOTE: This is not the same as the commands themselves
+            "normal_command": True,
+
+            # Does not affect commands already present in game scripts
+            "allowed_commands": set(_CMD_LIST.values()),
         },
 
         # AI behavior modification
@@ -204,8 +214,10 @@ if __name__ == "__main__":
 
             # add a little spice
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["boss_status"],
-                                                       elemental=conf["spice"]["boss_elemental"])
-            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+                                                       elemental=conf["spice"]["boss_elemental"],
+                                                       command=conf["spice"]["boss_command"])
+            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
+                                                        add_cmds=conf["spice"]["allowed_commands"])
             log.debug(cmd_graph.to_text_repr())
 
             # Randomize bosses
@@ -256,8 +268,10 @@ if __name__ == "__main__":
             # Spice goes here
             # Add in a random status/element theme
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
-                                                       elemental=conf["spice"]["normal_elemental"])
-            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"])
+                                                       elemental=conf["spice"]["normal_elemental"],
+                                                       command=conf["spice"]["normal_command"])
+            command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
+                                                        add_cmds=conf["spice"]["allowed_commands"])
             assert 0xC2 not in cmd_graph.cmd_graph
 
             log.debug(cmd_graph.to_text_repr())
