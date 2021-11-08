@@ -439,7 +439,8 @@ class CommandGraph:
         return script[1:]
 
 
-def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
+def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
+                       add_cmds=None):
     # remove "Nothing" from CHOOSE SPELL
     if drop_nothing:
         cmd_graph.cmd_arg_graphs[0xF0].remove_nodes_from([0xFE])
@@ -453,6 +454,32 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False):
         if len(subgraph.nodes) <= 1 and cmd in cmd_graph.cmd_graph:
            cmd_graph.cmd_graph.remove_node(cmd)
 
+    if add_cmds is not None:
+        link_nodes = set(cmd_graph.cmd_graph.nodes)
+        for link_cmd in link_nodes:
+            if random.uniform(0, 1) < 1 / len(link_nodes):
+                cmd_graph.cmd_graph.add_edge(0xF4, link_cmd, weight=1)
+            else:
+                cmd_graph.cmd_graph.add_edge(link_cmd, 0xF4, weight=1)
+        cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
+
+def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set()):
+    # Add in a random status/element theme
+    for elem in elements:
+        elem_g = ELEM_THEMES[elem].copy()
+        elem_g.add_edge(0xF0, list(elem_g.nodes)[0])
+        cmd_graph.cmd_arg_graphs[0xF0] = \
+            networkx.algorithms.compose(elem_g,
+                                        cmd_graph.cmd_arg_graphs.get(0xF0, networkx.DiGraph()))
+
+    for stat in statuses:
+        stat_g = STATUS_THEMES[stat].copy()
+        stat_g.add_edge(0xF0, list(stat_g.nodes)[0])
+        cmd_graph.cmd_arg_graphs[0xF0] = \
+            networkx.algorithms.compose(STATUS_THEMES[stat],
+                                        cmd_graph.cmd_arg_graphs.get(0xF0, networkx.DiGraph()))
+
+    return cmd_graph
 
 def augment_cmd_graph(cmd_graph, status=False, elemental=False):
     # Add in a random status/element theme

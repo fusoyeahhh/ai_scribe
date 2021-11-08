@@ -1,6 +1,7 @@
 import networkx
 import random
 from . import _NAME_ALIASES
+from . import flags
 
 #
 # Areas
@@ -237,6 +238,42 @@ BOSSES |= EVENT_BATTLES
 HUMAN = []
 MTEK = []
 LEVEL_BASED = []
+
+# skills
+BLITZ = {"Pummel", "AuraBolt", "Suplex", "Fire Dance",
+         "Mantra", "Air Blade", "Spiraler", "Bum Rush"}
+BLITZ = {flags._SPELL_LIST.get(cmd, cmd) for cmd in BLITZ}
+
+SWDTECH = {"Dispatch", "Retort", "Slash", "Empowerer", "Stunner"}
+# Don't really work
+#SWDTECH |= {"QuadraSlam", "QuadraSlice", "Cleave"}
+SWDTECH = {flags._SPELL_LIST.get(cmd, cmd) for cmd in SWDTECH}
+
+DANCES = {
+    "Wind Rhapsody": {"Wind Slash", "Sun Bath", "Plasma", "Cokatrice"},
+    "Forest Suite": {"Rage", "Harvester", "Elf Fire", "Wombat"},
+    "Desert Aria": {"Sand Storm", "Antlion", "Wind Slash", "Kitty"},
+    "Love Sonata": {"Specter", "Elf Fire", "Tapir", "Snare"},
+    "Earth Blues": {"Sonic Boom", "Sun Bath", "Whump", "Land Slide"},
+    "Water Harmony": {"El Nino", "Plasma", "Specter", "Wild Bear"},
+    "Dusk Requiem": {"Pois. Frog", "Elf Fire", "Cave In", "Snare"},
+    "Snowman Jazz": {"Snowball", "Surge", "Ice Rabbit", "Snare"}
+}
+DANCES = {k: {flags._SPELL_LIST.get(d, d) for d in v} for k, v in DANCES.items()}
+DANCE = set.union(*DANCES.values())
+
+# For use with 0xF6
+SNGL_CMDS = {"Capture", "Steal", "Morph", "Revert", "Runic",
+             "Mimic", "Jump", "GPRain", "Shock"}
+SNGL_CMDS |= {"Row", "Def."}
+# Will only work if preceded by a targeting cmd against enemy party
+#SNGL_CMDS |= {"Sketch"}
+# Will only be useful if preceded by a targeting cmd against enemy party
+#SNGL_CMDS |= {"Health"}
+SNGL_CMDS = {flags._CMD_LIST.get(cmd, cmd) for cmd in SNGL_CMDS}
+
+def add_throw_or_use():
+    pass
 
 import pandas
 import os

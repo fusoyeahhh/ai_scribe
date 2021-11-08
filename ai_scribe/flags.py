@@ -32,6 +32,8 @@ CMD_LIST = """00 Fight Works correctly
 CMD_LIST = [s.split(" ") for s in CMD_LIST]
 CMD_LIST = {int(idx, 16): f"({cmd})" if 'Works' in descr else f"{{{cmd}}}"
             for idx, cmd, *descr in CMD_LIST}
+# reversed command list
+_CMD_LIST = {v[1:-1]: k for k, v in CMD_LIST.items()}
 CMD_LIST[0xFE] = "Nothing"
 
 SPELL_LIST = """00:ºFire**
@@ -292,6 +294,10 @@ FE:Lagomorph*
 FF:??????????""".replace("Lagomorph*", "Nothing").split("\n")
 
 SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
+# look up
+_SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
+# Don't ask, I'm lazy
+_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
 
 CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
 
