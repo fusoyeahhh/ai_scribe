@@ -463,7 +463,7 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
                 cmd_graph.cmd_graph.add_edge(link_cmd, 0xF4, weight=1)
         cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
 
-def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set()):
+def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set(), commands=set()):
     # Add in a random status/element theme
     for elem in elements:
         elem_g = ELEM_THEMES[elem].copy()
@@ -479,15 +479,24 @@ def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set()):
             networkx.algorithms.compose(STATUS_THEMES[stat],
                                         cmd_graph.cmd_arg_graphs.get(0xF0, networkx.DiGraph()))
 
+    for cmd in commands:
+        cmd_g = STATUS_THEMES[cmd].copy()
+        cmd_g.add_edge(0xF0, list(cmd_g.nodes)[0])
+        cmd_graph.cmd_arg_graphs[0xF0] = \
+            networkx.algorithms.compose(FROM_COMMANDS[cmd],
+                                        cmd_graph.cmd_arg_graphs.get(0xF0, networkx.DiGraph()))
+
     return cmd_graph
 
-def augment_cmd_graph(cmd_graph, status=False, elemental=False):
+def augment_cmd_graph(cmd_graph, status=False, elemental=False, command=False):
     # Add in a random status/element theme
     themes, aug_attacks = {}, networkx.DiGraph()
     if elemental:
         themes.update(ELEM_THEMES.copy())
     if status:
         themes.update(STATUS_THEMES.copy())
+    if command:
+        themes.update(FROM_COMMANDS.copy())
 
     if themes:
         aug_attacks = random.choice([*themes.values()])

@@ -315,5 +315,17 @@ for status in {'Poison', 'Petrify', 'Death', 'Slow', 'Mute', 'Safe',
     STATUS_THEMES[status.lower()] = networkx.relabel_nodes(g, dict(enumerate(_status.index)))
 
 #
+# Commands
+#
+FROM_COMMANDS = {
+    "Dance": DANCE,
+    "SwdTech": SWDTECH,
+    "Blitz": BLITZ
+}
+for name, commands in FROM_COMMANDS.items():
+    g = networkx.generators.fast_gnp_random_graph(len(commands), 3 / len(commands), directed=True)
+    FROM_COMMANDS[name] = networkx.relabel_nodes(g, dict(enumerate(commands)))
+
+#
 # Special
 #
