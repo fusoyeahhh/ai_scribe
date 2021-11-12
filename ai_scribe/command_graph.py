@@ -6,7 +6,7 @@ import numpy
 from . import flags
 from . import syntax
 from .syntax import SYNTAX
-from .themes import ELEM_THEMES, STATUS_THEMES
+from .themes import ELEM_THEMES, STATUS_THEMES, FROM_COMMANDS
 
 def expand(arg_g, cmd_byte=0xF0, nargs=3):
     stack = []
