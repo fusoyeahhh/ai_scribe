@@ -40,7 +40,7 @@ if __name__ == "__main__":
         # Pick up all the structured commands
         srcrom = os.path.realpath(srcrom)
         log.info(f"Reading script data from {srcrom}")
-        scripts, names = extract(srcrom, return_names=True)
+        scripts, names, _ = extract(srcrom, return_names=True)
     except OSError:
         log.error("The provided base script path didn't work, please try again or report as a bug.")
         exit()
@@ -169,8 +169,8 @@ if __name__ == "__main__":
             log.info("Giving minimum MP to all enemies.")
             give_base_mp(romfile)
 
-        scripts, names = extract(fname, return_names=True)
-        log.info(f"Read {len(scripts)} total scripts from {srcrom}")
+        scripts, names, blocks = extract(fname, return_names=True)
+        log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
 
         scripts = ScriptSet(fname)
 
