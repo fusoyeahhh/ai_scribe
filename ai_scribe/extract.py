@@ -80,7 +80,7 @@ class ScriptSet:
         self.init_from_rom(romfile)
 
     def init_from_rom(self, romfile):
-        self.scripts, self.canonical_names = extract(romfile, return_names=True)
+        self.scripts, self.canonical_names, self.script_blocks = extract(romfile, return_names=True)
         self.script_ptrs = extract_script_ptrs(romfile)
         self.is_bc = detect_bc(self.script_ptrs)
         self.aliased_names = extract_names(romfile, alias_duplicates=True)
@@ -199,7 +199,7 @@ def identify_special_animations(scripts):
 
     return anim
 
-def extract_scripts(romfile, script_ptrs, names):
+def extract_scripts(romfile, script_ptrs, names, return_blocks=False):
     # FIXME: script_ptrs should index like an array to avoid duplicate names
     scripts = dict(zip(names, script_ptrs))
     scripts = dict(sorted(scripts.items(), key=lambda t: t[1]))
@@ -219,6 +219,9 @@ def extract_scripts(romfile, script_ptrs, names):
     # Define script boundaries
     script_ptrs = sorted(set(scripts.values()) | {0xFC050})
     script_ptrs = dict(zip(script_ptrs[:-1], script_ptrs[1:]))
+
+    # Determine script blocks --- vanilla has one, but other modifications may introduce others
+    script_blocks = [(min(script_ptrs.keys()), max(script_ptrs.values()))]
 
     invalid = {}
     #scripts = {v: k for k, v in scripts.items()}
@@ -285,6 +288,17 @@ def extract_scripts(romfile, script_ptrs, names):
 
         scripts[name] = script
 
+        # See if this is a separate memory block
+        linked_blks = [i for i, blk in enumerate(script_blocks) if blk[1] == ptr]
+        if len(linked_blks) == 0:
+            script_blocks.append((ptr, eptr))
+            continue
+        elif len(linked_blks) > 1:
+            raise ValueError("Found possible overlapping set of scripts.")
+
+        i = linked_blks[0]
+        script_blocks[i] = (script_blocks[i][0], eptr)
+
     # Handle scripts with known bugs / odd features
     for name, script in invalid.items():
         try:
@@ -297,6 +311,8 @@ def extract_scripts(romfile, script_ptrs, names):
                         "Because BC has already modified the scripts, we assume this is non-fatal "
                         "and will take no further action. This may cause future problems.")
 
+    if return_blocks:
+        return scripts, script_blocks
     return scripts
 
 def extract_battle_msgs(romfile):
@@ -363,13 +379,13 @@ def extract(romfile=None, return_names=False):
     is_bc = detect_bc(script_ptrs)
     log.info(f"ROM type: {'bc' if is_bc else 'vanilla'}")
 
-    scripts = extract_scripts(romfile, script_ptrs, _names)
+    scripts, script_blocks = extract_scripts(romfile, script_ptrs, _names, return_blocks=True)
 
     # map script to canonical name
     #scripts = {n: scripts[idx] for idx, n in enumerate(_names)}
 
     if return_names:
-        return scripts, names
+        return scripts, names, script_blocks
     return scripts
 
 # Unused, could be in the future if fully integrated with BC
