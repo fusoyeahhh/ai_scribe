@@ -16,9 +16,9 @@ from .extract import *
 from .extract import ScriptSet
 from . import pack
 from .pack import randomize_scripts
-from .flags import ESPERS, DESPERATIONS, _CMD_LIST
+from .flags import ESPERS, DESPERATIONS
 
-from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS
+from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 
 # We have to do this here or else the submodules will override it.
 log = logging.getLogger("ai_scribe")
@@ -115,7 +115,7 @@ if __name__ == "__main__":
             "normal_command": True,
 
             # Does not affect commands already present in game scripts
-            "allowed_commands": set(_CMD_LIST.values()),
+            "allowed_commands": set(SNGL_CMDS),
         },
 
         # AI behavior modification
