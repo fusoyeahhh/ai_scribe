@@ -204,6 +204,10 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            "Girl", "Sleep", "Kefka2"}
 #BOSSES = {_NAME_ALIASES.get(n, n) for n in BOSSES}
 
+# Add Cyan's Imperial Camp AI as a "boss" so that it is randomized
+# but templated
+BOSSES |= {"3"}
+
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
           "Gold Drgn", "Skull Drgn", "Storm Drgn", "White Drgn"}
