@@ -184,7 +184,7 @@ AREA_SETS = [
 
 # Bosses
 BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
-          "TunnelArmr", "GhostTrain", "Piranha", "Rizopas",
+          "TunnelArmr", "Leader", "GhostTrain", "Piranha", "Rizopas",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number 024", "Number 128", "Left Blade", "RightBlade",
           "Crane", "Crane2", "Ultros3", "FlameEater", "Air Force",
