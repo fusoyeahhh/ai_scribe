@@ -18,8 +18,11 @@ class ScriptSet:
         if self.is_bc:
             # Coloseum Chupon gets a fuller script (no longer Sneezes) [Nothing to change there]
             # Final Kefka is something else now
-            if name == "Kefka3":
+            if name == "Kefka":
                 return 298
+            # Kefka at Narshe
+            if name == "Kefka3":
+                return 330
             # Shiva / Ifrit become two random Espers [index 264, 265] -- realias
             if name == "Shiva":
                 return 264
