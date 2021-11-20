@@ -263,7 +263,7 @@ def extract_scripts(romfile, script_ptrs, names, return_blocks=False):
 
             # If validation succeeds, and we have two valid blocks
             # we have a valid script
-            script = scripting.Script(_script, name)
+            script = scripting.Script(_script, name, sptr)
             try:
                 # FIXME: can't check for nff >= 2, condition can be triggered
                 # by incomplete scripts
