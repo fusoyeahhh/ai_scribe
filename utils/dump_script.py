@@ -42,7 +42,7 @@ if __name__ == "__main__":
         exit(f"Path {src} does not exist.")
 
     log.info(f"Reading {src}")
-    scripts, names = extract.extract(src, return_names=True)
+    scripts, names, blks = extract.extract(src, return_names=True)
     log.info(f"Found {len(scripts)} scripts")
 
     if args.verify_scripts:
@@ -126,6 +126,9 @@ if __name__ == "__main__":
             outstr.append(" ".join([f'{j} {(n + a)[:base].ljust(base)}'
                                         for j, n, a in zip(idx, chunk, aliases)]))
 
+        print("Detected the following script blocks:")
+        for (lo, hi) in blks:
+            print(f"{hex(lo)} -- {hex(hi)}")
         print("Script pointers are relative to 0xF8700")
         print("\n".join(outstr))
         exit()
@@ -148,6 +151,8 @@ if __name__ == "__main__":
                 continue
 
             print(f"{_name} -> {name}")
+            p = scripts[name].ptr
+            print(f"Script pointer | absolute: {hex(p)}, relative: {hex(p - 0xF8700)}")
             print(f"{_name}\n\n{scripts[name].translate()}")
         exit()
 
@@ -155,5 +160,9 @@ if __name__ == "__main__":
     log.info(f"Writing translation to {dst}")
     with open(dst, "w") as fout:
         for i, (name, script) in enumerate(scripts.items()):
-            print(f"{i}: {names[i]}\n\n{script.translate()}\n", file=fout)
+            try:
+                name = names[name]
+            except IndexError:
+                name = names[i]
+            print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
     log.info(f"Done")
