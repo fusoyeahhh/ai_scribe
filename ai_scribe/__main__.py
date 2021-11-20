@@ -403,8 +403,9 @@ if __name__ == "__main__":
                 name = names[n]
 
                 # Check for same to within padding
-                end = len(export[n]._bytes)
-                close = set(scr._bytes[end:]) == set(b'\xff')
+                end = min(len(export[n]._bytes), len(scr._bytes))
+                close = (set(scr._bytes[end:]) == set(b'\xff')) \
+                        | (set(export[n]._bytes[end:]) == set(b'\xff'))
                 close &= scr._bytes[:end] == scr._bytes[:end]
 
                 if scr.ptr == 0xF8700 and not same:
