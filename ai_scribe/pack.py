@@ -5,34 +5,46 @@ from .scripting import Script
 def package_rom(romfile, outf="test.smc"):
     pass
 
+DEFAULT_BLOCK = [(0xF8700, 0xFC050)]
 # TODO: Have it use a unique message
 DEFAULT_SCRIPT = b'\xf3\x00\00\xff\xff'
 # Make a dict of the name -> script length
 # then write scripts in the order you want
 # construct pointers as the previous step happens
 # replace script length with cumulative offset
-def pack_scripts(export, orig_ptrs, write_first=set(), offset=0, use_default_script=True):
+def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK, write_first=set(), offset=0, use_default_script=True):
     # FIXME: do Dummies last
-    # Make the first script a do nothing and point to zero
-    # instead on any irregularity
+    block_offsets = {blk: 0 for blk in script_blocks}
+    block_scrs = {blk: [] for blk in script_blocks}
 
     # TODO: assert s.name == n
     _ptrs, last = {}, offset
     ptrs, scr = [], []
 
+    # Get largest block (probably vanilla block)
+    # FIXME: does this also assume that vanilla is the lowest address / offset?
+    # Probably since the game probably hardcodes 0xF8700 as the script offset
+    block = sorted(script_blocks, key=lambda t: t[1] - t[0])[-1]
+    min_block = min([blk[0] for blk in script_blocks])
+
     # Start with 'error' script
     if use_default_script:
         scr.append(DEFAULT_SCRIPT)
+        block_scrs[block].append(DEFAULT_SCRIPT)
+
         last += len(DEFAULT_SCRIPT)
+        block_offsets[block] = last
 
     for n in write_first:
         _ptrs[n] = last
         scr.append(export[n]._bytes)
+        block_scrs[block].append(export[n]._bytes)
         slen = len(export[n])
         # FIXME: restore pointer rewriting
         #log.debug(f">{n}: {hex(names[n])} -> {hex(0xF8700 + last)} +{hex(slen)}")
         log.debug(f">{n}: -> {hex(0xF8700 + last)} +{hex(slen)}")
         last += slen
+        block_offsets[block] = last
 
     # TODO: remap pointers in actual dictionary
     #for n in names:
@@ -41,21 +53,64 @@ def pack_scripts(export, orig_ptrs, write_first=set(), offset=0, use_default_scr
             ptrs.append(_ptrs[n])
             continue
 
-        if last + len(export[n]) >= 0xFC050 - 0xF8700:
-            log.warning(f"{n}: -> {hex(0xF8700 + last)} + {hex(len(export[n]))} [OVERRUN]")
+        for block, last in block_offsets.items():
+            # block start offset relative to reference address
+            block_off = block[0] - min_block
+            if last + len(export[n]) >= block[1] - block[0]:
+                continue
+
+            ptrs.append(block_off + last)
+
+            scr.append(export[n]._bytes)
+            block_scrs[block].append(export[n]._bytes)
+
+            slen = len(export[n])
+            log.debug(f"{n}: -> {hex(block[0] + last)} +{hex(slen)}")
+            last += slen
+
+            block_offsets[block] = last
+            break
+        else:
+            # Uh oh
             ptrs.append(offset)
-            # FIXME: overrun analysis
-            #scr.append(export[n]._bytes)
-            continue
-
-        ptrs.append(last)
-        scr.append(export[n]._bytes)
-        slen = len(export[n])
-        log.debug(f"{n}: -> {hex(0xF8700 + last)} +{hex(slen)}")
-        last += slen
-
+            log.warning(f"{n}: -> {hex(len(export[n]))} [OVERRUN]")
     assert None not in set(ptrs)
-    return scr, ptrs
+
+    # Rewrite to address space
+    ptrs = construct_ptr_block(ptrs)
+    for block, scr in block_scrs.items():
+        block_scrs[block] = construct_scr_block(scr)
+        print(f"({hex(block[0])}, {hex(block[1])}): {hex(block[1] - block[0])} -> {hex(len(block_scrs[block]))}")
+
+    return block_scrs, ptrs
+
+def construct_ptr_block(ptrs):
+    low = b""
+    for ptr in ptrs:
+        low += int.to_bytes(ptr, 2, byteorder="little")
+    return low
+
+def construct_scr_block(scr):
+    low = b""
+    for s in scr:
+        low += bytes(s)
+    return low
+
+def write_script_blocks(romfile, blocks):
+    for (low, hi), data in blocks.items():
+        block_diff = (hi - low) - len(data)
+
+        if block_diff > 0:
+            log.debug(f"Script block underrun, buffering {block_diff} bytes")
+            data += bytes([255] * block_diff)
+        elif block_diff < 0:
+            log.error(f"Script block overrun.")
+            raise ValueError(f"Script block overruns block bounds: {hex(low)} + {hex(len(data))} > {hex(hi)}")
+
+        log.debug(f"Writing data block length {hex(len(data))} to ({hex(low)}, {hex(hi)})")
+        romfile = romfile[:low] + data + romfile[hi:]
+
+    return romfile
 
 
 SCRIPT_BLOCK_LEN = 0xFC050 - 0xF8700

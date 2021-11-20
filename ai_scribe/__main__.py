@@ -344,35 +344,16 @@ if __name__ == "__main__":
         write_first = set(identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
 
-        scr, ptrs = pack.pack_scripts(export, names, write_first)
+        scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks, write_first=write_first)
 
-        # FIXME: move to pack module
         # Rewrite to address space
-        low, hi = romfile[:0xF8400], romfile[0xFC050:]
-        log.debug((hex(len(low)), len(ptrs), len(scr), len(names)))
-        for ptr in ptrs:
-            low += int.to_bytes(ptr, 2, byteorder="little")
-        log.debug((hex(len(low)), "== 0xF8700"))
+        plen = len(romfile)
+        oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
+        assert plen == len(romfile)
 
-        for s in scr:
-            low += bytes(s)
-        log.debug((hex(len(low)), "?= 0xFC050"))
-        low_block_diff = 0xFC050 - len(low)
-        log.debug((low_block_diff, script_length_orig - script_length_after))
-        if low_block_diff > 0:
-            log.debug(f"Script block underrun, buffering {low_block_diff} bytes")
-            low += bytes([255] * low_block_diff)
-        elif low_block_diff < 0:
-            log.debug(f"Script block overrun, truncating {-low_block_diff} bytes")
-            low = low[:0xFC050]
-        log.debug((hex(len(low)), "== 0xFC050"))
-        assert len(low) == 0xFC050
-        low += hi
-
-        log.debug((len(low), len(romfile)))
         outfname = f"{bdir}/test.{conf['batch_id']}.{i}.smc"
         with open(outfname, "wb") as fout:
-            fout.write(bytes(low))
+            fout.write(bytes(oromfile))
         log.info(f"Generated ROM at {outfname}")
 
         spoiler = f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt"
@@ -397,7 +378,7 @@ if __name__ == "__main__":
         if conf['verify_rom']:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
-            new_scripts, new_names = extract(outfname, return_names=True)
+            new_scripts, new_names, _ = extract(outfname, return_names=True)
             for n, scr in new_scripts.items():
                 same = scr._bytes == export[n]._bytes
                 name = names[n]
