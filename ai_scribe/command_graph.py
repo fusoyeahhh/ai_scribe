@@ -466,6 +466,116 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
                 cmd_graph.cmd_graph.add_edge(link_cmd, 0xF4, weight=1)
         cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
 
+class RestrictedCommandGraph(CommandGraph):
+    # put in flags
+    ALL_SKILLS = set(range(256))
+    # FIXME: fill out
+    PLAYER_TARGETS = {k for k, v in flags.TARGET_LIST.items() if v not in set()}
+    # put in syntax
+    EXCEPT_ATTACKS = {"_"} | (set(range(0xF1, 0xFF)) - {0xF0})
+    RULESETS = {
+        # disallow self targeting with harmful effects
+        "no_self_target":
+            [((0xF1, {0x36}), (0xF0, None)),
+             ((0xF1, {0x36}), ("_",  None))],
+
+        # disallow player healing
+        "no_player_heal":
+            [((0xF1, PLAYER_TARGETS), (0xF0, flags.CURATIVES)),
+             ((0xF1, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
+             # FIXME this is a different rule
+             #((0xF6, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
+
+        # Example: disallow empty FC block
+        "no_empty_fc":
+            [((0xFC, None), (0xFF, None)),
+             ((0xFC, None), (0xFE, None))],
+
+        # Example: do nothing connections
+        "no_do_nothing":
+            [((0xF1, None), (c, None)) for c in EXCEPT_ATTACKS],
+
+        # The following are less useful as rules and
+        # could be in validation step
+        # Example: disallow a specific spell (Fire)
+        "no_fire":
+            [((None, None), (0xF0, {0x0})),
+             ((None, None), ("_",  {0x0}))],
+
+        # Example: allow only certain items to be used
+        "standard_items":
+            [((None, None), (0xF6, {...}))],
+    }
+
+    @classmethod
+    def get_rule_set(cls, *args):
+        rule_map = cls()
+        args = set(args)
+
+        for c1, c2 in [v for k, v in cls.RULESETS.items() if k in args]:
+            rule_map.rules.add_edge(c1, c2)
+
+        return rule_map
+
+    def __init__(self, g=None):
+        super().__init__()
+        if g is not None:
+            self.cmd_graph = g.cmd_graph
+            self.cmd_arg_graphs = g.cmd_arg_graphs
+        self.rules = networkx.DiGraph()
+
+    def check_rule(self, cmd1, cmd2, arg1=None, arg2=None):
+        # an existing link disallows that connection
+        # FIXME: could be slow
+        for ((c1, a1), (c2, a2)) in self._maybe_expand(cmd1, cmd2):
+            if (c1 == cmd1 or c1) and (c2 == cmd2 or c2) and \
+               (arg1 in a1 or {arg1}) and (arg2 in a2 or {arg2}):
+                break
+        else:
+            return False
+        return True
+
+    """
+    # FIXME: need to separate into generator and driver method
+    def generate_from_graph(self, start_cmd="^",
+                            main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
+                            disallow_commands=set(), weighted=True, naborts=20, strict=True):
+        pass
+    """
+
+    def regulate_difficulty(self, diff_thresh=1, diff_val=1):
+        from . import themes
+        mpwr = dict(themes.skills["Power"])
+        # 254 is actually 'Nothing', not Lagomorph
+        mpwr[254] = 1
+        # Add weighting to subgraphs
+        # example fire1 -> fire2, dthr=1, dval=1
+        # fire1 / fire2 => 1.0 / min(2, 1) = 1
+        # example fire1 -> fire2, dthr=5, dval=1
+        # fire1 / fire2 => 1.0 / min(2, 5) = 0.5
+        # example fire2 -> fire1, dthr=1, dval=1
+        # fire2 / fire1 => 1.0 / min(0.5, 1) = 2
+
+        # to a given power (negative) will invert / deweight
+        # example fire1 -> fire2, dthr=1, dval=-1
+        # fire1 / fire2 => min(2, 1) = 1
+        # example fire1 -> fire2, dthr=5, dval=-1
+        # fire1 / fire2 => min(2, 5) = 2
+        # example fire2 -> fire1, dthr=1, dval=-1
+        # fire2 / fire1 => min(0.5, 1) = 0.5
+        for u, v, attr in self.cmd_arg_graphs[0xF0].edges.data():
+            mpwr1, mpwr2 = max(1, mpwr[u]), max(1, mpwr[v])
+            print(u, mpwr1, v, mpwr2)
+            if u != 0xF0 and v != 0xF0:
+                attr["weight"] = (1.0 / min((mpwr1 / mpwr2), diff_thresh))**diff_val
+            if u == 0xF0:
+                # to skill
+                attr["weight"] = (1 / mpwr2)**diff_val
+            elif v == 0xF0:
+                # return to base
+                attr["weight"] = (1 / mpwr1)**diff_val
+            print(u, v, attr)
+
 def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set(), commands=set()):
     # Add in a random status/element theme
     for elem in elements:
