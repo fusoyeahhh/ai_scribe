@@ -78,9 +78,8 @@ class CommandGraph:
                         _n = flags.SPELL_LIST[n] if n != _name else name
                     except TypeError:
                         _n = "UNK"
-                tstr += f"\n{_n.rjust(16)} --[{None}]-->"
+                tstr += f"\n{_n.rjust(16)} -->"
                 for v, w in self.cmd_arg_graphs[_name][n].items():
-                    #w = w.get("weight", None)
                     if _name in {0xF0, "_"}:
                         try:
                             if _name == v:
@@ -90,6 +89,9 @@ class CommandGraph:
                         except TypeError:
                             pass
                     tstr += f" {v}"
+                    w = w.get("weight", None)
+                    if w is not None:
+                        tstr += f" [{w}] "
 
         return tstr
 
