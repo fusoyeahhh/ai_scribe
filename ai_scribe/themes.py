@@ -79,8 +79,6 @@ AREA_SETS = [
     #{"Kefka [Thamasa]", "(Red?Esper)"},
     # Battle With Imperial Air Force
     {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon"},
-    # Triangle Island
-    {"Intangir"},
     # Floating Continent
     {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey Drgn", "AtmaWeapon"},
     # Floating Continent (Escape)
@@ -147,6 +145,10 @@ AREA_SETS = [
     {"Allosaurus", "Barb-e", "Critic", "Samurai", "Sky Cap",
      "Suriander", "Io", "Pan Dora", "Parasite", "PlutoArmor",
      "Curley", "Larry", "Moe", "SoulSaver", "Wrexsoul"},
+    
+    # Triangle Island (here to scale up the optional battle)
+    {"Intangir"},
+
     # Fanatic's Tower
     {"L.10 Magic", "L.20 Magic", "L.30 Magic", "L.40 Magic", "L.50 Magic",
      "L.60 Magic", "L.70 Magic", "L.80 Magic", "L.90 Magic", "Magic Urn",
