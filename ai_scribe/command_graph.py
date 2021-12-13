@@ -331,10 +331,6 @@ class CommandGraph:
             if nff == 0 and ncmd >= main_block_len:
                 # End main block with specified number of commands
                 gptr = 0xFF
-            # Disabled since the generation should take care of this on its own now, see above
-            #elif main_block_len is None and numpy.random.randint(0, 10) < nff + 1:
-                # Roughly increasing probability of ending the block / script
-                #gptr = 0xFF
             elif numpy.random.randint(0, 3) < nfc and nfc > 0 and script[-4] != 0xFC and script[-2] != 0xF1:
                 # The more times we add command predicates, the more likely we are
                 # to end the block, but avoid empty FC blocks
