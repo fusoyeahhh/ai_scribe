@@ -38,7 +38,7 @@ AREA_SETS = [
     # Sabin's Scenario / Phantom Forest
     {"Ghost", "Poplium"},
     # Sabin's Scenario / Ghost Train
-    {"Bomb", "Ghost", "Hazer", "Over-Mind", "StillGoing", "Whisper", "Siegfried", "Specter", "GhostTrain"},
+    {"Bomb", "Ghost", "Hazer", "Over-Mind", "StillGoing", "Whisper", "Siegfried2", "Specter", "GhostTrain"},
     # Sabin's Scenario / Barren Falls
     {"Piranha", "Rizopas"},
     # Sabin's Scenario / Serpent Trench
@@ -166,7 +166,7 @@ AREA_SETS = [
      "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
      # Colloseum
      # need Shadow battle id
-     "Chupon2", "Siegfried2"},#, "Shadow"},
+     "Chupon2", "Siegfried"},#, "Shadow"},
     # Kefka's Tower
     # FIXME: need mappings
     {"Brontaur", "Dark Force", "Didalos", "Dueller", "Evil Oscar",
