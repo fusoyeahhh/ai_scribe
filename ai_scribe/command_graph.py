@@ -529,7 +529,7 @@ class RestrictedCommandGraph(CommandGraph):
 
     @classmethod
     def get_rule_set(cls, *args, **kwargs):
-        rule_map = kwargs.get("graph", cls())
+        rule_map = cls(kwargs.get("graph", None))
         args = set(args)
 
         rule_map.rules = [v for k, v in cls.RULESETS.items()
@@ -556,7 +556,7 @@ class RestrictedCommandGraph(CommandGraph):
         # Possibility #1, need to change -1 to be last command
         kwargs["main_block_len"] = 1
         # TODO: actually check the result
-        return self.generate_from_graph(start_cmd=history[-1], **kwargs)
+        return self.generate_from_graph(start_cmd=(history or ["^"])[-1], **kwargs)
 
     # rewrite of generate_from_graph
     def _generate_from_graph(self, start_cmd="^",
