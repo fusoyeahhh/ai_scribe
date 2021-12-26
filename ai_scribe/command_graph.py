@@ -612,12 +612,12 @@ class RestrictedCommandGraph(CommandGraph):
             context["rule_checks"] = 10
             try:
                 scr_len = main_block_len + cntr_block_len
-                while scr_len >= 0:
+                while scr_len > 0:
                     last = gptr
-                    gptr, args = self._generate_script_token(g, gptr, script_context="main", **context)
+                    gptr = self._generate_script_token(g, gptr, script_context=context["phase"])
 
                     # Need we arguments for command?
-                    self.generate_cmd_args(gptr, context)
+                    args = self.generate_cmd_args(gptr, context)
 
                     # Track number of useable commands
                     context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
@@ -625,7 +625,7 @@ class RestrictedCommandGraph(CommandGraph):
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
                         raise KeyError(f"Rule application failed too many times.")
-                    elif self.check_rule(last, gptr):
+                    elif False and not self.check_rule(last, gptr):
                         # TODO: Get rule broken
                         #aborts[f"rule/{rule}"] += 1
                         # FIXME: we may hit this very quickly if the rejection sampling space is large
@@ -633,7 +633,11 @@ class RestrictedCommandGraph(CommandGraph):
                         context["rule_checks"] -= 1
                         continue
 
-                    script.extend([gptr] + args)
+                    if isinstance(gptr, int):
+                        script.extend([gptr] + args)
+                    else:
+                        # Handle do skill commands
+                        script.extend(args)
                     scr_len -= 1
 
                 if gptr == 0xFF:
@@ -650,26 +654,33 @@ class RestrictedCommandGraph(CommandGraph):
                 script, gptr = [], start_cmd
                 naborts -= 1
                 aborts[f"general/{e.message}"] += 1
-            except:
+                """
+            except Exception as e:
+                print(e)
                 # FIXME: This should probably be fatal
                 naborts -= 1
                 # We reset as a backup
                 # gptr = start_cmd
+                """
             else:
                 # We're done, add script terminator
                 script += [0xFF]
+                # Break out of abort check loop
+                break
 
+        import pprint
         if not naborts >= 0:
             exit("Failed to generate script within the prescribe number of attempts. "
-                 "Exiting to avoid potential infinite loops")
+                 "Exiting to avoid potential infinite loops. Context:\n"
+                 + pprint.pformat(context) +
+                 "\nAborts:\n" + pprint.pformat(dict(**aborts)))
         assert naborts >= 0, aborts
 
         return script
 
-    def _generate_script_token(self, g, gptr="^", script_context="main", context={}):
+    def _generate_script_token(self, g, gptr="^", script_context="main", weighted=True):
         # Things needed for context
         assert script_context in {"main", "counter"}
-        weighted = context.get("weighted", True)
 
         if gptr not in g or len(g[gptr]) == 0:
             gptr = hex(gptr) if isinstance(gptr, int) else gptr
