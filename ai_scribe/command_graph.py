@@ -616,12 +616,11 @@ class RestrictedCommandGraph(CommandGraph):
                     last = gptr
                     gptr, args = self._generate_script_token(g, gptr, script_context="main", **context)
 
-                    # Need we arguments to command?
-                    nargs = SYNTAX[gptr][0]
-                    args = []
-                    if gptr in self.cmd_arg_graphs and (nargs or 0) > 0:
-                        # append arguments
-                        args = expand(self.cmd_arg_graphs[gptr], gptr, nargs)
+                    # Need we arguments for command?
+                    self.generate_cmd_args(gptr, context)
+
+                    # Track number of useable commands
+                    context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
 
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
@@ -673,8 +672,12 @@ class RestrictedCommandGraph(CommandGraph):
         weighted = context.get("weighted", True)
 
         if gptr not in g or len(g[gptr]) == 0:
-            raise KeyError(f"Current command pointer ({hex(gptr)} / {SYNTAX[gptr]}) "
-                           "has no outgoing links. " + str(g[gptr]))
+            gptr = hex(gptr) if isinstance(gptr, int) else gptr
+            raise KeyError(f"Current command pointer ({gptr} / {SYNTAX[gptr][-1]}) "
+                           "has no outgoing links. Command graph:\n" + str(g.edges))
+
+        # Get our outgoing links
+        gptr = g[gptr]
 
         # If "weighted" is turned on, then we use the appropriately normalized connection weights
         # to assign selection probabilities to each potential next step
@@ -697,8 +700,15 @@ class RestrictedCommandGraph(CommandGraph):
         except ValueError:
             pass
 
-        # Track number of useable commands
-        context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
+        return gptr
+
+    def generate_cmd_args(self, gptr, context):
+        nargs = SYNTAX[gptr][0]
+        args = []
+        if gptr in self.cmd_arg_graphs and (nargs or 0) > 0:
+            # append arguments
+            args = expand(self.cmd_arg_graphs[gptr], gptr, nargs)
+
         # Track vars in use
         # TODO: move to validation
         if gptr in {0xF8, 0xF9}:
@@ -712,7 +722,7 @@ class RestrictedCommandGraph(CommandGraph):
             if var not in context["vars_in_use"]:
                 var = numpy.random.choice(list(context["vars_in_use"]))
 
-        return gptr, args
+        return args
 
     def regulate_difficulty(self, diff_thresh=1, diff_val=1):
         from . import themes
