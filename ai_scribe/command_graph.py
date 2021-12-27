@@ -26,6 +26,14 @@ def expand(arg_g, cmd_byte=0xF0, nargs=3):
 
     return stack
 
+def _bind_token(cmd, script, arg_graph, shuffle_args=False):
+    for arg, descr in cmd.parse_args(script):
+        arg_graph.add_node(arg, type="generic", descr=descr)
+        if shuffle_args:
+            arg_graph.add_edge(arg, cmd._BYTEVALUE)
+
+    for a1, a2 in zip(script[:cmd.nargs - 1], script[1:cmd.nargs]):
+        arg_graph.add_edge(a1, a2)
 
 class CommandGraph:
     def __init__(self):
@@ -153,6 +161,7 @@ class CommandGraph:
         for name, script in list(scripts.items()):
             self.from_script(script)
 
+            # FIXME: can we delete this?
             if len(self.OUT_OF_SYNTAX) > 0 and on_parse_error is not None:
                 v = self.OUT_OF_SYNTAX[-1]
                 # FIXME: names seem wrong
@@ -184,48 +193,25 @@ class CommandGraph:
                 script = ["_", v] + script
                 continue
 
-            if v in SYNTAX:
-                nbytes, _, descr = SYNTAX[v]
-            else:
-                nbytes, descr = None, None
+            # FIXME: can we delete this?
+            try:
+                cmd = syntax._CMD_REF[v]()
+            except IndexError:
                 self.OUT_OF_SYNTAX.append(v)
 
-            self.cmd_graph.add_node(v, type="command", nbytes=nbytes, descr=descr)
+            self.cmd_graph.add_node(v, type="command", nbytes=cmd.nargs, descr=cmd.descr)
             self.cmd_graph.add_edge(last_cmd, v)
             self.cmd_graph.get_edge_data(last_cmd, v)["weight"] = \
                 self.cmd_graph.get_edge_data(last_cmd, v).get("weight", 0) + 1
             last_cmd = v
 
-            if nbytes is not None and nbytes > 0:
-                from . import syntax
-                cmd_obj = syntax._CMD_REF.get(v, None)
-                if cmd_obj is not None:
-                    types = cmd_obj()._argument_types
-                    shuffle_args = cmd_obj().arg_shuffle_allowed
-                else:
-                    types = [None] * nbytes
-                    shuffle_args = False
-
+            if cmd.nargs is not None and cmd.nargs > 0:
                 # FIXME: handle this at init
-                self.cmd_arg_graphs[v].add_node(v, type="command", nbytes=nbytes, descr=descr)
+                self.cmd_arg_graphs[v].add_node(v, type="command", nbytes=cmd.nargs, descr=cmd.descr)
                 self.cmd_arg_graphs[v].add_edge(v, script[0])
-                i = 0
-                for a, t in zip(script[:nbytes], types):
-                    i += 1
-                    try:
-                        descr = t[a] if isinstance(t, (dict, list)) else t(a)
-                        self.cmd_arg_graphs[v].add_node(a, type="generic", descr=descr)
-                    except TypeError:
-                        pass
-                    except KeyError:
-                        # There's at least one missing targeting byte description
-                        pass
-                    if shuffle_args:
-                        self.cmd_arg_graphs[v].add_edge(a, v)
 
-                for a1, a2 in zip(script[:nbytes - 1], script[1:nbytes]):
-                    self.cmd_arg_graphs[v].add_edge(a1, a2)
-                script = script[nbytes:]
+                _bind_token(cmd, script, self.cmd_arg_graphs[v])
+                script = script[cmd.nargs:]
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
@@ -475,8 +461,8 @@ class RestrictedCommandGraph(CommandGraph):
     RULESETS = {
         # disallow self targeting with harmful effects
         "no_self_target":
-            [((0xF1, {0x36}), (0xF0, None)),
-             ((0xF1, {0x36}), ("_",  None))],
+            [((0xF1, {0x36}), (0xF0, ...)),
+             ((0xF1, {0x36}), ("_",  ...))],
 
         # disallow player healing
         "no_player_heal":
@@ -487,12 +473,12 @@ class RestrictedCommandGraph(CommandGraph):
 
         # Example: disallow empty FC block
         "no_empty_fc":
-            [((0xFC, None), (0xFF, None)),
-             ((0xFC, None), (0xFE, None))],
+            [((0xFC, ...), (0xFF, None)),
+             ((0xFC, ...), (0xFE, None))],
 
         # Example: do nothing connections
         "no_do_nothing":
-            [((0xF1, None), (c, None)) for c in EXCEPT_ATTACKS],
+            [((0xF1, ...), (c, ...)) for c in EXCEPT_ATTACKS],
 
         # The following are less useful as rules and
         # could be in validation step
@@ -508,7 +494,7 @@ class RestrictedCommandGraph(CommandGraph):
 
     class Rule:
         def __init__(self, seq1, seq2):
-            self._seq1, self._seq1 = seq1, seq2
+            self._seq1, self._seq2 = seq1, seq2
 
         def _maybe_expand(self, c1, c2):
             return c1, c2
@@ -524,8 +510,10 @@ class RestrictedCommandGraph(CommandGraph):
                 return False
             return True
 
-        def __getitem__(self, ls1, ls2):
-            return self.check_rule(ls1[0], ls2[0], ls1[1], ls2[1])
+        def __call__(self, *args):
+            # FIXME: add overrides for commands from kwargs
+            ls1, ls2 = args
+            return self.check_rule(self._seq1[0], self._seq2[0], ls1[1], ls2[1])
 
     @classmethod
     def get_rule_set(cls, *args, **kwargs):
@@ -625,7 +613,7 @@ class RestrictedCommandGraph(CommandGraph):
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
                         raise KeyError(f"Rule application failed too many times.")
-                    elif False and not self.check_rule(last, gptr):
+                    elif not self.check_rule(last, gptr):
                         # TODO: Get rule broken
                         #aborts[f"rule/{rule}"] += 1
                         # FIXME: we may hit this very quickly if the rejection sampling space is large

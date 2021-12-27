@@ -27,35 +27,39 @@ SYNTAX = {
 # FIXME: merge with SYNTAX
 _CMD_REF = {}
 
-
 class Cmd:
-    def __init__(self, byteval=None, nargs=None, descr=""):
+    @classmethod
+    def get_by_byteval(cls, byteval):
+        return _CMD_REF[byteval]
+
+    def __init__(self, byteval, nargs, descr=""):
         self.byteval = byteval
         self.nargs = nargs
         self.descr = descr
-        self._argument_types = []
 
-        self.arg_shuffle_allowed = False
+    def __call__(self, arg_g, *args):
+        # could also do rules here
+        return f"[{hex(self.byteval)}+{self.nargs}] {self.descr}\n" + self.format_args(*self.expand(arg_g))
 
-    def _iter_args(self, *args):
-        arg_types = self._argument_types or [None] * self.nbytes
-        for arg, _type in zip(args, arg_types):
-            if isinstance(_type, (list, dict)):
-                descr = _type[arg]
-            elif _type is None:
-                descr = None
-            else:
-                descr = _type(descr)
-        yield arg, descr
+    def parse_args(self, script):
+        return [(arg, None) for arg in script[:self.nargs]]
 
-    def expand(self, arg_g):
+    def format_args(self, *args, joiner=" | "):
+        return joiner.join([*map(str, args)])
+
+    def to_str(self):
+        return f"[{hex(self.byteval)}] {self.descr}\n"
+
+    def expand(self, arg_g, virtual=False):
         """
         Expand the command into its randomized parameters with argument graph `arg_g`.
 
         :param arg_g: `networkx.DiGraph` a graph containing the relationships between the parameters; must include the command byte as well
+        :param virtual: Command is not actually in syntax, so do not prepend it to result
         :return: a `list` of byte values corresponding to the command parameters
         """
-        stack = []
+        # We may not need the syntax marker
+        stack = [] if virtual else [self.byteval]
 
         gptr = arg_g[self.byteval]
         while len(stack) < (self.nargs or 0):
@@ -69,61 +73,30 @@ class Cmd:
 
         return stack
 
-    def validate(self, script, ptr):
-        return True
-
-    def to_str(self):
-        return f"[{hex(self.byteval)}] {self.descr}\n"
-
-    def __str__(self):
-        args = ", ".join(map(str, [typ.__name__ if isinstance(typ, type) else "enum" for typ in self._argument_types]))
-        base = f"[{hex(self.byteval)}] {self.descr}"
-        return base + f" +{self.nargs} -> {args}: | shuffle? {self.arg_shuffle_allowed}"
-
-class EndBlock(Cmd):
+class ChooseSpell(Cmd):
     """
-    The first EndBlock signifies the end of the "main" command block.
-    The second EndBlock signifies the end of the counter / final attack block and the script itself.
+    Randomly selects a skill to perform from the next three bytes.
     """
+    _BYTEVAL = 0xF0
+    _ALLOWED_ARGS = set(flags.SPELL_LIST)
+    _NOTHING = 0xFF
     def __init__(self):
-        super().__init__(0xFF, None, descr="END BLOCK")
+        super().__init__(self._BYTEVAL, 3, "CHOOSE SPELL")
 
-_CMD_REF[0xFF] = EndBlock
+    def __call__(self, *args):
+        # implement the actual command function with given args
+        pass
 
-class EndPredBlock(Cmd):
-    """
-    Signifies the end of influence of a CmdPredicate.
-    """
-    def __init__(self):
-        super().__init__(0xFE, None, descr="END FC BLOCK")
+    def parse_args(self, script):
+        return [(arg, flags.SPELL_LIST[arg]) for arg in script[:self.nargs]]
 
-    def validate(self, script, ptr):
-        # Ensure we actually have an FC block to end
-        try:
-            fci = script[:ptr][::-1].find(0xFC)
-        except ValueError:
-            return False
-        fei = script[:ptr][::-1].find(0xFE) if 0xFE in script[:ptr] else -1
-        ffi = script[:ptr][::-1].find(0xFF) if 0xFF in script[:ptr] else -1
+    def expand(self, arg_g):
+        arg = super().expand(arg_g)
+        if any(arg not in self._ALLOWED_ARGS for arg in arg[1:]):
+            raise
+        return arg
 
-        # We encountered an end block before the beginning of the
-        # predicate
-        # FIXME: This will get confused by "nothing"
-        if fci > fei or fci > ffi:
-            return False
-
-        return super().validate(script, ptr)
-
-_CMD_REF[0xFE] = EndPredBlock
-
-class Wait(Cmd):
-    """
-    Signifies that the monster will do nothing this turn.
-    """
-    def __init__(self):
-        super().__init__(0xFD, None, descr="WAIT")
-
-_CMD_REF[0xFD] = Wait
+_CMD_REF[ChooseSpell._BYTEVAL] = ChooseSpell
 
 class DoSkill(Cmd):
     """
@@ -132,49 +105,29 @@ class DoSkill(Cmd):
     NOTE: this is not an actual byte-valued command. It is a placeholder so that
     the script parser does not confuse it for other commands or their parameters.
     """
+    _BYTEVAL = "_"
+    _ALLOWED_ARGS = ChooseSpell._ALLOWED_ARGS - set(range(0xF0, 0x100))
     def __init__(self):
-        super().__init__("_", 1, descr="DO SKILL")
-        self._argument_types = [flags.SPELL_LIST]
-        self.arg_shuffle_allowed = True
+        super().__init__(self._BYTEVAL, 1, descr="DO SKILL")
 
-    def to_str(self, arg):
-        return f"[] {arg}"
+    def expand(self, arg_g):
+        super().format_args(arg_g, virtual=True)
 
-_CMD_REF["_"] = DoSkill
+    def format_args(self, *args):
+        return flags.SPELL_LIST[args[0]]
 
-class ChooseSpell(Cmd):
-    """
-    Randomly selects a skill to perform from the next three bytes.
-    """
-    def __init__(self):
-        super().__init__(0xF0, 3, descr="CHOOSE SPELL")
-        self._argument_types = [flags.SPELL_LIST] * self.nargs
-        self.arg_shuffle_allowed = True
-
-    def to_str(self, *args):
-        return super().to_str() + f"\t[+{self.nbytes}] " + " | ".join([flags.SPELL_LIST[s] for s in args])
-
-_CMD_REF[0xF0] = ChooseSpell
+_CMD_REF[DoSkill._BYTEVAL] = DoSkill
 
 class Targeting(Cmd):
     """
     The next attack will use the target specified by the byte after this.
     """
+    _BYTEVAL = 0xF1
+    _ALLOWED_ARGS = flags.TARGET_LIST
     def __init__(self):
-        super().__init__(0xF1, 1, descr="TARGETING")
-        self._argument_types = [flags.TARGET_LIST]
-        self.arg_shuffle_allowed = True
+        super().__init__(self._BYTEVAL, 1, "TARGETTING")
 
-    def validate(self, script, ptr):
-        # Cannot have a "dangling" target
-        if script[ptr + 2] in {0xFF, 0xFE}:
-            return False
-        return super().validate(script, ptr)
-
-    def to_str(self, *args):
-        return super().to_str() + f"\t[+{self.nbytes}] " + " | ".join([flags.TARGET_LIST.get(s, "<UNK>") for s in args])
-
-_CMD_REF[0xF1] = Targeting
+_CMD_REF[Targeting._BYTEVAL] = Targeting
 
 class ChangeFormation(Cmd):
     """
@@ -187,33 +140,41 @@ class ChangeFormation(Cmd):
     If it's 1, then the monsters get max HP.
     If it's 0, then monsters retain HP and max HP from current formation.
     """
+    _BYTEVAL = 0xF2
+    # FIXME: how many allowed formations?
+    _ALLOWED_ARGS = set(range(1024))
     def __init__(self):
-        super().__init__(0xF2, 3, descr="CHANGE FORMATION")
-        self._argument_types = [int, int]
-
-    def validate(self, script, ptr):
-        # will probably need to check that the formation being switched to is valid
-        return super().validate(script, ptr)
+        super().__init__(self._BYTEVAL, 3, "CHANGE FORMATION")
 
     _HP_MASK = 1 << 15
-    def to_str(self, *args):
+    def format_args(self, *args):
         form = int.from_bytes(args[1:3], "little")
         with_hp = (form & self._HP_MASK) == self._HP_MASK
         form = ((form << 1) & 0xFFFF) >> 1
         with_hp = " WITH MAX HP" if with_hp else ""
-        return super().to_str() + f"[{args[0]}] {hex(form)}" + with_hp
+        return hex(form) + with_hp
 
-_CMD_REF[0xF2] = ChangeFormation
+    # TODO: argument checking
+
+_CMD_REF[ChangeFormation._BYTEVAL] = ChangeFormation
 
 class DisplayMsg(Cmd):
     """
     Display a message indicated by the next two bytes.
     """
+    _BYTEVAL = 0xF3
+    # FIXME: get from module
+    _ALLOWED_ARGS = set(range(256))
     def __init__(self):
-        super().__init__(0xF2, 2, "DISPLAY MESSAGE")
-        self._argument_types = [int, int]
+        super().__init__(self._BYTEVAL, 2, "DISPLAY MESSAGE")
 
-_CMD_REF[0xF3] = DisplayMsg
+    def format_args(self, *args, msg_dict={}):
+        form = int.from_bytes(args[1:2], "little")
+        if form in msg_dict:
+            return f"{hex(form)} = \"{msg_dict[form]}\""
+        return hex(form)
+
+_CMD_REF[DisplayMsg._BYTEVAL] = DisplayMsg
 
 class UseCommand(Cmd):
     """
@@ -221,24 +182,14 @@ class UseCommand(Cmd):
 
     NOTE: Not all commands work properly.
     """
+    _BYTEVAL = 0xF4
+    _ALLOWED_ARGS = flags.CMD_LIST
     _VALID_COMMANDS = {f for f, s in flags.CMD_LIST.items()
                        if s.startswith("(") or s == "Nothing"}
-
     def __init__(self):
-        super().__init__(0xF4, 3, "USE COMMAND")
-        self._argument_types = [flags.CMD_LIST] * 3
-        self.arg_shuffle_allowed = True
+        super().__init__(self._BYTEVAL, 2, "DISPLAY MESSAGE")
 
-    def validate(self, script, ptr, strict=False):
-        args = set(script[ptr+1:ptr+self.nargs+1])
-        if strict and not args.issubset(self._VALID_COMMANDS):
-            return False
-        elif not args.issubset(flags.CMD_LIST):
-            return False
-
-        super().validate(script, ptr)
-
-_CMD_REF[0xF4] = UseCommand
+_CMD_REF[UseCommand._BYTEVAL] = UseCommand
 
 class AlterFormation(Cmd):
     """
@@ -253,22 +204,24 @@ class AlterFormation(Cmd):
     If byte 2 is 3 then monsters are hidden and restored to full HP
     If byte 2 is 4 then monsters are hidden without restoring HP
     """
+    _BYTEVAL = 0xF5
+    _ALLOWED_ARGS = ...
 
+    _STATUS = {
+        0: "SHOWN AND KILLED(?)",
+        1: "KILLED",
+        2: "SHOWN",
+        3: "HIDDEN AT MAX HP",
+        4: "HIDDEN"
+    }
     def __init__(self):
-        super().__init__(0xF5, 3, "ALTER FORMATION")
-        self._argument_types = [int, int, int]
+        super().__init__(self._BYTEVAL, 3, "ALTER FORMATION")
 
-    def to_str(self, *args):
-        status = {
-            0: "SHOWN AND KILLED(?)",
-            1: "KILLED",
-            2: "SHOWN",
-            3: "HIDDEN AT MAX HP",
-            4: "HIDDEN"
-        }.get(args[1], "???")
-        return super().to_str() + f"{hex(args[0])} {status} {bin(args[2])}"
+    def format_args(self, *args):
+        status = self._STATUS.get(args[1], "???")
+        return f"{status} {bin(args[2])}"
 
-_CMD_REF[0xF5] = AlterFormation
+_CMD_REF[AlterFormation._BYTEVAL] = AlterFormation
 
 class ThrowUseItem(Cmd):
     """
@@ -276,17 +229,18 @@ class ThrowUseItem(Cmd):
 
     [0 = use | 1 = throw] [item1] [item2]
     """
+    _BYTEVAL = 0xF6
+    _ALLOWED_ARGS = flags.ITEM_LIST
+
     def __init__(self):
-        super().__init__(0xF6, 3, "THROW / USE ITEM")
-        self._argument_types = [int] + [flags.ITEM_LIST] * 2
-        self.arg_shuffle_allowed = True
+        super().__init__(self._BYTEVAL, 3, "THROW / USE ITEM")
 
-    def to_str(self, *args):
-        args = [f(a) for f, a in zip(self._argument_types, args)]
+    def format_args(self, *args):
+        args = [flags.ITEM_LIST[i] for i in args]
         toggle = 'use' if args[0] == 0 else 'throw'
-        return super().to_str() + f"{toggle} " + " | ".join(args[1:])
+        return f"{toggle} " + super.format_args(*args)
 
-_CMD_REF[0xF6] = ThrowUseItem
+_CMD_REF[ThrowUseItem._BYTEVAL] = ThrowUseItem
 
 class SpecialEvent(Cmd):
     """
@@ -294,18 +248,33 @@ class SpecialEvent(Cmd):
 
     [event]
     """
+    _BYTEVAL = 0xF7
     # FIXME: need event list
+    _ALLOWED_ARGS = set(flags.SPECIAL_EVENTS)
+
     def __init__(self):
-        super().__init__(0xF7, 1, "SPECIAL EVENT")
-        self._argument_types = [int]
-        self.arg_shuffle_allowed = True
+        super().__init__(self._BYTEVAL, 1, "SPECIAL EVENT")
 
-    def to_str(self, arg):
-        return super().to_str() + hex(arg)
+    def format_args(self, *args):
+        if args[0] in flags.SPECIAL_EVENTS:
+            return f"{hex(args[0])} " + flags.SPECIAL_EVENTS[args[0]]
+        return f"{hex(args[0])}"
 
-_CMD_REF[0xF7] = SpecialEvent
+_CMD_REF[SpecialEvent._BYTEVAL] = SpecialEvent
 
-class VarMath(Cmd):
+class VariableBase(Cmd):
+    __VARIABLE_CONTEXT = set()
+
+    def reset(self):
+        self.__VARIABLE_CONTEXT = set()
+
+    def get_random_var(self):
+        pass
+
+    def register_var(self):
+        pass
+
+class VarMath(VariableBase):
     """
     Perform some math on the specified variable.
 
@@ -320,31 +289,30 @@ class VarMath(Cmd):
     10	    Add to variable
     11	    Subtract from variable
     """
-    def __init__(self):
-        super().__init__(0xF8, 2, "VAR MATH")
-        self._argument_types = [int, int, int]
+    _BYTEVAL = 0xF8
+    _VALID_OPERS = {
+        0: "SET",
+        1: "SET",
+        2: "ADD",
+        3: "SUB"
+    }
 
-    def _oper(self, val):
+    @classmethod
+    def _oper(cls, val):
         # FIXME: do we have this reversed?
-        return {
-            0: "SET",
-            1: "SET",
-            2: "ADD",
-            3: "SUB"
-        }.get((val >> 6) & 0x3, "???")
+        return cls._VALID_OPERS.get((val >> 6) & 0x3, "???")
 
-    def validate(self, script, ptr):
-        # Need to check that variables are present and accounted for
-        return super().validate(script, ptr)
+    def __init__(self):
+        super().__init__(self._BYTEVAL, 2, "VAR MATH")
 
-    def to_str(self, *args):
+    def format_args(self, *args):
         oper = self._oper(args[1])
         val = args[1] & 0x3F
-        return super().to_str() + f"{hex(args[0])} {oper} {val}"
+        return f"{oper} {val}"
 
-_CMD_REF[0xF8] = VarMath
+_CMD_REF[VarMath._BYTEVAL] = VarMath
 
-class VarManip(Cmd):
+class VarManip(VariableBase):
     """
     Perform bitwise mainpulation on the specified variable.
 
@@ -353,30 +321,25 @@ class VarManip(Cmd):
     From the scripting guide:
     Byte 1 is the operation:
     Value	Operation
-    0	Toggle bit
-    1	Set bit
-    2	Clear bit
+    0	    Toggle bit
+    1	    Set bit
+    2	    Clear bit
     """
+    _BYTEVAL = 0xF9
+    _VALID_OPER = {
+        0: "TOGGLE",
+        1: "SET",
+        2: "CLEAR"
+    }
+
+    @classmethod
+    def _oper(cls, value):
+        return cls._VALID_OPER.get(value, "???")
+
     def __init__(self):
-        super().__init__(0xF9, 3, "VAR MANIP")
-        self._argument_types = [int, int, bin]
+        super().__init__(self._BYTEVAL, 3, "VAR MANUP")
 
-    def _oper(self, value):
-        return {
-            0: "TOGGLE",
-            1: "SET",
-            2: "CLEAR"
-        }.get(value, "???")
-
-    def validate(self, script, ptr):
-        # Need to check that variables are present and accounted for
-        return super().validate(script, ptr)
-
-    def to_str(self, *args):
-        oper = self._oper(args[0])
-        return super().to_str() + f"{oper} {hex(args[1])} {bin(args[2])}"
-
-_CMD_REF[0xF9] = VarManip
+_CMD_REF[VarManip._BYTEVAL] = VarManip
 
 class SpecAct(Cmd):
     """
@@ -384,16 +347,17 @@ class SpecAct(Cmd):
 
     [animation id] [target] [unk.]
     """
+    _BYTEVAL = 0xFA
+    _VALID_ANIM = set(flags.ANIMATIONS)
+    _VALID_TARGETS = set(flags.TARGET_LIST)
+    _ALLOWED_ARGS = ...
     def __init__(self):
-        super().__init__(0xFB, 3, "SPECIAL ACTION")
-        self._argument_types = [flags.ANIMATIONS, flags.TARGET_LIST, None]
+        super().__init__(self._BYTEVAL, 3, "SPECIAL ACTION")
 
-    def to_str(self, *args):
-        anim = flags.ANIMATIONS[args[0]]
-        targ = flags.TARGET_LIST[args[1]]
-        return super().to_str() + f"{anim} {targ}"
+    def format_args(self, *args):
+        return f"{flags.ANIMATIONS[args[0]]} {flags.TARGET_LIST[args[1]]}"
 
-_CMD_REF[0xFA] = SpecAct
+_CMD_REF[SpecAct._BYTEVAL] = SpecAct
 
 class Misc(Cmd):
     """
@@ -401,34 +365,57 @@ class Misc(Cmd):
 
     [effect] [target]
     """
+    _BYTEVAL = 0xFB
+    _VALID_MISC = set(flags.MISC)
+    _VALID_TARGETS = set(flags.TARGET_LIST)
+    _ALLOWED_ARGS = ...
     def __init__(self):
-        super().__init__(0xFB, 2, "MISC.")
+        super().__init__(self._BYTEVAL, 2, "MISC.")
 
-    def to_str(self, *args):
-        effect = flags.MISC[args[0]]
-        targ = flags.TARGET_LIST[args[1]]
-        return self.to_str() + f"{effect} {targ}"
+    def format_args(self, *args):
+        return f"{flags.MISC[args[0]]} {flags.TARGET_LIST[args[1]]}"
 
-_CMD_REF[0xFB] = Misc
+_CMD_REF[Misc._BYTEVAL] = Misc
 
-class CmdPred(Cmd):
+class CmdPred(VariableBase):
     """
     Predicate all actions on the evaluated truth value of this command until the block is ended.
 
     [modifier type] [param1] [param2]
     NOTE: This can be ended by 0xFE or OxFF.
     """
+    _BYTEVAL = 0xFC
+    _VALID_MODS = flags.FC_MODIFIERS
+    _ALLOWED_ARGS = ...
     def __init__(self):
-        super().__init__(0xFC, 3, "CMD PRED")
-        self._argument_types = [flags.FC_MODIFIERS, int, int]
+        super().__init__(self._BYTEVAL, 3, "CMD PRED")
 
-    def validate(self, script, ptr):
-        # This one is probably the most complicated one we'll have to check
-        # Need to make sure all targets / variables are represented properly
-        return super().validate(script, ptr)
+    def format_args(self, *args):
+        # FIXME: format these correctly
+        return f"\t{flags.FC_MODIFIERS[args[0]]} " + " ".join(map(hex, args[1:3]))
 
-    def to_str(self, *args):
-        mod = flags.FC_MODIFIERS[args[0]]
-        return super().to_str() + f"\t{mod} " + " ".join(map(hex, args[1:3]))
+_CMD_REF[CmdPred._BYTEVAL] = CmdPred
 
-_CMD_REF[0xFC] = CmdPred
+class Wait(Cmd):
+    """
+    Signifies that the monster will do nothing this turn.
+    """
+    _BYTEVAL = 0xFD
+    def __init__(self):
+        super().__init__(self._BYTEVAL, 0, "WAIT")
+
+_CMD_REF[Wait._BYTEVAL] = Wait
+
+class EndPredBlock(Cmd):
+    _BYTEVAL = 0xFE
+    def __init__(self):
+        super().__init__(self._BYTEVAL, 0, "END FC BLOCK")
+
+_CMD_REF[EndPredBlock._BYTEVAL] = EndPredBlock
+
+class EndBlock(Cmd):
+    _BYTEVAL = 0xFF
+    def __init__(self):
+        super().__init__(self._BYTEVAL, 0, "END BLOCK")
+
+_CMD_REF[EndBlock._BYTEVAL] = EndBlock
