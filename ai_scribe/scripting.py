@@ -1,4 +1,5 @@
 from . import flags
+from . import syntax
 from .syntax import SYNTAX
 
 # Upper case
@@ -175,3 +176,128 @@ class Script:
             return sum([math.log2(n / m) for n, m in zip(p1, p2)])
 
         return sum([math.log2(n) for n in p1])
+
+# rules
+_RULES = {}
+
+class Rule:
+    # put in flags
+    ALL_SKILLS = set(range(256))
+    # FIXME: fill out
+    PLAYER_TARGETS = {k for k, v in flags.TARGET_LIST.items() if v not in set()}
+    # put in syntax
+    EXCEPT_ATTACKS = {"_"} | (set(range(0xF1, 0xFF)) - {0xF0})
+    RULESETS = {
+        # disallow self targeting with harmful effects
+        "no_self_target":
+            [((0xF1, {0x36}), (0xF0, ...)),
+             ((0xF1, {0x36}), ("_",  ...))],
+
+        # disallow player healing
+        "no_player_heal":
+            [((0xF1, PLAYER_TARGETS), (0xF0, flags.CURATIVES)),
+             ((0xF1, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
+        # FIXME this is a different rule
+        #((0xF6, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
+
+        # Example: disallow empty FC block
+        "no_empty_fc":
+            [((0xFC, ...), (0xFF, None)),
+             ((0xFC, ...), (0xFE, None))],
+
+        # Example: do nothing connections
+        "no_do_nothing":
+            [((0xF1, ...), (c, ...)) for c in EXCEPT_ATTACKS],
+
+        # The following are less useful as rules and
+        # could be in validation step
+        # Example: disallow a specific spell (Fire)
+        "no_fire":
+            [((None, None), (0xF0, {0x0})),
+             ((None, None), ("_",  {0x0}))],
+
+        # Example: allow only certain items to be used
+        "standard_items":
+            [((None, None), (0xF6, {...}))],
+    }
+
+    @classmethod
+    def get_nth_token_from_end(cls, script, n=1, with_args=False):
+        tidx = len(script)
+        while n > 0:
+            tidx -= 1
+            if not isinstance(script[tidx], (int, bytes)):
+                n -= 1
+
+        if with_args:
+            arglen = tidx + (script[tidx]._NARGS or 0) + 1
+            return script[tidx], script[tidx+1:arglen]
+        return script[tidx]
+
+    # Does the rule apply and is triggered?
+    def __call__(self, script, **ctx):
+        pass
+
+    def suggest(self, script, **ctx):
+        pass
+    
+class NoEmptyCondBlock(Rule):
+    def __call__(self, script, **ctx):
+        # get last token
+        try:
+            tok = self.get_nth_token_from_end(script, n=1)
+        except IndexError:
+            return False
+
+        return isinstance(tok, syntax.EndPredBlock) \
+                and ctx["nfc"] == 0
+_RULES["no_empty_cond_block"] = NoEmptyCondBlock
+
+class NoNestedCondBlock(Rule):
+    def __call__(self, script, **ctx):
+        # get last two tokens
+        try:
+            rhs, rargs = self.get_nth_token_from_end(script, n=1, with_args=True)
+            lhs, largs = self.get_nth_token_from_end(script, n=2, with_args=True)
+        except IndexError:
+            return False
+
+        if ctx["nfc"] == 0:
+            return False
+        if ctx["nfc"] >= 1 and rhs is syntax.CmdPred:
+            return True
+        return False
+_RULES["no_nested_cond_block"] = NoNestedCondBlock
+
+class CurativesOnlyTargetAllies(Rule):
+    VALID_TARGETABLE = (syntax.DoSkill, syntax.ChooseSpell,
+                        syntax.ThrowUseItem, syntax.UseCommand)
+
+    def __call__(self, script, **ctx):
+        # get last two tokens
+        try:
+            rhs, rargs = self.get_nth_token_from_end(script, n=1, with_args=True)
+            lhs, largs = self.get_nth_token_from_end(script, n=2, with_args=True)
+        except IndexError:
+            return False
+
+        # FIXME: only works for DoSkill
+        if isinstance(lhs, syntax.Targeting) \
+           and isinstance(rhs, self.VALID_TARGETABLE):
+            return largs[0] in flags.SELF_TARGETS \
+                   and rargs[0] in flags.CURATIVES
+        return False
+_RULES["curatives_only_target_self"] = CurativesOnlyTargetAllies
+
+class BanSkill(Rule):
+    def __init__(self, banned_skills):
+        super().__init__()
+        self.banned_skills = banned_skills
+
+    def __call__(self, script, **ctx):
+        # get last token
+        tok, skill = self.get_nth_token_from_end(script, n=1, with_args=True)
+
+        return isinstance(tok, syntax.DoSkill) \
+                and set(skill) & self.banned_skills
+_RULES["ban_skill"] = BanSkill

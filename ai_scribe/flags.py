@@ -354,6 +354,7 @@ TARGET_LIST = """00	Terra
 
 TARGET_LIST = [s.split("\t") for s in TARGET_LIST]
 TARGET_LIST = {int(i, 16): t.strip() for i, t in TARGET_LIST}
+SELF_TARGETS = set(range(0x36, 0x3B)) | set(range(0x3D, 0x3F))
 
 ITEM_LIST = """00 Dirk
 01 MithrilKnife

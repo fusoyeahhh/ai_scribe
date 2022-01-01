@@ -9,6 +9,7 @@ from . import syntax
 from .syntax import SYNTAX
 from .themes import ELEM_THEMES, STATUS_THEMES, FROM_COMMANDS
 
+# FIXME: to syntax
 def expand(arg_g, cmd_byte=0xF0, nargs=3):
     stack = []
 
@@ -16,8 +17,8 @@ def expand(arg_g, cmd_byte=0xF0, nargs=3):
     assert len(gptr) > 0 and set(gptr) != {cmd_byte}
     while len(stack) < nargs:
         try:
-            gptr = numpy.random.choice(list(gptr))
-        except ValueError:
+            gptr = random.choice(list(gptr))
+        except IndexError:
             gptr = cmd_byte
 
         if gptr != cmd_byte:
@@ -32,7 +33,7 @@ def _bind_token(cmd, script, arg_graph, shuffle_args=False):
         if shuffle_args:
             arg_graph.add_edge(arg, cmd._BYTEVALUE)
 
-    for a1, a2 in zip(script[:cmd.nargs - 1], script[1:cmd.nargs]):
+    for a1, a2 in zip(script[:cmd._NARGS-1], script[1:cmd._NARGS]):
         arg_graph.add_edge(a1, a2)
 
 class CommandGraph:
@@ -195,23 +196,23 @@ class CommandGraph:
 
             # FIXME: can we delete this?
             try:
-                cmd = syntax._CMD_REF[v]()
+                cmd = syntax.Cmd._CMD_REG[v]
             except IndexError:
                 self.OUT_OF_SYNTAX.append(v)
 
-            self.cmd_graph.add_node(v, type="command", nbytes=cmd.nargs, descr=cmd.descr)
+            self.cmd_graph.add_node(v, type="command", nbytes=cmd._NARGS, descr=cmd._DESCR)
             self.cmd_graph.add_edge(last_cmd, v)
             self.cmd_graph.get_edge_data(last_cmd, v)["weight"] = \
                 self.cmd_graph.get_edge_data(last_cmd, v).get("weight", 0) + 1
             last_cmd = v
 
-            if cmd.nargs is not None and cmd.nargs > 0:
+            if cmd._NARGS is not None and cmd._NARGS > 0:
                 # FIXME: handle this at init
-                self.cmd_arg_graphs[v].add_node(v, type="command", nbytes=cmd.nargs, descr=cmd.descr)
+                self.cmd_arg_graphs[v].add_node(v, type="command", nbytes=cmd._NARGS, descr=cmd._DESCR)
                 self.cmd_arg_graphs[v].add_edge(v, script[0])
 
                 _bind_token(cmd, script, self.cmd_arg_graphs[v])
-                script = script[cmd.nargs:]
+                script = script[cmd._NARGS:]
 
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
@@ -452,99 +453,27 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
         cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
 
 class RestrictedCommandGraph(CommandGraph):
-    # put in flags
-    ALL_SKILLS = set(range(256))
-    # FIXME: fill out
-    PLAYER_TARGETS = {k for k, v in flags.TARGET_LIST.items() if v not in set()}
-    # put in syntax
-    EXCEPT_ATTACKS = {"_"} | (set(range(0xF1, 0xFF)) - {0xF0})
-    RULESETS = {
-        # disallow self targeting with harmful effects
-        "no_self_target":
-            [((0xF1, {0x36}), (0xF0, ...)),
-             ((0xF1, {0x36}), ("_",  ...))],
-
-        # disallow player healing
-        "no_player_heal":
-            [((0xF1, PLAYER_TARGETS), (0xF0, flags.CURATIVES)),
-             ((0xF1, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
-             # FIXME this is a different rule
-             #((0xF6, PLAYER_TARGETS), ("_",  flags.CURATIVES))],
-
-        # Example: disallow empty FC block
-        "no_empty_fc":
-            [((0xFC, ...), (0xFF, None)),
-             ((0xFC, ...), (0xFE, None))],
-
-        # Example: do nothing connections
-        "no_do_nothing":
-            [((0xF1, ...), (c, ...)) for c in EXCEPT_ATTACKS],
-
-        # The following are less useful as rules and
-        # could be in validation step
-        # Example: disallow a specific spell (Fire)
-        "no_fire":
-            [((None, None), (0xF0, {0x0})),
-             ((None, None), ("_",  {0x0}))],
-
-        # Example: allow only certain items to be used
-        "standard_items":
-            [((None, None), (0xF6, {...}))],
-    }
-
-    class Rule:
-        def __init__(self, seq1, seq2):
-            self._seq1, self._seq2 = seq1, seq2
-
-        def _maybe_expand(self, c1, c2):
-            return c1, c2
-
-        def check_rule(self, cmd1=None, cmd2=None, arg1=None, arg2=None):
-            # an existing link disallows that connection
-            # FIXME: could be slow
-            for ((c1, a1), (c2, a2)) in self._maybe_expand(cmd1, cmd2):
-                if (c1 == cmd1 or c1) and (c2 == cmd2 or c2) and \
-                        (arg1 in a1 or {arg1}) and (arg2 in a2 or {arg2}):
-                    break
-            else:
-                return False
-            return True
-
-        def __call__(self, *args):
-            # FIXME: add overrides for commands from kwargs
-            ls1, ls2 = args
-            return self.check_rule(self._seq1[0], self._seq2[0], ls1[1], ls2[1])
-
     @classmethod
-    def get_rule_set(cls, *args, **kwargs):
-        rule_map = cls(kwargs.get("graph", None))
-        args = set(args)
+    def get_rule_set(cls, *rules, graph=None):
+        newg = cls()
+        # process rules
+        from .scripting import _RULES
+        newg.rule_set = {rule: _RULES[rule]()
+                            for rule in set(rules) & set(_RULES)}
 
-        rule_map.rules = [v for k, v in cls.RULESETS.items()
-                                if k in args]
+        if graph:
+            newg.cmd_graph = graph.cmd_graph
+            newg.cmd_arg_graphs = graph.cmd_arg_graphs
 
-        return rule_map
+        return newg
 
-    def __init__(self, g=None):
+    def __init__(self):
         super().__init__()
-        if g is not None:
-            self.cmd_graph = g.cmd_graph
-            self.cmd_arg_graphs = g.cmd_arg_graphs
-        self.rules = []
+        self.rule_set = {}
 
-    def check_rule(self, cmd1=None, cmd2=None, arg1=None, arg2=None):
-        for rule in self.rules:
-            if rule[cmd1, cmd2, arg1, arg2]:
-                break
-        else:
-            return False
-        return True
-
-    def generate_script_token(self, history, **kwargs):
-        # Possibility #1, need to change -1 to be last command
-        kwargs["main_block_len"] = 1
-        # TODO: actually check the result
-        return self.generate_from_graph(start_cmd=(history or ["^"])[-1], **kwargs)
+    def check_rules(self, script, **ctx):
+        return {name for name, rule in self.rule_set.items()
+                    if rule(script, **ctx)}
 
     # rewrite of generate_from_graph
     def _generate_from_graph(self, start_cmd="^",
@@ -585,37 +514,46 @@ class RestrictedCommandGraph(CommandGraph):
                 g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
                 #print(gptr, cmd, g.edges)
 
-        context = {
-            "phase": "main",
-            "weighted": weighted,
-            "vars_in_use": set(),
-            "nfc": 0,
-            "ncmd": 0
-        }
-
         aborts = defaultdict(lambda: 0)
         while naborts >= 0:
+            context = {
+                "phase": "main",
+                "weighted": weighted,
+                "vars_in_use": set(),
+                "nfc": 0,
+                "ncmd": 0,
+                # Allowed number of rule checks per attempt
+                "rule_checks": 100
+            }
             script, gptr = [], start_cmd
-            # Allowed number of rule checks per attempt
-            context["rule_checks"] = 10
+            _script = []
+            scr_len = 0
+
             try:
-                scr_len = main_block_len + cntr_block_len
-                while scr_len > 0:
+                while scr_len < main_block_len + cntr_block_len:
                     last = gptr
                     gptr = self._generate_script_token(g, gptr, script_context=context["phase"])
+
+                    # TODO: variable handling
+                    # TODO: formation handling
 
                     # Need we arguments for command?
                     args = self.generate_cmd_args(gptr, context)
 
-                    # Track number of useable commands
-                    context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
+                    _gptr = syntax.Cmd._CMD_REG[gptr]
+                    #_gptr = syntax.Cmd[gptr]
+
+                    # Check rules
+                    __script = _script + [_gptr] + args
+                    blocking_rules = self.check_rules(__script, **context)
 
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
                         raise KeyError(f"Rule application failed too many times.")
-                    elif not self.check_rule(last, gptr):
+                    elif len(blocking_rules) != 0:
                         # TODO: Get rule broken
-                        #aborts[f"rule/{rule}"] += 1
+                        for rule in blocking_rules:
+                            aborts[f"rule/{rule}"] += 1
                         # FIXME: we may hit this very quickly if the rejection sampling space is large
                         gptr = last
                         context["rule_checks"] -= 1
@@ -626,10 +564,44 @@ class RestrictedCommandGraph(CommandGraph):
                     else:
                         # Handle do skill commands
                         script.extend(args)
-                    scr_len -= 1
+                    _script.append(_gptr)
+                    _script.extend(args)
 
-                if gptr == 0xFF:
-                    context["phase"] = "counter"
+                    # conditional handling
+                    # Increasingly likely to end the block
+                    # Note that this hardcodes no empty conditionals
+                    if random.randint(0, context["nfc"]) > 0 \
+                          and last not in {syntax.Targeting._BYTEVAL, syntax.CmdPred._BYTEVAL} \
+                          and gptr != syntax.EndPredBlock._BYTEVAL:
+                        _gptr = syntax.EndPredBlock
+                        gptr = _gptr._BYTEVAL
+                        _script.append(_gptr)
+                        script.append(gptr)
+
+                    # Track number of useable commands
+                    # FIXME: change to syntax objects
+                    # FIXME: ncmd should be earlier
+                    context["nfc"] += 1 if gptr in {0xFC} else 0
+                    context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
+                    if gptr == syntax.EndPredBlock._BYTEVAL:
+                        context["nfc"] = 0
+
+                    # only increment the command counter if
+                    # we're not under influence of modifiers
+                    if gptr != syntax.Targeting._BYTEVAL: #and context["nfc"] == 0:
+                        scr_len += 1
+
+                    # End the main block if needed
+                    # END BLOCK and END FC BLOCK act the same if we are in a conditional
+                    # so this is safe.
+                    # TODO: You can save bytes by absorbing the two enders together if they
+                    # appear
+                    if context["phase"] == "main" and scr_len == main_block_len:
+                        _gptr = syntax.EndBlock
+                        script.append(_gptr._BYTEVAL)
+                        _script.append(_gptr)
+                        context["nfc"] = 0
+                        context["phase"] = "counter"
 
             except KeyError as e:
                 # Bad command graph links
@@ -637,22 +609,15 @@ class RestrictedCommandGraph(CommandGraph):
                 # FIXME: should this be fatal?
                 script, gptr = [], start_cmd
                 naborts -= 1
-                aborts[f"command_graph/{e.message}"] += 1
+                aborts[f"command_graph/bad_links"] += 1
             except ValueError as e:
                 script, gptr = [], start_cmd
                 naborts -= 1
                 aborts[f"general/{e.message}"] += 1
-                """
-            except Exception as e:
-                print(e)
-                # FIXME: This should probably be fatal
-                naborts -= 1
-                # We reset as a backup
-                # gptr = start_cmd
-                """
             else:
                 # We're done, add script terminator
-                script += [0xFF]
+                script += [syntax.EndBlock._BYTEVAL]
+                _script += [syntax.EndBlock]
                 # Break out of abort check loop
                 break
 
@@ -673,27 +638,37 @@ class RestrictedCommandGraph(CommandGraph):
         if gptr not in g or len(g[gptr]) == 0:
             gptr = hex(gptr) if isinstance(gptr, int) else gptr
             raise KeyError(f"Current command pointer ({gptr} / {SYNTAX[gptr][-1]}) "
-                           "has no outgoing links. Command graph:\n" + str(g.edges))
+                           "has no outgoing links. Command graph:\n"
+                           + self.to_text_repr(suppress_args=True))
 
         # Get our outgoing links
-        gptr = g[gptr]
+        weights = {c: w.get("weight", 1) for c, w in g[gptr].items()}
+
+        # prune decisions for unusable syntax
+        syntax.apply_syntax_rules(gptr, weights)
+
+        # TODO: establish workarounds
+        norm = sum(weights.values())
+        if norm == 0:
+            raise KeyError("gptr has no valid choices."
+                           f"\ngptr / weights: {gptr} {weights}"
+                           f"\ncommand graph ({len(g)} elements):\n"
+                           + self.to_text_repr(suppress_args=True))
 
         # If "weighted" is turned on, then we use the appropriately normalized connection weights
         # to assign selection probabilities to each potential next step
-        if weighted:
-            gptr = {c: w.get("weight", 1) for c, w in gptr.items()}
-            weights = sum(gptr.values())
-            weights = [w / weights for w in gptr.values()]
-        else:
-            weights = [1 / len(gptr)] * len(gptr)
-        try:
-            gptr = numpy.random.choice(list(gptr), p=weights)
-        except:
-            raise KeyError("gptr has no valid choices."
-                          f"\ngptr / weights: {gptr} {weights}"
-                          f"\ncommand graph ({len(g)} elements): {str(g.edges)}")
+        choices = list(weights)
+        weights = [(w / norm) if weighted else (1 / len(weighted))
+                        for w in weights.values()]
+
+        # We get an index from numpy because they can't be bothered
+        # and will *always* convert the input
+        # array to one of their overburdened types, so checks for
+        # this being a simple int type later fail
+        gptr = choices[numpy.random.choice(range(len(weights)), p=weights)]
 
         # catch '_'
+        # FIXME: probably don't need this anymore
         try:
             gptr = int(gptr)
         except ValueError:
