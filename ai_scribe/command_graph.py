@@ -9,7 +9,7 @@ from . import syntax
 from .syntax import SYNTAX
 from .themes import ELEM_THEMES, STATUS_THEMES, FROM_COMMANDS
 
-# FIXME: to syntax
+# FIXME: to syntax (attached to Cmd?)
 def expand(arg_g, cmd_byte=0xF0, nargs=3):
     stack = []
 
@@ -189,17 +189,13 @@ class CommandGraph:
         while len(script) > 0:
             v = script.pop(0)
 
-            if v not in SYNTAX:
+            if v not in syntax.Cmd._CMD_REG:
                 # assume skill command
                 script = ["_", v] + script
                 continue
+            cmd = syntax.Cmd._CMD_REG[v]
 
-            # FIXME: can we delete this?
-            try:
-                cmd = syntax.Cmd._CMD_REG[v]
-            except IndexError:
-                self.OUT_OF_SYNTAX.append(v)
-
+            v = "^" if cmd == "^" else cmd._BYTEVAL
             self.cmd_graph.add_node(v, type="command", nbytes=cmd._NARGS, descr=cmd._DESCR)
             self.cmd_graph.add_edge(last_cmd, v)
             self.cmd_graph.get_edge_data(last_cmd, v)["weight"] = \
@@ -476,10 +472,10 @@ class RestrictedCommandGraph(CommandGraph):
                     if rule(script, **ctx)}
 
     # rewrite of generate_from_graph
-    def _generate_from_graph(self, start_cmd="^",
-                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                             cntr_block_len=None, cntr_block_avg=0, allow_empty_cntr_blocks=True,
-                             disallow_commands=set(), weighted=True, naborts=20, strict=True):
+    def generate_from_graph(self, start_cmd="^",
+                            main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
+                            cntr_block_len=None, cntr_block_avg=0, allow_empty_cntr_blocks=True,
+                            disallow_commands=set(), weighted=True, naborts=20, strict=True):
 
         main_block_avg = None if main_block_avg is None else numpy.random.poisson(main_block_avg)
         main_block_len = main_block_len or main_block_avg
@@ -510,9 +506,7 @@ class RestrictedCommandGraph(CommandGraph):
                 if cmd in g[start_cmd]:
                     g.remove_edge(start_cmd, cmd)
                 # This contracts for only this node, and it's a permanent change for this run through
-                #print(self.cmd_graph.edges)
                 g = networkx.algorithms.minors.contracted_nodes(g, gptr, cmd)
-                #print(gptr, cmd, g.edges)
 
         aborts = defaultdict(lambda: 0)
         while naborts >= 0:
@@ -532,7 +526,7 @@ class RestrictedCommandGraph(CommandGraph):
             try:
                 while scr_len < main_block_len + cntr_block_len:
                     last = gptr
-                    gptr = self._generate_script_token(g, gptr, script_context=context["phase"])
+                    gptr = self.generate_script_token(g, gptr, script_context=context["phase"])
 
                     # TODO: variable handling
                     # TODO: formation handling
@@ -581,14 +575,14 @@ class RestrictedCommandGraph(CommandGraph):
                     # Track number of useable commands
                     # FIXME: change to syntax objects
                     # FIXME: ncmd should be earlier
-                    context["nfc"] += 1 if gptr in {0xFC} else 0
-                    context["ncmd"] += 1 if gptr in {0xF0, 0xF4, 0xF6, "_"} else 0
+                    context["nfc"] += 1 if gptr in {syntax.CmdPred._BYTEVAL} else 0
+                    context["ncmd"] += 1 if gptr in {c._BYTEVAL for c in syntax.ATTACK_CMDS} else 0
                     if gptr == syntax.EndPredBlock._BYTEVAL:
                         context["nfc"] = 0
 
                     # only increment the command counter if
                     # we're not under influence of modifiers
-                    if gptr != syntax.Targeting._BYTEVAL: #and context["nfc"] == 0:
+                    if gptr != syntax.Targeting._BYTEVAL:
                         scr_len += 1
 
                     # End the main block if needed
@@ -613,7 +607,8 @@ class RestrictedCommandGraph(CommandGraph):
             except ValueError as e:
                 script, gptr = [], start_cmd
                 naborts -= 1
-                aborts[f"general/{e.message}"] += 1
+                # message is often too long / uninformative to embed
+                aborts[f"general"] += 1
             else:
                 # We're done, add script terminator
                 script += [syntax.EndBlock._BYTEVAL]
@@ -631,7 +626,7 @@ class RestrictedCommandGraph(CommandGraph):
 
         return script
 
-    def _generate_script_token(self, g, gptr="^", script_context="main", weighted=True):
+    def generate_script_token(self, g, gptr="^", script_context="main", weighted=True):
         # Things needed for context
         assert script_context in {"main", "counter"}
 
@@ -666,14 +661,6 @@ class RestrictedCommandGraph(CommandGraph):
         # array to one of their overburdened types, so checks for
         # this being a simple int type later fail
         gptr = choices[numpy.random.choice(range(len(weights)), p=weights)]
-
-        # catch '_'
-        # FIXME: probably don't need this anymore
-        try:
-            gptr = int(gptr)
-        except ValueError:
-            pass
-
         return gptr
 
     def generate_cmd_args(self, gptr, context):
