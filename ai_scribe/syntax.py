@@ -1,6 +1,7 @@
 import numpy
 from . import flags
 
+# TODO: hunt down uses of this and replace appropriately
 SYNTAX = {
     0xF0: (3, 0x100, "CHOOSE SPELL"),
     # Targetting technically only uses 1 byte, but the next is the attack
@@ -25,6 +26,7 @@ SYNTAX = {
 }
 
 DO_SKILL = "_"
+BEGIN_SCRIPT = "^"
 
 #
 # Hard rules for transitions
@@ -78,8 +80,12 @@ class Cmd:
         return Cmd._CMD_REG[byteval]
 
     @classmethod
-    def scan(cls):
-        pass
+    def scan(cls, script):
+        cmdmap = {}
+        idx = script.find(cls._BYTEVAL)
+        while idx != -1:
+            cmdmap[idx] = script[idx:idx + cls._NARGS]
+        return cmdmap
 
     @classmethod
     def parse_args(cls, script):
@@ -104,7 +110,7 @@ class Cmd:
         Expand the command into its randomized parameters with argument graph `arg_g`.
 
         :param arg_g: `networkx.DiGraph` a graph containing the relationships between the parameters; must include the command byte as well
-        :param virtual: Command is not actually in syntax, so do not prepend it to result
+        :param virtual: `bool` Command is not actually in syntax, so do not prepend it to result
         :return: a `list` of byte values corresponding to the command parameters
         """
         # We may not need the syntax marker
@@ -149,7 +155,7 @@ class ChooseSpell(Cmd, byteval=0xF0, nargs=3, descr="CHOOSE SPELL",
             raise
         return arg
 
-class DoSkill(Cmd, byteval="_", nargs=3, descr="DO SKILL",
+class DoSkill(Cmd, byteval="_", nargs=1, descr="DO SKILL",
                    allowed_args=ChooseSpell._ALLOWED_ARGS - set(range(0xF0, 0x100))):
     """
     Unconditionally perform the specified skill.
@@ -458,3 +464,5 @@ class EndBlock(Cmd, byteval=0xFF, descr="END BLOCK"):
     Signifies closing of the current block.
     """
     pass
+
+ATTACK_CMDS = {ChooseSpell, ThrowUseItem, UseCommand, DoSkill}
