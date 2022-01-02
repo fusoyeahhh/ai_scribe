@@ -145,6 +145,10 @@ class ChooseSpell(Cmd, byteval=0xF0, nargs=3, descr="CHOOSE SPELL",
         return [(arg, flags.SPELL_LIST[arg]) for arg in script[:cls._NARGS]]
 
     @classmethod
+    def format_args(cls, *args):
+        return Cmd.format_args(*[flags.SPELL_LIST[arg] for arg in args])
+
+    @classmethod
     def validate_args(cls, *args, left=None):
         return set(args).issubset(cls._ALLOWED_ARGS)
 
@@ -165,7 +169,7 @@ class DoSkill(Cmd, byteval="_", nargs=1, descr="DO SKILL",
     """
     @classmethod
     def expand(cls, arg_g):
-        super().format_args(arg_g, virtual=True)
+        Cmd.format_args(arg_g, virtual=True)
 
     @classmethod
     def validate_args(cls, *args, left=None):
@@ -228,6 +232,8 @@ class UseCommand(Cmd, byteval=0xF4, nargs=3, descr="USE COMMAND",
     """
     _VALID_COMMANDS = {f for f, s in flags.CMD_LIST.items()
                             if s.startswith("(") or s == "Nothing"}
+    def format_args(cls, *args):
+        return Cmd.format_args([flags.CMD_LIST.get(arg, "{ILLEGAL}") for arg in args])
 
     @classmethod
     def validate_args(cls, *args, left=None):
@@ -257,8 +263,9 @@ class AlterFormation(Cmd, byteval=0xF5, nargs=3, descr="ALTER FORMATION"):
     }
     @classmethod
     def format_args(cls, *args):
+        anim = flags.ENT_ANIMATIONS[args[0]]
         status = cls._STATUS.get(args[1], "???")
-        return f"{status} {bin(args[2])}"
+        return f"{anim} {status} {bin(args[2])}"
 
     # FIXME
     @classmethod
@@ -278,9 +285,9 @@ class ThrowUseItem(Cmd, byteval=0xF6, nargs=3, descr="THROW / USE ITEM",
 
     @classmethod
     def format_args(cls, *args):
-        args = [flags.ITEM_LIST[i] for i in args]
         toggle = 'use' if args[0] == 0 else 'throw'
-        return f"{toggle} " + super().format_args(*args)
+        args = [flags.ITEM_LIST[i] for i in args]
+        return f"{toggle} " + Cmd.format_args(*args)
 
     @classmethod
     def validate_args(cls, *args, left=None):
@@ -295,8 +302,13 @@ class Targeting(Cmd, byteval=0xF1, nargs=1, descr="TARGETTING",
     """
     VALID_TARGETABLE = (DoSkill, ChooseSpell, ThrowUseItem, UseCommand)
 
-    def validate_args(self, *args, left=None):
-        return set(args).issubset(self._ALLOWED_ARGS)
+    @classmethod
+    def format_args(cls, *args):
+        return Cmd.format_args(flags.TARGET_LIST.get(args[0], f"<UNK>"))
+
+    @classmethod
+    def validate_args(cls, *args, left=None):
+        return set(args).issubset(cls._ALLOWED_ARGS)
 
 class SpecialEvent(Cmd, byteval=0xF7, nargs=1, descr="SPECIAL EVENT",
                         # FIXME: need event list
@@ -362,7 +374,7 @@ class VarMath(Cmd, VariableBase, byteval=0xF8, nargs=3, descr="VAR MATH"):
     def format_args(cls, *args):
         oper = cls._oper(args[1])
         val = args[1] & 0x3F
-        return f"{oper} {val}"
+        return f"var {hex(args[0])}: {oper} {val}"
 
     @classmethod
     def validate_args(cls, *args, left=None):
@@ -392,6 +404,12 @@ class VarManip(Cmd, VariableBase, byteval=0xF9, nargs=3, descr="VAR MANIP"):
         return cls._VALID_OPERS.get(value, "???")
 
     @classmethod
+    def format_args(cls, *args):
+        oper = cls._oper(args[0])
+        val = args[1] & 0x3F
+        return f"var {hex(args[1])}: {oper} {val}"
+
+    @classmethod
     def validate_args(cls, *args, left=None):
         return args[0] in cls._VALID_OPERS and set(args[1:]).issubset(cls._ALLOWED_ARGS)
 
@@ -406,7 +424,7 @@ class SpecAct(Cmd, byteval=0xFA, nargs=3, descr="SPECIAL ACTION"):
 
     @classmethod
     def format_args(cls, *args):
-        return f"{flags.ANIMATIONS[args[0]]} {flags.TARGET_LIST[args[1]]}"
+        return f"{flags.ANIMATIONS[args[0]]} {flags.TARGET_LIST[args[1]]} [{hex(args[2])}]"
 
     @classmethod
     def validate_args(cls, *args, left=None):
@@ -436,30 +454,45 @@ class CmdPred(Cmd, VariableBase, byteval=0xFC, nargs=3, descr="CMD PRED"):
     NOTE: This can be ended by 0xFE or OxFF.
     """
     _VALID_MODS = flags.FC_MODIFIERS
+    _PRED_ARGS = flags.PRED_ARGS
 
     @classmethod
     def format_args(cls, *args):
         # FIXME: format these correctly
-        return f"\t{flags.FC_MODIFIERS[args[0]]} " + " ".join(map(hex, args[1:3]))
+        name = flags.FC_MODIFIERS[args[0]]
+        _args = []
+        for mod, arg in zip(cls._PRED_ARGS[name], args[1:]):
+            try:
+                _args.append(str(mod[arg]))
+                continue
+            except (KeyError, TypeError):
+                pass
+            try:
+                _args.append(str(mod(arg)))
+                continue
+            except TypeError:
+                pass
+            _args.append(f"<{str(arg)}>")
+        return f"{name} " + " ".join(_args)
 
     # TODO: these will need some work, and may need subclasses
     @classmethod
     def validate_args(cls, *args, left=None):
         return args[0] in cls._VALID_MODS and ...
 
-class Wait(Cmd, byteval=0xFD, descr="WAIT"):
+class Wait(Cmd, byteval=0xFD, nargs=0, descr="WAIT"):
     """
     Signifies that the monster will do nothing this turn.
     """
     pass
 
-class EndPredBlock(Cmd, byteval=0xFE, descr="END FC BLOCK"):
+class EndPredBlock(Cmd, byteval=0xFE, nargs=0, descr="END FC BLOCK"):
     """
     Ends the influence of the most recent predicate.
     """
     pass
 
-class EndBlock(Cmd, byteval=0xFF, descr="END BLOCK"):
+class EndBlock(Cmd, byteval=0xFF, nargs=0, descr="END BLOCK"):
     """
     Signifies closing of the current block.
     """

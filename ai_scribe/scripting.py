@@ -159,7 +159,31 @@ class Script:
 
     #def __repr__(self):
     def translate(self, **kwargs):
-        return translate(self._bytes, **kwargs)
+        cpy = self._bytes
+
+        trans = ""
+        while len(cpy) > 0:
+            if syntax.Cmd._CMD_REG.get(cpy[0], None) is None:
+                trans += "[] " + syntax.DoSkill.format_args(cpy.pop(0)) + "\n"
+                continue
+
+            cmd = syntax.Cmd._CMD_REG.get(cpy.pop(0), None) or cmd
+            nbytes, descr = cmd._NARGS, cmd._DESCR
+
+            args, cpy = cpy[:nbytes], cpy[nbytes:]
+            fmtargs = cmd.format_args(*args)
+
+            bval = cmd._BYTEVAL if cmd._BYTEVAL == "_" else hex(cmd._BYTEVAL)
+            ext = f"+{nbytes}" if nbytes is not None or nbytes != 0 else ""
+            args = "".join([f"{arg:02x}" for arg in args])
+            trans += f"[{bval}{ext}:{str(args)}] {descr}\n"
+            if fmtargs != "":
+                trans += "\t" + fmtargs + "\n"
+
+        return trans
+
+    #def translate(self, **kwargs):
+        #return translate(self._bytes, **kwargs)
 
     def entropy(self, rhs=None):
         from collections import Counter

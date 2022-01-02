@@ -1,3 +1,30 @@
+# Elemental Flags
+# From https://www.tales-cless.org/ff6hack/#elem
+# 1: Fire
+# 2: Ice
+# 3: Lightning
+# 4: Poison
+# 5: Wind
+# 6: Pearl
+# 7: Earth
+# 8: Water
+ELEMENT_FLAGS = {e: 1 << i for i, e in
+                        enumerate(["fire", "ice", "lightning", "poison",
+                                   "wind", "pearl", "earth", "water"])}
+
+# Byte 1
+# bit 0: Blind
+# bit 1: Zombie
+# bit 2: Poison
+# bit 3: MagiTek
+# bit 4: Vanish
+# bit 5: Imp
+# bit 6: Petrify
+# bit 7: Wounded
+STATUS_FLAGS = {k: 1 << i for i, k in
+                enumerate(["blind", "zombie", "poison", "magitek",
+                           "vanish", "imp", "petrify", "wounded"])}
+
 CMD_LIST = """00 Fight Works correctly
 01 Item Says Dirk, but casts Fire
 02 Magic Casts Fire
@@ -671,6 +698,64 @@ FC_MODIFIERS = {
     0x1B: "IS FORM # =",
     # Next two bytes are unused
     0x1C: "ALWAYS"
+}
+
+PRED_ARGS = {
+    # Next two bytes are CMD and unused
+    "IF CMD USED": (CMD_LIST, None),
+    # Next two bytes are SPELL and unused
+    "IF SPELL USED": (SPELL_LIST, None),
+    # Next two bytes are ITEM and unused
+    "IF ITEM USED": (ITEM_LIST, None),
+    # Next two bytes are ELEM and unused
+    "IF ELEM ATK": (ELEMENT_FLAGS, None),
+    # Next two bytes ignored
+    "IF DAMAGED": (None, None),
+    # Next two bytes are TARGET and HP / 128
+    "IF HP <": (TARGET_LIST, lambda v: v / 128),
+    # Next two bytes are TARGET and MP
+    "IF MP <": (TARGET_LIST, int),
+    # Next two bytes are TARGET and STATUS
+    "IF HAS STATUS": (TARGET_LIST, STATUS_FLAGS),
+    # Next two bytes are TARGET and STATUS
+    "IF NOT HAS STATUS": (TARGET_LIST, STATUS_FLAGS),
+    # Never executed
+    "NOT EXE": (None, None),
+    # Next two bytes are TIME and unused
+    "ETIMER >": (int, None),
+    # Next two bytes are VAR and VAL
+    "VAR <": (hex, int),
+    # Next two bytes are VAR and VAL
+    "VAR >=": (hex, int),
+    # Next two bytes are TARGET and LEVEL
+    "IF LEVEL <": (TARGET_LIST, int),
+    # Next two bytes are TARGET and LEVEL
+    "IF LEVEL >=": (TARGET_LIST, int),
+    # Next two bytes are unused(?)
+    "IF SINGLE ETYPE": (None, None),
+    # Next two bytes are EPARTY (in bits?) and ignored
+    "IS ALIVE": (bin, None),
+    # Next two bytes are EPARTY (in bits?) and ignored
+    "IS DEAD": (bin, None),
+    # Next two bytes are PARTY / EPARTY and VAL
+    "IF ANY ALIVE": (bin, int),
+    # Next two bytes are VAR and BIT
+    "IF VAR BIT": (hex, bin),
+    "IF NOT VAR BIT": (hex, bin),
+    # Next two bytes are TIME and unused
+    "BAT TIMER >": (int, None),
+    # Next two bytes are TARGET and ignored
+    "SET TARGET": (TARGET_LIST, None),
+    # Next two bytes are unused
+    "IF GAU JOINED": (None, None),
+    # Next two bytes are NUM and unused
+    "IF FORM #": (hex, None),
+    # Next two bytes are ELEM and TARGET
+    "IF WEAK TO": (ELEMENT_FLAGS, TARGET_LIST),
+    # FIXME: Next two bytes are 16-bit NUM
+    "IS FORM # =": (int, int),
+    # Next two bytes are unused
+    "ALWAYS": (None, None)
 }
 
 SPECIAL_EVENTS = {
