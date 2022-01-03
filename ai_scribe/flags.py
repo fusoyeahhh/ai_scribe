@@ -63,6 +63,8 @@ CMD_LIST = {int(idx, 16): f"({cmd})" if 'Works' in descr else f"{{{cmd}}}"
 _CMD_LIST = {v[1:-1]: k for k, v in CMD_LIST.items()}
 CMD_LIST[0xFE] = "Nothing"
 
+BENEFICIAL_CMDS = {0x1A}
+
 SPELL_LIST = """00:ºFire**
 01:ºIce***
 02:ºBolt**
@@ -326,7 +328,8 @@ _SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumera
 # Don't ask, I'm lazy
 _SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
 
-CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
+CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x2D, 0x33)}
+BUFFS = {0x1C, 0x1F, 0x22, 0x24, 0x25, 0x26, 0x27, 0x2B, 0x34, 0x35}
 
 ESPERS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
 DESPERATIONS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0xF0, 0xFE)}
@@ -641,6 +644,8 @@ FE Dried Meat
 FF -Blank-""".split("\n")
 
 ITEM_LIST = [" ".join(descr) for idx, *descr in map(str.split, ITEM_LIST)]
+
+BENEFICIAL_ITEMS = set(range(0xE8, 0xFF)) - {0xFA}
 
 FC_MODIFIERS = {
     # Next two bytes are CMD and unused

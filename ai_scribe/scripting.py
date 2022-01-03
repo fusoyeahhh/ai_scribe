@@ -281,37 +281,42 @@ class NoNestedCondBlock(Rule):
     def __call__(self, script, **ctx):
         # get last two tokens
         try:
-            rhs, rargs = self.get_nth_token_from_end(script, n=1, with_args=True)
-            lhs, largs = self.get_nth_token_from_end(script, n=2, with_args=True)
+            rhs = self.get_nth_token_from_end(script, n=1)
+            lhs = self.get_nth_token_from_end(script, n=2)
         except IndexError:
             return False
 
         if ctx["nfc"] == 0:
             return False
+        # FIXME: I don't think this is right...
         if ctx["nfc"] >= 1 and rhs is syntax.CmdPred:
             return True
         return False
 _RULES["no_nested_cond_block"] = NoNestedCondBlock
 
-class CurativesOnlyTargetAllies(Rule):
-    VALID_TARGETABLE = (syntax.DoSkill, syntax.ChooseSpell,
-                        syntax.ThrowUseItem, syntax.UseCommand)
-
+class TargetingRules(Rule):
     def __call__(self, script, **ctx):
-        # get last two tokens
         try:
             rhs, rargs = self.get_nth_token_from_end(script, n=1, with_args=True)
             lhs, largs = self.get_nth_token_from_end(script, n=2, with_args=True)
         except IndexError:
             return False
 
-        # FIXME: only works for DoSkill
-        if isinstance(lhs, syntax.Targeting) \
-           and isinstance(rhs, self.VALID_TARGETABLE):
-            return largs[0] in flags.SELF_TARGETS \
-                   and rargs[0] in flags.CURATIVES
-        return False
-_RULES["curatives_only_target_self"] = CurativesOnlyTargetAllies
+        if not isinstance(lhs, syntax.Targeting):
+            return False
+
+        target_self = largs[0] in flags.SELF_TARGETS
+        beneficial = False
+        if rhs in (syntax.DoSkill, syntax.ChooseSpell):
+            beneficial = any(arg in flags.CURATIVES | flags.BUFFS for arg in rargs)
+        elif rhs is syntax.ThrowUseItem:
+            beneficial = any(arg in flags.BENEFICIAL_ITEMS for arg in rargs)
+        elif rhs is syntax.UseCommmand:
+            beneficial = any(arg in flags.BENEFICIAL_CMDS for arg in rargs)
+
+        import pdb; pdb.set_trace()
+        return target_self and beneficial
+_RULES["targeting_rules"] = TargetingRules
 
 class BanSkill(Rule):
     def __init__(self, banned_skills):
