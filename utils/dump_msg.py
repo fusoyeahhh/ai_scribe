@@ -93,7 +93,22 @@ def transcode(word):
     :return: list of integers corresponding to characters
     """
     rmap = {v: k for k, v in _CHARS.items()}
+    rmap.update({v: k for k, v in _CTRL.items()})
+
+    # preprocessing
+    rmap[" "] = 255
+    rmap['\xC7'] = 0xC7
+    rmap['\x05'] = 0x05
+    rmap['\x01'] = 0x01
+    word = word.replace("...", '\xC7')
+    word = word.replace(r"\n", '\x05\x01')
+
     return [rmap[c] for c in word if c in rmap]
+
+def edit_battle_msg(battle_msgs, idx, new_msg):
+    ptr = battle_msgs._ptrs[idx]
+    battle_msgs._lookup[ptr] = bytes(transcode(new_msg)) + b"\x05\x00"
+    battle_msgs.realign(compress=True)
 
 import argparse
 argp = argparse.ArgumentParser()
@@ -104,6 +119,8 @@ argp.add_argument("-S", "--no-suppress-empty", action='store_true',
                   help="Do not suppress empty messages.")
 argp.add_argument("-l", "--long-form", action='store_true',
                   help="Emit bytestring along with translation")
+argp.add_argument("-e", "--edit-message", action='append',
+                  help="Edit message, give like `--edit-message '10:New Message!'`")
 _ALLOWED_LEVELS = ", ".join(logging._nameToLevel)
 argp.add_argument("-L", "--log-level", default='WARN',
                   help=f"Set the log level. Default is WARN. Available choices are {_ALLOWED_LEVELS}.")
@@ -124,12 +141,60 @@ if __name__ == "__main__":
         romfile = fin.read()
     batt_msgs = extract.extract_battle_msgs(romfile)
 
-    for i, msg in batt_msgs.items():
+    class BatMessageTable(extract.LookupTable):
+        def __init__(self):
+            super().__init__(ptr_blk_begin=0xFDFE0, ptr_blk_end=0xFE1E0,
+                             src_blk_begin=0xFE1E0, src_blk_end=0xFF450)
+
+        # Unused dragon phase change messages
+        _ALLOWABLE_OVERWRITES = set(range(106, 118))
+
+        def realign(self, ptr_len=2, compress=True):
+            orig_len = sum(map(len, self._lookup.values()))
+            ptr_blk, src_blk = super().realign(ptr_len, compress)
+            new_len = len(src_blk)
+            over_bytes = new_len - orig_len
+
+            for idx in self._ALLOWABLE_OVERWRITES:
+                print(f"Blanking index {idx}")
+                if over_bytes <= 0:
+                    break
+                edit_battle_msg(self, idx, "")
+                #ptr = self._ptrs[idx]
+                #self._lookup[ptr] = b""
+            else:
+                raise ValueError("Not enough free space to accommodate new message.")
+            # FIXME: try to not do this twice
+            return super().realign(ptr_len, compress)
+
+    #batt_msgs = extract.LookupTable(ptr_blk_begin=0xFDFE0, ptr_blk_end=0xFE1E0,
+                                    #src_blk_begin=0xFE1E0, src_blk_end=0xFF450)
+    batt_msgs = BatMessageTable()
+    batt_msgs.read(romfile, rel_offset=0xF0000)
+
+    for arg in args.edit_message or []:
+        idx, msg = arg.split(":")
+        # FIXME: find a better way
+        edit_battle_msg(batt_msgs, 106, new_msg="")
+        edit_battle_msg(batt_msgs, 107, new_msg="")
+        edit_battle_msg(batt_msgs, 108, new_msg="")
+        edit_battle_msg(batt_msgs, 109, new_msg="")
+        edit_battle_msg(batt_msgs, 110, new_msg="")
+
+        edit_battle_msg(batt_msgs, int(idx), new_msg=msg)
+
+        romfile = batt_msgs.write(romfile)
+        with open("test.smc", "wb") as fout:
+            fout.write(romfile)
+
+    for i, ptr in enumerate(batt_msgs._ptrs):
+        msg = batt_msgs.get_by_index(i)
         if len(msg) == 0 and not args.no_suppress_empty:
             continue
         tmsg = translate(msg, batt_msg=True)
         if not args.long_form:
             tmsg = tmsg.replace("\n", " / ")
-        print(f"[{str(i).ljust(3)}] \"{tmsg}\"")
+        ptr, mlen = f"{ptr:04x}", f"{len(msg):04x}"
+        print(f"[{str(i).ljust(3)}:{ptr}+{mlen}] \"{tmsg}\"")
         if args.long_form:
             print("\t" + str(bytes(msg)))
