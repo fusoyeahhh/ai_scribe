@@ -1,4 +1,18 @@
 
+ENEMY_DATA_OFFSET = 0xF0000
+ENEMY_DATA_SIZE = 0x20
+ENEMY_DATA_BLOCKS = 0x180
+ENEMY_MP_REL_OFFSET = 0x0A
+def give_base_mp(romfile):
+
+    ptr = ENEMY_DATA_OFFSET + ENEMY_MP_REL_OFFSET
+    for i in range(ENEMY_DATA_BLOCKS):
+        mp = max(20, int.from_bytes(romfile[ptr:ptr + 2], "little"))
+        romfile = romfile[:ptr] + mp.to_bytes(2, "little") + romfile[ptr + 2:]
+        ptr += ENEMY_DATA_SIZE
+
+    return romfile
+
 def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     """
     Cancel on Party -> Cancel if no Opposition
