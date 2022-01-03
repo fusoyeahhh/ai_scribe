@@ -326,7 +326,7 @@ if __name__ == "__main__":
         oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
         assert plen == len(romfile)
 
-        if outfname.endswith(".smc"):
+        if fname.endswith(".smc"):
             outfname = fname.replace(".smc", f".ai_rando_{i}.smc")
         else:
             outfname = f"FF3.ai_rando_{i}.smc"
