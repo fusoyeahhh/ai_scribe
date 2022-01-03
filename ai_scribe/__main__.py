@@ -3,22 +3,19 @@ import glob
 import math
 import random
 import numpy
-import networkx.algorithms
 
 import logging
 logging.basicConfig()
 
-from . import _NAME_ALIASES
-from . import command_graph
-from . import tableau_scripts, verify_rom
-from . import scripting
-from .data import apply_esper_target_patch, give_base_mp
-from .extract import *
-from .extract import ScriptSet
+from . import extract
 from . import pack
-from .pack import randomize_scripts
-from .flags import ESPERS, DESPERATIONS
+from . import scripting
+from . import command_graph
 
+from . import _NAME_ALIASES, tableau_scripts, verify_rom
+
+from .data import apply_esper_target_patch, give_base_mp
+from .flags import ESPERS, DESPERATIONS
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 
 # We have to do this here or else the submodules will override it.
@@ -150,15 +147,15 @@ if __name__ == "__main__":
             # remove them from the pool, because they won't work
             conf["drop_skills"] |= set(ESPERS)
 
-        scripts, names, blocks = extract(fname, return_names=True)
+        scripts, names, blocks = extract.extract(fname, return_names=True)
         log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
 
-        scripts = ScriptSet(fname)
+        scripts = extract.ScriptSet(fname)
 
         full_graph = command_graph.CommandGraph()
         full_graph.from_scripts({k: v._bytes for k, v in scripts.scripts.items()})
 
-        #batt_msgs = extract_battle_msgs(srcrom)
+        #batt_msgs = extract.extract_battle_msgs(srcrom)
 
         # tracks the marginal budget we have on free space
         extra_space = 0
@@ -281,10 +278,10 @@ if __name__ == "__main__":
             # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
                           "naborts": conf["num_retries"], "strict": False}
-            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset),
-                                            #main_block_avg=main_block_avg,
-                                            main_block_avg=5,
-                                            total_len=total_len, **gen_kwargs)
+            _scr, _ptrs = pack.randomize_scripts(cmd_graph, n=len(sset),
+                                                 #main_block_avg=main_block_avg,
+                                                 main_block_avg=5,
+                                                 total_len=total_len, **gen_kwargs)
             assert sum(map(len, _scr)) <= total_len, "Script block length exceeds request."
 
             # DEBUG
@@ -325,7 +322,7 @@ if __name__ == "__main__":
         # Split the enemies into scripts that need to be written
         # first, so as to not soft-lock the game at some point
         # because of truncation
-        write_first = set(identify_special_event_scripts(scripts.scripts).values())
+        write_first = set(extract.identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
 
         scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks, write_first=write_first)
