@@ -10,8 +10,9 @@ logging.basicConfig()
 
 from . import _NAME_ALIASES
 from . import command_graph
-from . import tableau_scripts, give_base_mp, verify_rom
+from . import tableau_scripts, verify_rom
 from . import scripting
+from .data import apply_esper_target_patch, give_base_mp
 from .extract import *
 from .extract import ScriptSet
 from . import pack
@@ -109,6 +110,8 @@ if __name__ == "__main__":
         "talkative": True,
         # do we give weak enemies 20 MP minimum to use on skills?
         "give_min_mp": True,
+        # do we allow Espers to target the party
+        "esper_party_targeting": True,
 
         # number of retries for script generation failure
         "num_retries": 100,
@@ -139,7 +142,10 @@ if __name__ == "__main__":
 
         if conf["give_min_mp"]:
             log.info("Giving minimum MP to all enemies.")
-            give_base_mp(romfile)
+            romfile = give_base_mp(romfile)
+        if conf["esper_party_targeting"]:
+            log.info("Allowing Espers to target party.")
+            romfile = apply_esper_target_patch(romfile)
 
         scripts, names, blocks = extract(fname, return_names=True)
         log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
