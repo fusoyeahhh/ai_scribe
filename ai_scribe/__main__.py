@@ -127,8 +127,7 @@ if __name__ == "__main__":
 
         # number of retries for script generation failure
         "num_retries": 100,
-        "batch_id": 9,
-        "copies_per_batch": 16,
+        "copies_per_batch": 1,
         #"random_seed": 0,
 
         # Should we reload the written ROM and verify it?
@@ -153,9 +152,6 @@ if __name__ == "__main__":
         exit()
 
     # batching
-    bdir = f"test_{conf['batch_id']:d}"
-    #os.mkdir(bdir)
-
     for i in range(conf["copies_per_batch"]):
         # carry some additional metadata around
         _meta = {}
@@ -351,12 +347,16 @@ if __name__ == "__main__":
         oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
         assert plen == len(romfile)
 
-        outfname = f"{bdir}/test.{conf['batch_id']}.{i}.smc"
+        if outfname.endswith(".smc"):
+            outfname = fname.replace(".smc", f".ai_rando_{i}.smc")
+        else:
+            outfname = f"FF3.ai_rando_{i}.smc"
+
         with open(outfname, "wb") as fout:
             fout.write(bytes(oromfile))
         log.info(f"Generated ROM at {outfname}")
 
-        spoiler = f"{bdir}/test_scripts.{conf['batch_id']}.{i}.txt"
+        spoiler = outfname.replace(".smc", f".spoiler_{i}.txt")
         with open(spoiler, "w") as fout:
             for j, s in enumerate(export):
                n = names[j]
