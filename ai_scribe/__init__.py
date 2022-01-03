@@ -1,3 +1,6 @@
+import logging
+log = logging.getLogger("ai_scribe")
+
 # These enemies do not have names in the ROM
 _NAME_ALIASES = {
     366: "Terra In Flashback",
@@ -101,3 +104,33 @@ def tableau_scripts(s1, s2):
     fmt_str = "\n".join([_s1.rstrip().ljust(mlen1) + " | " + _s2.rstrip().ljust(mlen2)
                                 for _s1, _s2 in zip((s1 + ["\n"] * ldiff), (s2 + ["\n"] * ldiff))])
     return fmt_str
+
+def verify_rom(outfname, export, names):
+    from .extract import extract
+
+    new_scripts, new_names, _ = extract(outfname, return_names=True)
+    for n, scr in new_scripts.items():
+        same = scr._bytes == export[n]._bytes
+        name = names[n]
+
+        # Check for same to within padding
+        end = min(len(export[n]._bytes), len(scr._bytes))
+        close = (set(scr._bytes[end:]) == set(b'\xff')) \
+                | (set(export[n]._bytes[end:]) == set(b'\xff'))
+        close &= scr._bytes[:end] == scr._bytes[:end]
+
+        if scr.ptr == 0xF8700 and not same:
+            log.debug(f"TRUNCATED: {n} ({name})")
+            log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
+            continue
+        elif close:
+            log.debug(f"BUFFERED: {n} ({name})")
+            log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
+            log.debug(tableau_scripts(scr.translate(), export[n].translate()))
+            continue
+        elif not same:
+            # print(n, scr._bytes, export[n]._bytes)
+            log.warning(f"DIFFERENCE: {n} ({name})")
+            log.warning(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
+            log.warning(tableau_scripts(scr.translate(), export[n].translate()))
+        assert scr._bytes == export[n]._bytes, n

@@ -10,7 +10,7 @@ logging.basicConfig()
 
 from . import _NAME_ALIASES
 from . import command_graph
-from . import tableau_scripts, give_base_mp
+from . import tableau_scripts, give_base_mp, verify_rom
 from . import scripting
 from .extract import *
 from .extract import ScriptSet
@@ -26,27 +26,12 @@ log.setLevel(logging.INFO)
 
 if __name__ == "__main__":
 
-    log.warning("This is a PRERELEASE version of the AI Scribe for FFVI. There are no guarantees that the produced game "
-          "is fully completable or functional. This is for testing purposes only. Currently, it is known that this "
-          "version is mostly compatible with Beyond Chaos, though due to memory addressing issues, later bosses and "
-          "final Kefka are likely to be buggy.")
-
-    srcrom = "Final Fantasy III (U) (V1.0) [!].smc"
-    try:
-        if not os.path.exists(srcrom):
-            #srcrom = input(f"Provide a path to a V1.0 English ROM (same as used for BC, default is {srcrom}): ")
-            srcrom = input(f"Provide a path to a V1.0 English ROM for the base scripts."
-                           f"(can be BC or vanilla ROM, default is {srcrom}): ")
-        # Pick up all the structured commands
-        srcrom = os.path.realpath(srcrom)
-        log.info(f"Reading script data from {srcrom}")
-        scripts, names, _ = extract(srcrom, return_names=True)
-    except OSError:
-        log.error("The provided base script path didn't work, please try again or report as a bug.")
-        exit()
-
-    full_graph = command_graph.CommandGraph()
-    full_graph.from_scripts({k: v._bytes for k, v in scripts.items()})
+    log.warning("This is a PRERELEASE version of the AI Scribe for FFVI. "
+                "There are no guarantees that the produced game "
+                "is fully completable or functional. This is for testing purposes only."
+                "Currently, it is known that this version is mostly compatible "
+                "with Beyond Chaos, though due to memory addressing issues, "
+                "later bosses and final Kefka are likely to be buggy.")
 
     #inpth = "base_roms" or input("Provide a path to either a folder with prerandomized ROMs, or a single "
     inpth = input("Provide a path to either a folder with prerandomized ROMs, or a single "
@@ -142,15 +127,6 @@ if __name__ == "__main__":
     random.seed(conf.get("random_seed", 0))
     numpy.random.seed(conf.get("random_seed", 0))
 
-    if conf["write_base_scripts"] is not None:
-        log.info(f"Writing base script translation to {conf['write_base_scripts']}")
-        with open(conf["write_base_scripts"], "w") as fout:
-            for i, (name, script) in enumerate(scripts.items()):
-                print(f"{i}: {name}\n\n{script.translate()}\n", file=fout)
-    if conf["script_dump_only"]:
-        log.info("Script dump finished, exiting.")
-        exit()
-
     # batching
     for i in range(conf["copies_per_batch"]):
         # carry some additional metadata around
@@ -169,6 +145,9 @@ if __name__ == "__main__":
         log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
 
         scripts = ScriptSet(fname)
+
+        full_graph = command_graph.CommandGraph()
+        full_graph.from_scripts({k: v._bytes for k, v in scripts.scripts.items()})
 
         #batt_msgs = extract_battle_msgs(srcrom)
 
@@ -378,29 +357,4 @@ if __name__ == "__main__":
         if conf['verify_rom']:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
-            new_scripts, new_names, _ = extract(outfname, return_names=True)
-            for n, scr in new_scripts.items():
-                same = scr._bytes == export[n]._bytes
-                name = names[n]
-
-                # Check for same to within padding
-                end = min(len(export[n]._bytes), len(scr._bytes))
-                close = (set(scr._bytes[end:]) == set(b'\xff')) \
-                        | (set(export[n]._bytes[end:]) == set(b'\xff'))
-                close &= scr._bytes[:end] == scr._bytes[:end]
-
-                if scr.ptr == 0xF8700 and not same:
-                    log.debug(f"TRUNCATED: {n} ({name})")
-                    log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
-                    continue
-                elif close:
-                    log.debug(f"BUFFERED: {n} ({name})")
-                    log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
-                    log.debug(tableau_scripts(scr.translate(), export[n].translate()))
-                    continue
-                elif not same:
-                    #print(n, scr._bytes, export[n]._bytes)
-                    log.warning(f"DIFFERENCE: {n} ({name})")
-                    log.warning(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
-                    log.warning(tableau_scripts(scr.translate(), export[n].translate()))
-                assert scr._bytes == export[n]._bytes, n
+            verify_rom(outfilename, export, names)
