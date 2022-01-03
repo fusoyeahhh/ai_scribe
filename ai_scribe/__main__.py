@@ -70,7 +70,7 @@ if __name__ == "__main__":
             0xEA,  # BabaBreath
             0xD5,  # Engulf --- NOTE: this only prevents other enemies from picking it up,
                    # Zone Eater is exempt from randomization
-        } | set(ESPERS) | set(DESPERATIONS),
+        } | set(DESPERATIONS),
         "drop_events": {
             0x5,  # Wedge and Vicks Whelk tutorial
             0x6,  # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
@@ -146,6 +146,9 @@ if __name__ == "__main__":
         if conf["esper_party_targeting"]:
             log.info("Allowing Espers to target party.")
             romfile = apply_esper_target_patch(romfile)
+        else:
+            # remove them from the pool, because they won't work
+            conf["drop_skills"] |= set(ESPERS)
 
         scripts, names, blocks = extract(fname, return_names=True)
         log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
