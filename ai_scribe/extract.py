@@ -11,6 +11,111 @@ from .scripting import translate, _CHARS
 # Allow no more than this number of 0xFF bytes in a potential script
 _MAX_FF_TOLERANCE = 16
 
+class LookupTable():
+    def __init__(self, ptr_blk_begin, ptr_blk_end,
+                       src_blk_begin=None, src_blk_end=None, rel_offset=0):
+        self.ptr_blk_begin = ptr_blk_begin
+        self.ptr_blk_end = ptr_blk_end
+        self.src_blk_begin = src_blk_begin
+        self.src_blk_end = src_blk_end
+
+        self._ptrs = []
+        self._lookup = {}
+
+    def read_ptrs(self, memory, ptr_len=2, ptr_blk_begin=None, ptr_blk_end=None):
+        st, en = ptr_blk_begin or self.ptr_blk_begin, \
+                 ptr_blk_end or self.ptr_blk_end
+
+        raw_ptrs = memory[st:en]
+        assert len(raw_ptrs) % ptr_len == 0
+
+        while len(raw_ptrs) > 0:
+            ptr = int.from_bytes(raw_ptrs[:ptr_len], byteorder="little")
+            self._ptrs.append(ptr)
+            raw_ptrs = raw_ptrs[ptr_len:]
+
+        self.src_blk_begin = self.src_blk_begin or min(self._ptrs)
+        self.src_blk_end = self.src_blk_end or max(self._ptrs)
+
+    def read(self, memory, rel_offset=0, ptr_len=2, ptr_blk_begin=None, ptr_blk_end=None):
+        self.read_ptrs(memory, ptr_len, ptr_blk_begin, ptr_blk_end)
+        idx_order = dict(sorted(enumerate(self._ptrs), key=lambda t: t[1]))
+
+        idx = [*idx_order][0]
+        b = idx_order.pop(idx)
+        for _, e in idx_order.items():
+            self._lookup[b] = memory[b+rel_offset:e+rel_offset]
+            b = e
+
+    def get_by_index(self, idx):
+        return self.get_by_addr(self._ptrs[idx])
+
+    def get_by_addr(self, idx):
+        return self._lookup[idx]
+
+    def __getitem__(self, item):
+        return self.get_by_index(item)
+
+    def reverse_lookup(self, item):
+        for idx, (key, value) in enumerate(self._lookup.items()):
+            if value == item:
+                return idx
+        raise IndexError(f"No item found: {item}")
+
+    def __iter__(self):
+        pass
+
+    def realign(self, ptr_len=2, compress=True):
+        src_blk, ptr_blk = b'', b''
+
+        orig_len = sum(map(len, self._lookup.values()))
+
+        # Keep track of a mapping of old to new pointer mapping
+        _ptrs_written = {}
+        # realign ptrs
+        offset = min(self._ptrs)
+        for i, ptr in enumerate(self._ptrs):
+            # if the pointer is already written, we don't rewrite the data,
+            # we just change the pointer
+            if compress and ptr in _ptrs_written:
+                self._ptrs[i] = _ptrs_written[ptr]
+                continue
+
+            data = self._lookup.pop(ptr)
+            src_blk += data
+
+            self._ptrs[i] = _ptrs_written[ptr] = offset
+            self._lookup[self._ptrs[i]] = data
+            ptr_blk += self._ptrs[i].to_bytes(ptr_len, "little")
+            offset += len(data)
+
+        assert len(src_blk) == orig_len, (len(src_blk), orig_len)
+        return ptr_blk, src_blk
+
+    def write(self, memory, ptr_dst=None, src_dst=None, buffer_byte=None, **kwargs):
+        ptr_blk, src_blk = self.realign(**kwargs)
+
+        # make a copy
+        orig_len = len(memory)
+        memory = memory[:]
+
+        ptr_dst = ptr_dst or self.ptr_blk_begin
+        ptr_end = ptr_dst + len(ptr_blk)
+        memory = memory[:ptr_dst] + ptr_blk + memory[ptr_end:]
+        assert orig_len == len(memory)
+
+        src_dst = src_dst or self.src_blk_begin
+        if buffer_byte is not None:
+            buffer_size = self.src_blk_end - self.src_blk_begin - len(src_blk)
+            if buffer_size < 0:
+                raise ValueError(f"Buffer overrun ({-buffer_size} bytes) for destination write.")
+            src_blk += buffer_byte * buffer_size
+
+        src_end = src_dst + len(src_blk)
+        memory = memory[:src_dst] + src_blk + memory[src_end:]
+
+        return memory
+
 # FIXME: Helper class while we transition indexing schemes
 class ScriptSet:
     def _get_index(self, name):
@@ -316,7 +421,7 @@ def extract_scripts(romfile, script_ptrs, names, return_blocks=False):
     return scripts
 
 def extract_battle_msgs(romfile):
-    battle_msg_ptrs  = romfile[0xFDFE0:0xFE1E0]
+    battle_msg_ptrs = romfile[0xFDFE0:0xFE1E0]
     battle_msg_ptrs = [int.from_bytes(bytes([low, high]), "little") + 0xF0000
                         for low, high in zip(battle_msg_ptrs[::2], battle_msg_ptrs[1::2])]
 
@@ -328,8 +433,6 @@ def extract_battle_msgs(romfile):
             ptr1, i = ptr1
             ptr2 = ptr2[0]
             battle_msgs[i] = romfile[ptr1:ptr2]
-
-            # TODO: translate
 
     return battle_msgs
 
