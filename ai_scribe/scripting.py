@@ -328,6 +328,10 @@ class EventRules(Rule):
         if not (rhs is syntax.AlterFormation and largs == syntax.CmdPred._IS_SELF_DEAD):
             return False
 
+        # no formation changes in main phase
+        if ctx["phase"] == "main" and rhs is syntax.ChangeFormation:
+            return True
+
         return not (ctx["phase"] == "main" and lhs is syntax.CmdPred
                     and len(largs > 0)
                     and largs == syntax.AlterFormation._DIE_LIKE_A_BOSS)
