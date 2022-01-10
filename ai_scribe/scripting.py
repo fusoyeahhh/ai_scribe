@@ -302,20 +302,19 @@ class TargetingRules(Rule):
         except IndexError:
             return False
 
-        if not isinstance(lhs, syntax.Targeting):
+        if lhs is not syntax.Targeting:
             return False
 
-        target_self = largs[0] in flags.SELF_TARGETS
+        target_self = len(largs) >= 1 and largs[0] in flags.SELF_TARGETS
         beneficial = False
         if rhs in (syntax.DoSkill, syntax.ChooseSpell):
-            beneficial = any(arg in flags.CURATIVES | flags.BUFFS for arg in rargs)
+            beneficial = any(arg in set(flags.CURATIVES) | flags.BUFFS for arg in rargs)
         elif rhs is syntax.ThrowUseItem:
             beneficial = any(arg in flags.BENEFICIAL_ITEMS for arg in rargs)
-        elif rhs is syntax.UseCommmand:
+        elif rhs is syntax.UseCommand:
             beneficial = any(arg in flags.BENEFICIAL_CMDS for arg in rargs)
 
-        import pdb; pdb.set_trace()
-        return target_self and beneficial
+        return target_self ^ beneficial
 _RULES["targeting_rules"] = TargetingRules
 
 class BanSkill(Rule):
