@@ -325,7 +325,7 @@ class EventRules(Rule):
         except IndexError:
             return False
 
-        if not (rhs is syntax.AlterFormation and largs == syntax.CmdPred._IS_SELF_DEAD):
+        if not (rhs is syntax.AlterFormation and largs == syntax.CmdPred._IF_SELF_DEAD):
             return False
 
         # no formation changes in main phase
