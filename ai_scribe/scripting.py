@@ -159,7 +159,7 @@ class Script:
 
     #def __repr__(self):
     def translate(self, **kwargs):
-        cpy = self._bytes
+        cpy = [*self._bytes]
 
         trans = ""
         while len(cpy) > 0:
