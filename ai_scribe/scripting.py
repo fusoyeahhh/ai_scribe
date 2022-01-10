@@ -335,6 +335,7 @@ class EventRules(Rule):
         return not (ctx["phase"] == "main" and lhs is syntax.CmdPred
                     and len(largs > 0)
                     and largs == syntax.AlterFormation._DIE_LIKE_A_BOSS)
+_RULES["event_rules"] = EventRules
 
 class BanSkill(Rule):
     def __init__(self, banned_skills):
