@@ -150,14 +150,14 @@ SPELL_LIST = """00:ºFire**
 52:Water Edge
 53:Bolt Edge*
 54:Storm*****
-55:Joker Doom(really Dispatch)
-56:**********(really Retort)
-57:**********(really Slash)
-58:**********(really Quadra Slam)
-59:**********(really Empowerer)
-5A:**********(really Stunner)
-5B:**********(really Quadra Slice)
-5C:**********(really Cleave)
+55:Dispatch**
+56:Retort****
+57:Slash*****
+58:QuadraSlam
+59:Empowerer*
+5A:Stunner***
+5B:Quad Slice
+5C:Cleave****
 5D:Pummel****
 5E:AuraBolt**
 5F:Suplex****
@@ -190,12 +190,12 @@ SPELL_LIST = """00:ºFire**
 7A:Wild Bear*
 7B:Pois. Frog
 7C:Ice Rabbit
-7D:Bio Blast*(Super Ball)
+7D:Super Ball
 7E:Flash*****
 7F:Chocobop**
 80:H-Bomb****
 81:7-Flush***
-82:Megahit***(Leo's Shock)
+82:Megahit***
 83:Fire Beam*
 84:Bolt Beam*
 85:Ice Beam**
@@ -324,9 +324,9 @@ FF:??????????""".replace("Lagomorph*", "Nothing").split("\n")
 
 SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
 # look up
-_SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
+#_SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
 # Don't ask, I'm lazy
-_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
+#_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
 
 CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x2D, 0x33)}
 BUFFS = {0x1C, 0x1F, 0x22, 0x24, 0x25, 0x26, 0x27, 0x2B, 0x34, 0x35}
