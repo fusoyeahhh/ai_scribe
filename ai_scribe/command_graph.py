@@ -1,3 +1,4 @@
+import math
 import random
 from collections import defaultdict
 
@@ -6,6 +7,7 @@ import numpy
 
 from . import flags
 from . import syntax
+from . import themes
 from .syntax import SYNTAX
 from .themes import ELEM_THEMES, STATUS_THEMES, FROM_COMMANDS
 
@@ -685,38 +687,46 @@ class RestrictedCommandGraph(CommandGraph):
 
         return args
 
-    def regulate_difficulty(self, diff_thresh=1, diff_val=1):
-        from . import themes
-        mpwr = dict(themes.skills["Power"])
+    def regulate_difficulty(self, init_diff=0, trans_diff=0, ranking={}):
         # 254 is actually 'Nothing', not Lagomorph
-        mpwr[254] = 1
-        # Add weighting to subgraphs
-        # example fire1 -> fire2, dthr=1, dval=1
-        # fire1 / fire2 => 1.0 / min(2, 1) = 1
-        # example fire1 -> fire2, dthr=5, dval=1
-        # fire1 / fire2 => 1.0 / min(2, 5) = 0.5
-        # example fire2 -> fire1, dthr=1, dval=1
-        # fire2 / fire1 => 1.0 / min(0.5, 1) = 2
+        ranking[254] = 1
+        # Placeholders, they have a different meaning here
+        ranking[syntax.ChooseSpell._BYTEVAL] = 1
+        ranking[syntax.DoSkill._BYTEVAL] = 1
 
-        # to a given power (negative) will invert / deweight
-        # example fire1 -> fire2, dthr=1, dval=-1
-        # fire1 / fire2 => min(2, 1) = 1
-        # example fire1 -> fire2, dthr=5, dval=-1
-        # fire1 / fire2 => min(2, 5) = 2
-        # example fire2 -> fire1, dthr=1, dval=-1
-        # fire2 / fire1 => min(0.5, 1) = 0.5
-        for u, v, attr in self.cmd_arg_graphs[0xF0].edges.data():
-            mpwr1, mpwr2 = max(1, mpwr[u]), max(1, mpwr[v])
-            print(u, mpwr1, v, mpwr2)
-            if u != 0xF0 and v != 0xF0:
-                attr["weight"] = (1.0 / min((mpwr1 / mpwr2), diff_thresh))**diff_val
-            if u == 0xF0:
-                # to skill
-                attr["weight"] = (1 / mpwr2)**diff_val
-            elif v == 0xF0:
-                # return to base
-                attr["weight"] = (1 / mpwr1)**diff_val
-            print(u, v, attr)
+        # trans_diff = 0 -> 0 --> chaotic AI (all links equal)
+        # trans_diff = inf -> 1
+        # higher probability of decreasing in power, increase much less likely
+        # trans_diff = -inf -> -1 --> small over large goes to large over small
+        # higher probability of increasing in power, decrease much less likely
+        trans_diff = 2 * (math.erf(trans_diff) - 0.5)
+
+        # init diff
+        init_diff = 2 * (math.erf(init_diff) - 0.5)
+
+        # for CHOOSE_SPELL / DO_SKILL
+        for cmd_byte in {syntax.ChooseSpell._BYTEVAL, syntax.DoSkill._BYTEVAL}:
+            if self.cmd_arg_graphs.get(cmd_byte, None) is not None:
+                arg_g = self.cmd_arg_graphs[cmd_byte]
+
+                weights = {n: max(ranking[n], 1) for n in set(arg_g.nodes) - {cmd_byte}}
+                norm = sum([w**init_diff for w in weights.values()])
+                weights = {n: max(mpr, 1)**init_diff / norm for n, mpr in weights.items()}
+                for n in set(arg_g.nodes) - {cmd_byte}:
+                    arg_g.add_edge(cmd_byte, n, weight=weights[n])
+                    print(flags.SPELL_LIST[n], arg_g.edges[cmd_byte, n]["weight"])
+                    # FIXME: Need a return weight too
+
+                for u, v in arg_g.edges():
+                    if u == cmd_byte or v == cmd_byte:
+                        continue
+                    small, large = max(1, min(ranking[u], ranking[v])), \
+                                   max(max(ranking[u], ranking[v]), 1)
+                    arg_g.edges[u, v]["weight"] = (small / large)**trans_diff
+                    print(flags.SPELL_LIST[u], flags.SPELL_LIST[v], small, large, arg_g.edges[u, v]["weight"])
+
+        # TODO: for USE / THROW ITEM
+
 
 def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set(), commands=set()):
     # Add in a random status/element theme
