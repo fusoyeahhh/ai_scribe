@@ -261,6 +261,10 @@ class AlterFormation(Cmd, byteval=0xF5, nargs=3, descr="ALTER FORMATION"):
         3: "HIDDEN AT MAX HP",
         4: "HIDDEN"
     }
+
+    _VALID_ANIM = {arg: k for k, arg in enumerate(flags.ANIMATIONS)}
+    _DIE_LIKE_A_BOSS = [0x0B, 0x1, 0xFF]
+
     @classmethod
     def format_args(cls, *args):
         anim = flags.ENT_ANIMATIONS[args[0]]
@@ -454,14 +458,16 @@ class CmdPred(Cmd, VariableBase, byteval=0xFC, nargs=3, descr="CMD PRED"):
     NOTE: This can be ended by 0xFE or OxFF.
     """
     _VALID_MODS = flags.FC_MODIFIERS
-    _PRED_ARGS = flags.PRED_ARGS
+    _PRED_ARGS = {arg: k for k, arg in enumerate(flags.PRED_ARGS)}
+
+    _IF_SELF_DEAD = [_PRED_ARGS["IS DEAD"], 0x0, 0x0]
 
     @classmethod
     def format_args(cls, *args):
         # FIXME: format these correctly
         name = flags.FC_MODIFIERS[args[0]]
         _args = []
-        for mod, arg in zip(cls._PRED_ARGS[name], args[1:]):
+        for mod, arg in zip(flags.PRED_ARGS[name], args[1:]):
             try:
                 _args.append(str(mod[arg]))
                 continue

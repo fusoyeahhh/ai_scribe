@@ -317,6 +317,21 @@ class TargetingRules(Rule):
         return target_self ^ beneficial
 _RULES["targeting_rules"] = TargetingRules
 
+class EventRules(Rule):
+    def __call__(self, script, **ctx):
+        try:
+            rhs, rargs = self.get_nth_token_from_end(script, n=1, with_args=True)
+            lhs, largs = self.get_nth_token_from_end(script, n=2, with_args=True)
+        except IndexError:
+            return False
+
+        if not (rhs is syntax.AlterFormation and largs == syntax.CmdPred._IS_SELF_DEAD):
+            return False
+
+        return not (ctx["phase"] == "main" and lhs is syntax.CmdPred
+                    and len(largs > 0)
+                    and largs == syntax.AlterFormation._DIE_LIKE_A_BOSS)
+
 class BanSkill(Rule):
     def __init__(self, banned_skills):
         super().__init__()
