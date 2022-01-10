@@ -324,7 +324,7 @@ FF:??????????""".replace("Lagomorph*", "Nothing").split("\n")
 
 SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
 # look up
-#_SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
+_SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
 # Don't ask, I'm lazy
 #_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
 
