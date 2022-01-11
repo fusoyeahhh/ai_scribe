@@ -32,7 +32,7 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     #          EA EA                  NOPx2
     jsl_patch_data = [0x22] + list(patch_dst.to_bytes(3, "little")) + [0xEA, 0xEA]
 
-    romfile = romfile[:0x25905] + jsl_patch_data + romfile[:0x25905 + len(jsl_patch_data)]
+    romfile = romfile[:0x25905] + bytes(jsl_patch_data) + romfile[:0x25905 + len(jsl_patch_data)]
 
     # F0/7000:
     patch_data = [
@@ -65,6 +65,6 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
         # 6B            RTL        [Return to normal execution]
         0x6B
     ]
-    romfile = romfile[:patch_dst] + patch_data + romfile[patch_dst + len(patch_data):]
+    romfile = romfile[:patch_dst] + bytes(patch_data) + romfile[patch_dst + len(patch_data):]
 
     return romfile
