@@ -423,11 +423,15 @@ class SpecAct(Cmd, byteval=0xFA, nargs=3, descr="SPECIAL ACTION"):
 
     [animation id] [target] [unk.]
     """
-    _VALID_ANIM = set(flags.ANIMATIONS)
+    _VALID_ANIM = {anim: i for i, anim in enumerate(flags.ANIMATIONS)}
     _VALID_TARGETS = set(flags.TARGET_LIST)
 
     @classmethod
     def format_args(cls, *args):
+        # FIXME: find out what's going on here, it's part of Telstar's script
+        # Might be a sound of some kind
+        if args[0] == cls._VALID_ANIM["Unknown"]:
+            return f"{flags.ANIMATIONS[args[0]]} {hex(args[1])} [{hex(args[2])}]"
         return f"{flags.ANIMATIONS[args[0]]} {flags.TARGET_LIST[args[1]]} [{hex(args[2])}]"
 
     @classmethod
@@ -455,6 +459,9 @@ class Misc(Cmd, byteval=0xFB, nargs=2, descr="MISC."):
     def format_args(cls, *args):
         if args[0] in cls._STATUS_BYTES:
             return f"{flags.MISC[args[0]]} {cls._VALID_STATUS[args[1]]}"
+        # FIXME: This isn't listed in the guide, it's part of Piranha's script
+        elif args[0] == 0xD:
+            return f"???? {hex(args[1])}"
         return f"{flags.MISC[args[0]]} {flags.TARGET_LIST[args[1]]}"
 
     @classmethod
