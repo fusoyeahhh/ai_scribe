@@ -403,7 +403,7 @@ class CommandGraph:
                 # assume skill command
                 skills = list(self.cmd_arg_graphs.get(0xF0, [0xF0, 0xEE]))[1:]
                 skills += list(self.cmd_arg_graphs.get("_", ["_"]))[1:]
-                skills = [s for s in skills if s not in syntax._CMD_REF]
+                skills = [s for s in skills if s not in syntax.Cmd._CMD_REG]
                 script.append(random.choice(skills))
                 continue
 
