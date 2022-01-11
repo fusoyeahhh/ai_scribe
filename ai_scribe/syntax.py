@@ -442,8 +442,19 @@ class Misc(Cmd, byteval=0xFB, nargs=2, descr="MISC."):
     """
     _VALID_MISC = set(flags.MISC)
     _VALID_TARGETS = set(flags.TARGET_LIST)
+    _STATUS_BYTES = {0x0B, 0x0C}
+    _VALID_STATUS = {
+        0: "Blind", 1: "Zombie", 2: "Poison", 3: "M-Tek",
+        4: "Invisible", 5: "Imp", 6: "Stone", 7: "Death",
+        8: "Condemned", 9: "Weak", 0xA: "Image", 0xB: "Mute",
+        0xC: "Berserk", 0xD: "Confuse", 0xE: "Seizure", 0xF: "Sleep",
+        0x10: "Dance", 0x11: "Regen", 0x12: "Slow", 0x13: "Haste",
+        0x14: "Stop", 0x15: "Shell", 0x16: "Safe", 0x17: "Reflect"
+    }
     @classmethod
     def format_args(cls, *args):
+        if args[0] in cls._STATUS_BYTES:
+            return f"{flags.MISC[args[0]]} {cls._VALID_STATUS[args[1]]}"
         return f"{flags.MISC[args[0]]} {flags.TARGET_LIST[args[1]]}"
 
     @classmethod
