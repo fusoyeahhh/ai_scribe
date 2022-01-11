@@ -347,7 +347,7 @@ class VariableBase():
     def register_var(cls):
         pass
 
-class VarMath(Cmd, VariableBase, byteval=0xF8, nargs=3, descr="VAR MATH"):
+class VarMath(Cmd, VariableBase, byteval=0xF8, nargs=2, descr="VAR MATH"):
     """
     Perform some math on the specified variable.
 
