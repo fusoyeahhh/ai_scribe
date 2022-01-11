@@ -421,10 +421,9 @@ class SpecAct(Cmd, byteval=0xFA, nargs=3, descr="SPECIAL ACTION"):
     """
     Animation effects, specified by next byte, targeting the byte thereafter.
 
-    [animation id] [target] [unk.]
+    [animation id] [targets] [unk.]
     """
     _VALID_ANIM = {anim: i for i, anim in enumerate(flags.ANIMATIONS)}
-    _VALID_TARGETS = set(flags.TARGET_LIST)
 
     @classmethod
     def format_args(cls, *args):
@@ -432,7 +431,7 @@ class SpecAct(Cmd, byteval=0xFA, nargs=3, descr="SPECIAL ACTION"):
         # Might be a sound of some kind
         if args[0] == cls._VALID_ANIM["Unknown"]:
             return f"{flags.ANIMATIONS[args[0]]} {hex(args[1])} [{hex(args[2])}]"
-        return f"{flags.ANIMATIONS[args[0]]} {flags.TARGET_LIST[args[1]]} [{hex(args[2])}]"
+        return f"{flags.ANIMATIONS[args[0]]} {bin(args[1])} [{hex(args[2])}]"
 
     @classmethod
     def validate_args(cls, *args, left=None):
