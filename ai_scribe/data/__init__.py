@@ -65,6 +65,6 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
         # 6B            RTL        [Return to normal execution]
         0x6B
     ]
-    romfile = romfile[patch_dst:] + bytes(patch_data) + romfile[:patch_dst + len(patch_data)]
+    romfile = romfile[:patch_dst] + bytes(patch_data) + romfile[patch_dst + len(patch_data):]
 
     return romfile
