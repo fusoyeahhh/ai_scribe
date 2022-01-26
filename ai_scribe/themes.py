@@ -303,6 +303,9 @@ with open("etc/spell_ranks", "r") as fin:
     _spells[0xFE] = "Lagomorph"
     skill_tiers = {_spells.index(skill.strip()): int(rank) for skill, rank in
                         [l.split(":") for l in fin.readlines()]}
+    # enemy "Mute" is missing
+    # Roughly equivalent to "Train", so we give it that
+    skill_tiers[172] = 31
 
 #
 # Elements
@@ -317,6 +320,7 @@ for elem in {"ice", "fire", "lightning", "water", "wind", "earth", "pearl", "poi
 #
 # Statuses
 #
+# FIXME: remove annoying skills
 STATUS_THEMES = {}
 for status in {'Poison', 'Petrify', 'Death', 'Slow', 'Mute', 'Safe',
                'Sleep', 'Confuse', 'Haste', 'Stop', 'Berserk', 'Float', 'Imp',
