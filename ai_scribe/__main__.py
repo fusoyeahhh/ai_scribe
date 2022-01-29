@@ -11,6 +11,7 @@ from . import extract
 from . import pack
 from . import scripting
 from . import command_graph
+from . import themes
 
 from . import _NAME_ALIASES, tableau_scripts, verify_rom
 
@@ -22,11 +23,17 @@ from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 log = logging.getLogger("ai_scribe")
 log.setLevel(logging.INFO)
 
+def progressive_difficulty(set_idx):
+    """
+    Scale the enemy's position in the area progression and return a difficulty value based on it.
+    """
+    return set_idx / len(AREA_SETS)
+
 if __name__ == "__main__":
 
     log.warning("This is a PRERELEASE version of the AI Scribe for FFVI. "
                 "There are no guarantees that the produced game "
-                "is fully completable or functional. This is for testing purposes only."
+                "is fully completable or functional. This is for testing purposes only. "
                 "Currently, it is known that this version is mostly compatible "
                 "with Beyond Chaos, though due to memory addressing issues, "
                 "later bosses and final Kefka are likely to be buggy.")
@@ -79,6 +86,23 @@ if __name__ == "__main__":
         },
         "drop_targets": {},
 
+        # AI behavior modification
+
+        # difficulty
+        # progressive - will try to maintain a reasonable difficulty progression
+        # numeric values between -1 and 1 are also accepted
+        # negative values will make the skills selected from the pool tend to be
+        # lower and lower tiers
+        # positive values will make the skills selected from the pool tend to be
+        # higher and higher tiers
+        # a value of zero will equally weight all skills (formerly known as chaotic AI)
+        # "chaotic"
+        #"difficulty": 0,
+        # "easy"
+        #"difficulty": -1,
+        # "hard"
+        #"difficulty": 1,
+        "difficulty": "progressive",
         # SPICE
         "spice": {
             # will pick a random element and merge in random elemental attacks from category
@@ -101,7 +125,18 @@ if __name__ == "__main__":
             "allowed_commands": set(SNGL_CMDS),
         },
 
-        # AI behavior modification
+        # rulesets to be enforced on script generation
+        # See scripts._RULES for all of them
+        "rules": {
+            # Syntactical stuff which is technically allowed,
+            # but produces uninteresting or noop type behavior
+            "no_empty_cond_block", "no_nested_cond_block",
+            # Rule set for boss type death and other formation altering
+            "event_rules",
+            # Rule set for basic sensible targeting
+            "targeting_rules"
+        },
+
         # enemies already with events may have them swapped with others
         # the 'drop_events' configuration above is still respected
         "talkative": True,
@@ -117,11 +152,6 @@ if __name__ == "__main__":
 
         # Should we reload the written ROM and verify it?
         "verify_rom": True,
-
-        # write out the base script file if not None
-        #"write_base_scripts": "etc/script_dump.txt",
-        "write_base_scripts": None,
-        "script_dump_only": False,
     }
 
     random.seed(conf.get("random_seed", 0))
@@ -133,9 +163,10 @@ if __name__ == "__main__":
         _meta = {}
 
         fname = numpy.random.choice(fnames)
-        log.debug(fname)
+        log.debug(f"Reading {fname}")
         with open(fname, "rb") as fin:
             romfile = fin.read()
+        log.debug(f"Read {fname}: {len(romfile)} bytes")
 
         if conf["give_min_mp"]:
             log.info("Giving minimum MP to all enemies.")
@@ -212,10 +243,20 @@ if __name__ == "__main__":
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes)")
+
+                rcmd_graph = command_graph.RestrictedCommandGraph.get_rule_set(*conf["rules"],
+                                                                               graph=cmd_graph)
+                # FIXME: may want to up the difficulty for bosses
+                difficulty = progressive_difficulty(set_idx) \
+                    if conf["difficulty"] == "progressive" \
+                    else conf["difficulty"]
+                # FIXME: can separate these out at some point
+                rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=themes.skill_tiers)
+
                 # This only reduces the length from the original script
-                bscr = cmd_graph.generate_from_template(pool[name]._bytes,
-                                                        required=required,
-                                                        drop_events=conf["drop_events"])
+                bscr = rcmd_graph.generate_from_template(pool[name]._bytes,
+                                                         required=required,
+                                                         drop_events=conf["drop_events"])
 
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
@@ -249,14 +290,25 @@ if __name__ == "__main__":
 
             # Spice goes here
             # Add in a random status/element theme
+            # TODO: adjust spice based on difficulty
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
                                                        elemental=conf["spice"]["normal_elemental"],
                                                        command=conf["spice"]["normal_command"])
             command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
                                                         add_cmds=conf["spice"]["allowed_commands"])
+            # FIXME: what was this for and can it go away?
             assert 0xC2 not in cmd_graph.cmd_graph
 
-            log.debug(cmd_graph.to_text_repr())
+            rcmd_graph = command_graph.RestrictedCommandGraph.get_rule_set(*conf["rules"],
+                                                                           graph=cmd_graph)
+            # FIXME: we only use one out of the set for now
+            difficulty = progressive_difficulty(set_idx) \
+                            if conf["difficulty"] == "progressive" \
+                            else conf["difficulty"]
+            # FIXME: can separate these out at some point
+            rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=themes.skill_tiers)
+
+            log.debug(rcmd_graph.to_text_repr())
 
             for name in sset:
                 _meta[name] = "type: from graph\n"
@@ -279,7 +331,7 @@ if __name__ == "__main__":
             # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
                           "naborts": conf["num_retries"], "strict": False}
-            _scr, _ptrs = pack.randomize_scripts(cmd_graph, n=len(sset),
+            _scr, _ptrs = pack.randomize_scripts(rcmd_graph, n=len(sset),
                                                  #main_block_avg=main_block_avg,
                                                  main_block_avg=5,
                                                  total_len=total_len, **gen_kwargs)
@@ -344,6 +396,7 @@ if __name__ == "__main__":
 
         spoiler = outfname.replace(".smc", f".spoiler_{i}.txt")
         with open(spoiler, "w") as fout:
+            # FIXME: the block below this is incorrectly indented
             for j, s in enumerate(export):
                n = names[j]
                _n = _NAME_ALIASES.get(j, n)
