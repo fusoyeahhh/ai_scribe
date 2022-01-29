@@ -53,6 +53,10 @@ def apply_syntax_rules(gptr, weights):
             if cmd not in set(c._BYTEVAL for c in Targeting.VALID_TARGETABLE):
                 weights[cmd] = 0
 
+    # This technically changes the graph, but might be unavoidable
+    if set(weights.keys()) == {EndBlock._BYTEVAL, EndPredBlock._BYTEVAL}:
+        return gptr
+
 class Cmd:
     _CMD_REG = {}
 
