@@ -263,6 +263,8 @@ class CommandGraph:
         main_block_len = main_block_len or main_block_avg
         if not allow_empty_main_blocks and main_block_len == 0:
             main_block_len = 1
+        # Adjust the allowed number of aborts for longer scripts
+        naborts *= main_block_len
 
         from collections import defaultdict
         aborts = defaultdict(lambda: 0)
