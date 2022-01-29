@@ -55,12 +55,10 @@ class CommandGraph:
         # Update weights on connections
         #for (u, v, c) in G.edges.data('color', default='red')
         for u, v, d in self.cmd_graph.edges(data=True):
-            print(u, v, d)
             if not d and self_weights.get((u, v), None):
                 d.update(self_weights[(u, v)])
             if other.cmd_graph.has_edge(u, v):
                 d["weight"] += other.cmd_graph.get_edge_data(u, v).get("weight", 1)
-            print(u, v, d)
 
         # Compose argument graphs
         self.cmd_arg_graphs = {key: networkx.compose(
@@ -572,7 +570,7 @@ class RestrictedCommandGraph(CommandGraph):
 
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
-                        raise KeyError(f"Rule application failed too many times.")
+                        raise ValueError(f"Rule application failed too many times.")
                     elif len(blocking_rules) != 0:
                         # TODO: Get rule broken
                         for rule in blocking_rules:
@@ -642,7 +640,7 @@ class RestrictedCommandGraph(CommandGraph):
                 script, gptr = [], start_cmd
                 naborts -= 1
                 # message is often too long / uninformative to embed
-                aborts[f"general"] += 1
+                aborts[f"general/{str(e)[:100]}"] += 1
             else:
                 # We're done, add script terminator
                 script += [syntax.EndBlock._BYTEVAL]
@@ -746,7 +744,7 @@ class RestrictedCommandGraph(CommandGraph):
                 weights = {n: max(mpr, 1)**init_diff / norm for n, mpr in weights.items()}
                 for n in set(arg_g.nodes) - {cmd_byte}:
                     arg_g.add_edge(cmd_byte, n, weight=weights[n])
-                    print(flags.SPELL_LIST[n], arg_g.edges[cmd_byte, n]["weight"])
+                    #print(flags.SPELL_LIST[n], arg_g.edges[cmd_byte, n]["weight"])
                     # FIXME: Need a return weight too
 
                 for u, v in arg_g.edges():
@@ -755,7 +753,7 @@ class RestrictedCommandGraph(CommandGraph):
                     small, large = max(1, min(ranking[u], ranking[v])), \
                                    max(max(ranking[u], ranking[v]), 1)
                     arg_g.edges[u, v]["weight"] = (small / large)**trans_diff
-                    print(flags.SPELL_LIST[u], flags.SPELL_LIST[v], small, large, arg_g.edges[u, v]["weight"])
+                    #print(flags.SPELL_LIST[u], flags.SPELL_LIST[v], small, large, arg_g.edges[u, v]["weight"])
 
         # TODO: for USE / THROW ITEM
 
