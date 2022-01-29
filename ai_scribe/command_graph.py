@@ -212,6 +212,19 @@ class CommandGraph:
                 _bind_token(cmd, script, self.cmd_arg_graphs[v])
                 script = script[cmd._NARGS:]
 
+    def validate(self):
+        # All graph nodes should be reachable from start
+        paths = networkx.shortest_path_length(self.cmd_graph, source="^")
+        unreachable = set(self.cmd_graph.nodes) - set(paths)
+        if len(unreachable) != 0:
+            print(f"Unreachable nodes: {unreachable}")
+            print(self.to_text_repr(suppress_args=True))
+        assert len(unreachable) == 0, unreachable
+
+        # No node should be a terminal one
+        for node in self.cmd_graph.nodes:
+            assert len(self.cmd_graph[node]) != 0, node
+
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
                             disallow_commands=set(), weighted=True, naborts=20, strict=True):
