@@ -199,7 +199,8 @@ if __name__ == "__main__":
                                                        command=conf["spice"]["boss_command"])
             command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
                                                         add_cmds=conf["spice"]["allowed_commands"])
-            log.debug(cmd_graph.to_text_repr())
+
+            log.debug(cmd_graph.to_text_repr(suppress_args=False))
 
             # Randomize bosses
             # FIXME: make flag for "allow bosses to be in pool" (currently true)
@@ -220,7 +221,7 @@ if __name__ == "__main__":
 
                 _meta[name] = "type: from template\n"
                 _meta[name] += f"created from: {sset}\n"
-                _meta[name] += cmd_graph.to_text_repr()
+                _meta[name] += rcmd_graph.to_text_repr()
 
                 extra_space += len(pool[name]._bytes) - len(mod_scripts[name]._bytes)
                 log.debug(f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
@@ -260,7 +261,7 @@ if __name__ == "__main__":
             for name in sset:
                 _meta[name] = "type: from graph\n"
                 _meta[name] += f"created from: {sset}\n"
-                _meta[name] += cmd_graph.to_text_repr()
+                _meta[name] += cmd_graph.to_text_repr(suppress_args=False)
 
             # bosses have already been randomized
             sset -= BOSSES

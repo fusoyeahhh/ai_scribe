@@ -74,7 +74,7 @@ class CommandGraph:
             augment.get(key, networkx.Digraph()))
             for key in set(self.cmd_arg_graphs) | set(augment)}
 
-    def to_text_repr(self, suppress_args=False):
+    def to_text_repr(self, suppress_args=True):
         tstr = ""
         for _name in self.cmd_graph.nodes():
             name = SYNTAX[_name][-1]
@@ -218,7 +218,7 @@ class CommandGraph:
         unreachable = set(self.cmd_graph.nodes) - set(paths)
         if len(unreachable) != 0:
             print(f"Unreachable nodes: {unreachable}")
-            print(self.to_text_repr(suppress_args=True))
+            print(self.to_text_repr())
         assert len(unreachable) == 0, unreachable
 
         # No node should be a terminal one
@@ -668,7 +668,7 @@ class RestrictedCommandGraph(CommandGraph):
             gptr = hex(gptr) if isinstance(gptr, int) else gptr
             raise KeyError(f"Current command pointer ({gptr} / {SYNTAX[gptr][-1]}) "
                            "has no outgoing links. Command graph:\n"
-                           + self.to_text_repr(suppress_args=True))
+                           + self.to_text_repr())
 
         # Get our outgoing links
         weights = {c: w.get("weight", 1) for c, w in g[gptr].items()}
@@ -682,7 +682,7 @@ class RestrictedCommandGraph(CommandGraph):
             raise KeyError("gptr has no valid choices."
                            f"\ngptr / weights: {gptr} {weights}"
                            f"\ncommand graph ({len(g)} elements):\n"
-                           + self.to_text_repr(suppress_args=True))
+                           + self.to_text_repr())
 
         # If "weighted" is turned on, then we use the appropriately normalized connection weights
         # to assign selection probabilities to each potential next step
