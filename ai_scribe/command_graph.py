@@ -578,6 +578,11 @@ class RestrictedCommandGraph(CommandGraph):
                     _script.extend(args)
 
                     # conditional handling
+                    # if we're at the end of the block, conditionals can't be closed, retry
+                    if ((context["phase"] == "main" and main_block_len == scr_len + 1) or \
+                       (context["phase"] == "counter" and cntr_block_len == scr_len + 1)) and \
+                        gptr == syntax.CmdPred._BYTEVAL:
+                        raise ValueError("Cannot end block with conditional")
                     # Increasingly likely to end the block
                     # Note that this hardcodes no empty conditionals
                     if random.randint(0, context["nfc"]) > 0 \
