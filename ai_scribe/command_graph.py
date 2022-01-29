@@ -494,6 +494,14 @@ class RestrictedCommandGraph(CommandGraph):
         # Make a copy, because we can modify the graph in flight
         g = self.cmd_graph.copy()
 
+        # Exchange block enders with references to the beginning of the script
+        # so that we don't end up with terminal nodes
+        try:
+            networkx.relabel_nodes(g, {0xFF: "^"}, copy=False)
+            networkx.relabel_nodes(g, {0xFE: "^"}, copy=False)
+        except KeyError:
+            pass
+
         # TODO: replace these with rule sets
         # Handle disallowed commands
         # Basically, we're 'contracting' the graph by allowing the jump to 'skip'
@@ -531,6 +539,10 @@ class RestrictedCommandGraph(CommandGraph):
                 while scr_len < main_block_len + cntr_block_len:
                     last = gptr
                     gptr = self.generate_script_token(g, gptr, script_context=context["phase"])
+
+                    # "Restarting" is allowed, because we replaced block enders earlier
+                    if gptr == "^":
+                        continue
 
                     # TODO: variable handling
                     # TODO: formation handling
