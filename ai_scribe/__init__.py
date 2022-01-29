@@ -1,8 +1,11 @@
 import logging
 log = logging.getLogger("ai_scribe")
 
-# These enemies do not have names in the ROM
 _NAME_ALIASES = {
+    # BC often renames this
+    "L.255Magic": "MagiMaster",
+
+    # These enemies do not have names in the ROM
     366: "Terra In Flashback",
     "": "Terra In Flashback",
     367: "Kefka at Imperial Camp",
