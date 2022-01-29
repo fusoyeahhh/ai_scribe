@@ -463,6 +463,8 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
         n2 = random.choice(list(link_nodes))
         networkx.add_path(cmd_graph.cmd_graph, (n1, 0xF4, n2), weight=1)
 
+        cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
+
 class RestrictedCommandGraph(CommandGraph):
     @classmethod
     def get_rule_set(cls, *rules, graph=None):
