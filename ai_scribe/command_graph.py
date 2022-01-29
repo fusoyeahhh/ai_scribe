@@ -441,14 +441,14 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
         if len(subgraph.nodes) <= 1 and cmd in cmd_graph.cmd_graph:
            cmd_graph.cmd_graph.remove_node(cmd)
 
-    if add_cmds is not None:
-        link_nodes = set(cmd_graph.cmd_graph.nodes)
-        for link_cmd in link_nodes:
-            if random.uniform(0, 1) < 1 / len(link_nodes):
-                cmd_graph.cmd_graph.add_edge(0xF4, link_cmd, weight=1)
-            else:
-                cmd_graph.cmd_graph.add_edge(link_cmd, 0xF4, weight=1)
-        cmd_graph.cmd_arg_graphs[0xF4] = networkx.complete_graph([0xF4] + list(add_cmds))
+    # FIXME: sanitize and expand this
+    link_nodes = set(cmd_graph.cmd_graph.nodes) - {"^", 0xFE, 0xFF}
+    if add_cmds is not None and len(link_nodes) > 0:
+        # Create a path so that we're at least assured of an access
+        # method for the command
+        n1 = random.choice(list(link_nodes))
+        n2 = random.choice(list(link_nodes))
+        networkx.add_path(cmd_graph.cmd_graph, (n1, 0xF4, n2), weight=1)
 
 class RestrictedCommandGraph(CommandGraph):
     @classmethod
