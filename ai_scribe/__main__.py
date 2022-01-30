@@ -405,9 +405,10 @@ if __name__ == "__main__":
                    print(_meta[n], file=fout)
 
                print(f"Original | Randomized", file=fout)
-               if n in mod_scripts:
+               if n in mod_scripts or s.name in mod_scripts:
+                   mod_script = mod_scripts[n] if n in mod_scripts else mod_scripts[s.name]
                    print(tableau_scripts(scripts.scripts[j].translate(),
-                                         mod_scripts[n].translate()), file=fout)
+                                         mod_script.translate()), file=fout)
                else:
                    print(tableau_scripts(scripts.scripts[j].translate(),
                                          "NO SCRIPT RANDOMIZATION"), file=fout)
