@@ -452,7 +452,11 @@ def edit_cmd_arg_graph(cmd_graph, drop_skills={}, drop_nothing=False,
         subgraph = cmd_graph.cmd_arg_graphs[cmd]
         subgraph.remove_nodes_from(drop_skills - {cmd})
         if len(subgraph.nodes) <= 1 and cmd in cmd_graph.cmd_graph:
-           cmd_graph.cmd_graph.remove_node(cmd)
+            #cmd_graph.cmd_graph.remove_node(cmd)
+            # It's possible for banned skills like "Escape" to leave dangling
+            # Targeting nodes without any outgoing edges, so instead of dropping
+            # the command node, we just add "Nothing" as the only possible argument
+            subgraph.add_edge(cmd, 0xFE, weight=1)
 
     # FIXME: sanitize and expand this
     link_nodes = set(cmd_graph.cmd_graph.nodes) - {"^", 0xFE, 0xFF}
@@ -507,13 +511,13 @@ class RestrictedCommandGraph(CommandGraph):
         # Make a copy, because we can modify the graph in flight
         g = self.cmd_graph.copy()
 
-        # Exchange block enders with references to the beginning of the script
-        # so that we don't end up with terminal nodes
-        try:
-            networkx.relabel_nodes(g, {0xFF: "^"}, copy=False)
-            networkx.relabel_nodes(g, {0xFE: "^"}, copy=False)
-        except KeyError:
-            pass
+        # Nullify the outgoing links to block enders
+        # NOTE: we don't remove incoming links because they're needed for generation
+        g.remove_edges_from([(u, v) for u, v in g.edges if v in {0xFE, 0xFF}])
+        # replace some of them with links to "^", e.g. in the case they become terminal
+        for node in g.nodes:
+            if len(g[node]) == 0:
+                g.add_edge(node, "^")
 
         # TODO: replace these with rule sets
         # Handle disallowed commands
