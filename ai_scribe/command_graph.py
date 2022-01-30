@@ -555,6 +555,7 @@ class RestrictedCommandGraph(CommandGraph):
             try:
                 while scr_len < main_block_len + cntr_block_len:
                     last = gptr
+                    # TODO: have the current command generate the token
                     gptr = self.generate_script_token(g, gptr, script_context=context["phase"])
 
                     # "Restarting" is allowed, because we replaced block enders earlier
@@ -571,8 +572,7 @@ class RestrictedCommandGraph(CommandGraph):
                     #_gptr = syntax.Cmd[gptr]
 
                     # Check rules
-                    __script = _script + [_gptr] + args
-                    blocking_rules = self.check_rules(__script, **context)
+                    blocking_rules = self.check_rules(_script + [_gptr] + args, **context)
 
                     # Do rule checking or abort if we're encountering too many
                     if context["rule_checks"] <= 0:
@@ -669,8 +669,8 @@ class RestrictedCommandGraph(CommandGraph):
         assert script_context in {"main", "counter"}
 
         if gptr not in g or len(g[gptr]) == 0:
-            gptr = hex(gptr) if isinstance(gptr, int) else gptr
-            raise KeyError(f"Current command pointer ({gptr} / {SYNTAX[gptr][-1]}) "
+            _gptr = hex(gptr) if isinstance(gptr, int) else gptr
+            raise KeyError(f"Current command pointer ({_gptr} / {SYNTAX[gptr][-1]}) "
                            "has no outgoing links. Command graph:\n"
                            + self.to_text_repr())
 
