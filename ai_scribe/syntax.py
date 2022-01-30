@@ -236,8 +236,9 @@ class UseCommand(Cmd, byteval=0xF4, nargs=3, descr="USE COMMAND",
     """
     _VALID_COMMANDS = {f for f, s in flags.CMD_LIST.items()
                             if s.startswith("(") or s == "Nothing"}
+    @classmethod
     def format_args(cls, *args):
-        return Cmd.format_args([flags.CMD_LIST.get(arg, "{ILLEGAL}") for arg in args])
+        return Cmd.format_args(*[flags.CMD_LIST.get(arg, "{ILLEGAL}") for arg in args])
 
     @classmethod
     def validate_args(cls, *args, left=None):
