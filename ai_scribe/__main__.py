@@ -262,6 +262,7 @@ if __name__ == "__main__":
 
                 _meta[name] = "type: from template\n"
                 _meta[name] += f"created from: {sset}\n"
+                _meta[name] += f"difficulty rating: {difficulty}\n"
                 _meta[name] += rcmd_graph.to_text_repr()
 
                 extra_space += len(pool[name]._bytes) - len(mod_scripts[name]._bytes)
@@ -313,6 +314,7 @@ if __name__ == "__main__":
             for name in sset:
                 _meta[name] = "type: from graph\n"
                 _meta[name] += f"created from: {sset}\n"
+                _meta[name] += f"difficulty rating: {difficulty}\n"
                 _meta[name] += cmd_graph.to_text_repr(suppress_args=False)
 
             # bosses have already been randomized
