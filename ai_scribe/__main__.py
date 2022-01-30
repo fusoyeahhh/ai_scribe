@@ -395,7 +395,7 @@ if __name__ == "__main__":
                                       offset=script_offset, write_first=write_first)
         # Rewrite to address space
         plen = len(romfile)
-        oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
+        romfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
         assert plen == len(romfile)
 
         if fname.endswith(".smc"):
@@ -404,13 +404,12 @@ if __name__ == "__main__":
             outfname = f"FF3.ai_rando_{i}.smc"
 
         with open(outfname, "wb") as fout:
-            fout.write(bytes(oromfile))
+            fout.write(bytes(romfile))
         log.info(f"Generated ROM at {outfname}")
 
         spoiler = outfname.replace(".smc", f".spoiler_{i}.txt")
         with open(spoiler, "w") as fout:
-             # FIXME: the block below this is incorrectly indented
-             for j, s in enumerate(export):
+            for j, s in enumerate(export):
                 n = names[j]
                 _n = _NAME_ALIASES.get(j, n)
                 print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
