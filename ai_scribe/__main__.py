@@ -16,6 +16,7 @@ from . import themes
 from . import _NAME_ALIASES, tableau_scripts, verify_rom
 
 from .data import apply_esper_target_patch, give_base_mp
+from .data import _ESPER_TARGET_PATCH_LEN
 from .flags import ESPERS, DESPERATIONS
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 
@@ -171,10 +172,7 @@ if __name__ == "__main__":
         if conf["give_min_mp"]:
             log.info("Giving minimum MP to all enemies.")
             romfile = give_base_mp(romfile)
-        if conf["esper_party_targeting"]:
-            log.info("Allowing Espers to target party.")
-            romfile = apply_esper_target_patch(romfile)
-        else:
+        if not conf["esper_party_targeting"]:
             # remove them from the pool, because they won't work
             conf["drop_skills"] |= set(ESPERS)
 
@@ -380,8 +378,21 @@ if __name__ == "__main__":
         write_first = set(extract.identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
 
-        scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks, write_first=write_first)
+        # TODO: Account for this in budget
+        if conf["esper_party_targeting"]:
+            log.info("Allowing Espers to target party.")
 
+            script_offset = _ESPER_TARGET_PATCH_LEN
+            # Adjust for the offset introduced from ancillary data
+            blk = scripts.script_blocks[0]
+            scripts.script_blocks[0] = (blk[0] + script_offset, blk[1])
+
+            romfile = apply_esper_target_patch(romfile)
+        else:
+            script_offset = 0
+
+        scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks,
+                                      offset=script_offset, write_first=write_first)
         # Rewrite to address space
         plen = len(romfile)
         oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})

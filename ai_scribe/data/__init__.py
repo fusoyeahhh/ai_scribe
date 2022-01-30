@@ -13,6 +13,7 @@ def give_base_mp(romfile):
 
     return romfile
 
+_ESPER_TARGET_PATCH_LEN = 22
 def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     """
     Cancel on Party -> Cancel if no Opposition
