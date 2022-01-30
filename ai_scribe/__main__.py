@@ -396,23 +396,23 @@ if __name__ == "__main__":
 
         spoiler = outfname.replace(".smc", f".spoiler_{i}.txt")
         with open(spoiler, "w") as fout:
-            # FIXME: the block below this is incorrectly indented
-            for j, s in enumerate(export):
-               n = names[j]
-               _n = _NAME_ALIASES.get(j, n)
-               print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
-               if n in _meta:
-                   print(_meta[n], file=fout)
+             # FIXME: the block below this is incorrectly indented
+             for j, s in enumerate(export):
+                n = names[j]
+                _n = _NAME_ALIASES.get(j, n)
+                print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
+                if n in _meta:
+                    print(_meta[n], file=fout)
 
-               print(f"Original | Randomized", file=fout)
-               if n in mod_scripts or s.name in mod_scripts:
-                   mod_script = mod_scripts[n] if n in mod_scripts else mod_scripts[s.name]
-                   print(tableau_scripts(scripts.scripts[j].translate(),
-                                         mod_script.translate()), file=fout)
-               else:
-                   print(tableau_scripts(scripts.scripts[j].translate(),
-                                         "NO SCRIPT RANDOMIZATION"), file=fout)
-               print("", file=fout)
+                print(f"Original | Randomized", file=fout)
+                if n in mod_scripts or s.name in mod_scripts:
+                    mod_script = mod_scripts[n] if n in mod_scripts else mod_scripts[s.name]
+                    print(tableau_scripts(scripts.scripts[j].translate(),
+                                          mod_script.translate()), file=fout)
+                else:
+                    print(tableau_scripts(scripts.scripts[j].translate(),
+                                          "NO SCRIPT RANDOMIZATION"), file=fout)
+                print("", file=fout)
         log.info(f"Generated script spoiler at {spoiler}")
 
         if conf['verify_rom']:
