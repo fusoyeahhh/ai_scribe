@@ -112,7 +112,7 @@ if __name__ == "__main__":
             "boss_status": False,
             # will pick a random theme from the commands theme
             # NOTE: This is not the same as the commands themselves
-            "boss_command": True,
+            "boss_command": False,
 
             # will pick a random element and merge in random elemental attacks from category
             "normal_elemental": False,
@@ -120,7 +120,7 @@ if __name__ == "__main__":
             "normal_status": False,
             # will pick a random theme from the commands theme
             # NOTE: This is not the same as the commands themselves
-            "normal_command": True,
+            "normal_command": False,
 
             # Does not affect commands already present in game scripts
             "allowed_commands": set(SNGL_CMDS),
