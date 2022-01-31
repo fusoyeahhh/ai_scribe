@@ -790,6 +790,7 @@ def _augment_cmd_graph(cmd_graph, statuses=set(), elements=set(), commands=set()
     return cmd_graph
 
 def augment_cmd_graph(cmd_graph, status=False, elemental=False, command=False):
+    return cmd_graph
     # Add in a random status/element theme
     themes, aug_attacks = {}, networkx.DiGraph()
     if elemental:
