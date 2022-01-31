@@ -218,7 +218,7 @@ class DisplayMsg(Cmd, byteval=0xF3, nargs=2, descr="DISPLAY MESSAGE",
     """
     @classmethod
     def format_args(cls, *args, msg_dict={}):
-        form = int.from_bytes(args[1:3], "little")
+        form = int.from_bytes(args[:2], "little")
         if form in msg_dict:
             return f"{hex(form)} = \"{msg_dict[form]}\""
         return hex(form)
