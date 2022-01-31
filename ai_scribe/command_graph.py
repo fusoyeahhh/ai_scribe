@@ -799,6 +799,9 @@ def augment_cmd_graph(cmd_graph, status=False, elemental=False, command=False):
     if command:
         themes.update(FROM_COMMANDS.copy())
 
+    if len(themes):
+        return cmd_graph
+
     if themes:
         aug_attacks = random.choice([*themes.values()])
     aug_attacks.add_edge(0xF0, list(aug_attacks.nodes)[0])
