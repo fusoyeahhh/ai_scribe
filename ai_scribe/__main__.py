@@ -107,7 +107,7 @@ if __name__ == "__main__":
         # SPICE
         "spice": {
             # will pick a random element and merge in random elemental attacks from category
-            "boss_elemental": True,
+            "boss_elemental": False,
             # will pick a random status and merge in random status attacks from category
             "boss_status": False,
             # will pick a random theme from the commands theme
@@ -117,7 +117,7 @@ if __name__ == "__main__":
             # will pick a random element and merge in random elemental attacks from category
             "normal_elemental": False,
             # will pick a random status and merge in random status attacks from category
-            "normal_status": True,
+            "normal_status": False,
             # will pick a random theme from the commands theme
             # NOTE: This is not the same as the commands themselves
             "normal_command": True,
