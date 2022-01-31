@@ -13,7 +13,7 @@ def give_base_mp(romfile):
 
     return romfile
 
-_ESPER_TARGET_PATCH_LEN = 22
+_ESPER_TARGET_PATCH_LEN = 18
 def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     """
     Cancel on Party -> Cancel if no Opposition
@@ -37,10 +37,6 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
 
     # F0/7000:
     patch_data = [
-        # A5 BA        LDA $BA
-        0xA5, 0xBA,
-        # 10 0B        BPL $590 B(branch if not abort on characters)
-        0x10, 0x0B,
         # A5 BA        LDA $BA
         0xA5, 0xBA,
         # 10 0B        BPL $590B      (branch if not abort on characters)
