@@ -312,14 +312,14 @@ if __name__ == "__main__":
 
             log.debug(rcmd_graph.to_text_repr())
 
+            # bosses have already been randomized
+            sset -= BOSSES
+
             for name in sset:
                 _meta[name] = "type: from graph\n"
                 _meta[name] += f"created from: {sset}\n"
                 _meta[name] += f"difficulty rating: {difficulty}\n"
                 _meta[name] += cmd_graph.to_text_repr(suppress_args=False)
-
-            # bosses have already been randomized
-            sset -= BOSSES
 
             # Total length of scripts + extra_space
             # extra_space is basically the offset from the vanilla pointer
