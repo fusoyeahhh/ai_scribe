@@ -13,7 +13,8 @@ from . import scripting
 from . import command_graph
 from . import themes
 
-from . import _NAME_ALIASES, tableau_scripts, verify_rom
+from . import _NAME_ALIASES, _BOSS_DIFFICULTY_SCALING, _MIN_BOSS_DIFFICULTY
+from . import tableau_scripts, verify_rom
 
 from .data import apply_esper_target_patch, give_base_mp
 from .data import _ESPER_TARGET_PATCH_LEN
@@ -24,11 +25,12 @@ from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 log = logging.getLogger("ai_scribe")
 log.setLevel(logging.INFO)
 
-def progressive_difficulty(set_idx):
+def progressive_difficulty(set_idx, is_boss=False):
     """
     Scale the enemy's position in the area progression and return a difficulty value based on it.
     """
-    return set_idx / len(AREA_SETS)
+    low_limit = _MIN_BOSS_DIFFICULTY if is_boss else 0
+    return min(1, max(low_limit, set_idx / len(AREA_SETS) *_BOSS_DIFFICULTY_SCALING))
 
 if __name__ == "__main__":
 
@@ -244,10 +246,11 @@ if __name__ == "__main__":
 
                 rcmd_graph = command_graph.RestrictedCommandGraph.get_rule_set(*conf["rules"],
                                                                                graph=cmd_graph)
-                # FIXME: may want to up the difficulty for bosses
-                difficulty = progressive_difficulty(set_idx) \
-                    if conf["difficulty"] == "progressive" \
-                    else conf["difficulty"]
+                # up the difficulty for bosses a bit
+                if conf["difficulty"] == "progressive":
+                    difficulty = progressive_difficulty(set_idx, is_boss=True)
+                else:
+                    difficulty = conf["difficulty"]
                 # FIXME: can separate these out at some point
                 rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=themes.skill_tiers)
 
