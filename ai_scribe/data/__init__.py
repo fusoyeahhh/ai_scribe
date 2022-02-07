@@ -40,7 +40,7 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
         # A5 BA        LDA $BA
         0xA5, 0xBA,
         # 10 0B        BPL $590B      (branch if not abort on characters)
-        0x20, 0x0B,
+        0x10, 0x0B,
         # 7B           TDC            (Accumulator = 0)
         0x7B,
         # E0 08        CPX #$08       (set Carry if caster is monster.  note that "caster" can
