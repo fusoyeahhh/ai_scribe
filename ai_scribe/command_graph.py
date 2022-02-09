@@ -495,7 +495,7 @@ class RestrictedCommandGraph(CommandGraph):
     # rewrite of generate_from_graph
     def generate_from_graph(self, start_cmd="^",
                             main_block_len=None, main_block_avg=2, allow_empty_main_blocks=False,
-                            cntr_block_len=None, cntr_block_avg=0, allow_empty_cntr_blocks=True,
+                            cntr_block_len=None, cntr_block_avg=1, allow_empty_cntr_blocks=True,
                             disallow_commands=set(), weighted=True, naborts=20, strict=True):
 
         main_block_avg = None if main_block_avg is None else numpy.random.poisson(main_block_avg)
