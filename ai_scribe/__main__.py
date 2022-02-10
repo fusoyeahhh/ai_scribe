@@ -146,7 +146,7 @@ if __name__ == "__main__":
         # do we give weak enemies 20 MP minimum to use on skills?
         "give_min_mp": True,
         # do we allow Espers to target the party
-        "esper_party_targeting": False,
+        "esper_party_targeting": True,
 
         # number of retries for script generation failure
         "num_retries": 100,
