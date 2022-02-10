@@ -415,9 +415,11 @@ if __name__ == "__main__":
             for j, s in enumerate(export):
                 n = names[j]
                 _n = _NAME_ALIASES.get(j, n)
-                print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
+                print(f"--[{str(j).ljust(3)}]-- {_n} ({n}) ---", file=fout)
                 if n in _meta:
                     print(_meta[n], file=fout)
+                elif s.name in _meta:
+                    print(_meta[s.name], file=fout)
 
                 print(f"Original | Randomized", file=fout)
                 if n in mod_scripts or s.name in mod_scripts:
