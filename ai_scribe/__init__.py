@@ -1,6 +1,9 @@
 import logging
 log = logging.getLogger("ai_scribe")
 
+_BOSS_DIFFICULTY_SCALING = 1.5
+_MIN_BOSS_DIFFICULTY = 0.5
+
 _NAME_ALIASES = {
     # BC often renames this
     "L.255Magic": "MagiMaster",
