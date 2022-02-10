@@ -209,6 +209,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
 # Add Cyan's Imperial Camp AI as a "boss" so that it is randomized
 # but templated
 BOSSES |= {"3"}
+BOSSES |= {"Siegfried2"}
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
