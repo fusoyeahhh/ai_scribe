@@ -14,7 +14,8 @@ def give_base_mp(romfile):
     return romfile
 
 _ESPER_TARGET_PATCH_LEN = 18
-def apply_esper_target_patch(romfile, patch_dst=0xCF8700):
+_HIROM_MEM_OFFSET = 0xC00000
+def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     """
     Cancel on Party -> Cancel if no Opposition
     (Makes enemy use of espers not fizzle)
@@ -31,7 +32,8 @@ def apply_esper_target_patch(romfile, patch_dst=0xCF8700):
     # would have to change to little-endian JSL command 22 9A 78 EF.
     # C2/5905: 22 00 20 F0            JSL Freespace            [Tested at C0D620, BC Code goes to F07000ish]
     #          EA EA                  NOPx2
-    jsl_patch_data = [0x22] + list(patch_dst.to_bytes(3, "little")) + [0xEA, 0xEA]
+    patch_dst_ptr = patch_dst + _HIROM_MEM_OFFSET
+    jsl_patch_data = [0x22] + list(patch_dst_ptr.to_bytes(3, "little")) + [0xEA, 0xEA]
 
     romfile = romfile[:0x25905] + bytes(jsl_patch_data) + romfile[0x25905 + len(jsl_patch_data):]
 
