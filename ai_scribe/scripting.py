@@ -288,11 +288,11 @@ class NoNestedCondBlock(Rule):
 
         if ctx["nfc"] == 0:
             return False
-        # FIXME: I don't think this is right...
-        if ctx["nfc"] >= 1 and rhs is syntax.CmdPred:
+        if ctx["nfc"] >= 1 and rhs is syntax.CmdPred \
+                           and lhs is not syntax.CmdPred:
             return True
         return False
-_RULES["no_nested_cond_block"] = NoNestedCondBlock
+#_RULES["no_nested_cond_block"] = NoNestedCondBlock
 
 class TargetingRules(Rule):
     def __call__(self, script, **ctx):
