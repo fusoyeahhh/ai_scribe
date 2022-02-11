@@ -97,7 +97,7 @@ def tableau_scripts(s1, s2):
                                 for _s1, _s2 in zip((s1 + ["\n"] * ldiff), (s2 + ["\n"] * ldiff))])
     return fmt_str
 
-def verify_rom(outfname, export, names):
+def verify_rom(outfname, export, names, main_block_start=0xF8700):
     from .extract import extract
 
     new_scripts, new_names, _ = extract(outfname, return_names=True)
@@ -111,7 +111,7 @@ def verify_rom(outfname, export, names):
                 | (set(export[n]._bytes[end:]) == set(b'\xff'))
         close &= scr._bytes[:end] == scr._bytes[:end]
 
-        if scr.ptr == 0xF8700 and not same:
+        if scr.ptr == main_block_start and not same:
             log.debug(f"TRUNCATED: {n} ({name})")
             log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
             continue

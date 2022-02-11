@@ -432,4 +432,5 @@ if __name__ == "__main__":
         if conf['verify_rom']:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
-            verify_rom(outfname, export, names)
+            verify_rom(outfname, export, names,
+                       main_block_start=scripts.script_blocks[0][0])
