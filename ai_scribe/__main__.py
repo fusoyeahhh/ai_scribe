@@ -434,3 +434,4 @@ if __name__ == "__main__":
             outfname = os.path.realpath(outfname)
             verify_rom(outfname, export, names,
                        main_block_start=scripts.script_blocks[0][0])
+            log.info(f"Verification successful")
