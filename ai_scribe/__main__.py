@@ -308,7 +308,7 @@ if __name__ == "__main__":
                             if conf["difficulty"] == "progressive" \
                             else conf["difficulty"]
             # FIXME: can separate these out at some point
-            rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=themes.skill_tiers)
+            rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=skill_tiers)
 
             log.debug(rcmd_graph.to_text_repr())
 
@@ -331,9 +331,8 @@ if __name__ == "__main__":
             log.debug(f"Randomizing over {pool}")
 
             main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(sset))), 1)
-            # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
-                          "naborts": conf["num_retries"], "strict": False}
+                          "naborts": conf["num_retries"]}
             _scr, _ptrs = pack.randomize_scripts(rcmd_graph, n=len(sset),
                                                  #main_block_avg=main_block_avg,
                                                  main_block_avg=5,
