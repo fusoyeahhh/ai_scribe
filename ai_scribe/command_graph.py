@@ -594,12 +594,6 @@ class RestrictedCommandGraph(CommandGraph):
                     _script.append(_gptr)
                     _script.extend(args)
 
-                    # conditional handling
-                    # if we're at the end of the block, conditionals can't be closed, retry
-                    if ((context["phase"] == "main" and main_block_len == scr_len + 1) or \
-                       (context["phase"] == "counter" and cntr_block_len == scr_len + 1)) and \
-                        gptr == syntax.CmdPred._BYTEVAL:
-                        raise ValueError("Cannot end block with conditional")
                     # Increasingly likely to end the block
                     # Note that this hardcodes no empty conditionals
                     if random.randint(0, context["nfc"]) > 0 \
@@ -619,8 +613,16 @@ class RestrictedCommandGraph(CommandGraph):
 
                     # only increment the command counter if
                     # we're not under influence of modifiers
-                    if gptr not in {syntax.Targeting._BYTEVAL, syntax.CmdPred._BYTEVAL}:
+                    if gptr not in {syntax.Targeting._BYTEVAL, syntax.CmdPred._BYTEVAL,
+                                    syntax.Wait._BYTEVAL}:
                         scr_len += 1
+
+                    # conditional handling
+                    # if we're at the end of the block, conditionals can't be closed, retry
+                    if ((context["phase"] == "main" and main_block_len == scr_len) or \
+                        (context["phase"] == "counter" and cntr_block_len == scr_len)) and \
+                            gptr == syntax.CmdPred._BYTEVAL:
+                        raise ValueError("Cannot end block with conditional")
 
                     # End the main block if needed
                     # END BLOCK and END FC BLOCK act the same if we are in a conditional
