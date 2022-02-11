@@ -308,11 +308,11 @@ class TargetingRules(Rule):
         target_self = len(largs) >= 1 and largs[0] in flags.SELF_TARGETS
         beneficial = False
         if rhs in (syntax.DoSkill, syntax.ChooseSpell):
-            beneficial = any(arg in set(flags.CURATIVES) | flags.BUFFS for arg in rargs)
+            beneficial = all(arg in set(flags.CURATIVES) | flags.BUFFS for arg in rargs)
         elif rhs is syntax.ThrowUseItem:
-            beneficial = any(arg in flags.BENEFICIAL_ITEMS for arg in rargs)
+            beneficial = all(arg in flags.BENEFICIAL_ITEMS for arg in rargs)
         elif rhs is syntax.UseCommand:
-            beneficial = any(arg in flags.BENEFICIAL_CMDS for arg in rargs)
+            beneficial = all(arg in flags.BENEFICIAL_CMDS for arg in rargs)
 
         return target_self ^ beneficial
 _RULES["targeting_rules"] = TargetingRules
