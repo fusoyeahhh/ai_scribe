@@ -603,8 +603,7 @@ class RestrictedCommandGraph(CommandGraph):
                     # Increasingly likely to end the block
                     # Note that this hardcodes no empty conditionals
                     if random.randint(0, context["nfc"]) > 0 \
-                          and last not in {syntax.Targeting._BYTEVAL, syntax.CmdPred._BYTEVAL} \
-                          and gptr != syntax.EndPredBlock._BYTEVAL:
+                          and _gptr not in {syntax.Targeting, syntax.CmdPred}:
                         _gptr = syntax.EndPredBlock
                         gptr = _gptr._BYTEVAL
                         _script.append(_gptr)
@@ -620,7 +619,7 @@ class RestrictedCommandGraph(CommandGraph):
 
                     # only increment the command counter if
                     # we're not under influence of modifiers
-                    if gptr != syntax.Targeting._BYTEVAL:
+                    if gptr not in {syntax.Targeting._BYTEVAL, syntax.CmdPred._BYTEVAL}:
                         scr_len += 1
 
                     # End the main block if needed
