@@ -27,12 +27,12 @@ def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK,
     # Set the current pointer to the lowest block
     last = block_offsets[min_block]
 
-    ptrs, scr = [], []
+    # TODO: scr can be dropped
+    ptrs = []
 
     # Start with 'error' script
     error_script_ptr = None
     if use_default_script:
-        scr.append(DEFAULT_SCRIPT)
         block_scrs[block].append(DEFAULT_SCRIPT)
         error_script_ptr = last
 
@@ -42,7 +42,6 @@ def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK,
     _ptrs = {}
     for n in write_first:
         _ptrs[n] = last
-        scr.append(export[n]._bytes)
         block_scrs[block].append(export[n]._bytes)
         slen = len(export[n])
         # FIXME: restore pointer rewriting
@@ -59,17 +58,15 @@ def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK,
             continue
 
         for block, last in block_offsets.items():
-            # block start offset relative to reference address
-            if last + len(export[n]) >= block[1] - block[0]:
+            if last + len(export[n]) >= block[1] - 0xF8700:
                 continue
 
             ptrs.append(last)
 
-            scr.append(export[n]._bytes)
             block_scrs[block].append(export[n]._bytes)
 
             slen = len(export[n])
-            log.debug(f"{n}: -> [{hex(block[0])} {hex(block[1])}] | {hex(block[0] + last)} +{hex(slen)}")
+            log.debug(f"{n}: -> [{hex(block[0])} {hex(block[1])}] | {hex(0xF8700 + last)} +{hex(slen)}")
             last += slen
 
             block_offsets[block] = last
