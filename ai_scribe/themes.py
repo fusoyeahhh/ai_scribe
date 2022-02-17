@@ -137,7 +137,7 @@ AREA_SETS = [
     # Ancient Underground Castle
     {"Boxed Set", "Enuo", "Figaliz", "Goblin", "Lethal Wpn", "KatanaSoul", "Master Pug", "Blue Drgn"},
     # Underground Narshe Caves
-    {"Kiwok", "Anemone", "Ceritops", "Tomb Thumb", "Poppers", "Pug", "Pugs", "Umaro"},
+    {"Kiwok", "Anemone", "Ceritops", "Tomb Thumb", "Poppers", "Pug", "Pugs", "Umaro2"},
     # Phoenix Cave
     {"Aquila", "Chaos Drgn", "Necromancr", "Parasoul", "Phase", "Rain Man",
      "Trixter", "Uroburos", "Sea Flower", "Red Dragon"},
