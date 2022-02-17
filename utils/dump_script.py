@@ -22,6 +22,8 @@ argp.add_argument("-l", "--list-names", action='store_true',
                   help="List the names in the order they appear in the game's index.")
 argp.add_argument("-a", "--alias-duplicates", action='store_true', default=False,
                   help="Alias duplicate names in list (e.g. blank names), default is false.")
+argp.add_argument("-f", "--filter-name", action="append",
+                  help="Filter scripts for this pattern, when given with -l")
 argp.add_argument("-s", "--print-scripts", action='append',
                   help="Print only these scripts to the console. Will select by order if integer is given.")
 argp.add_argument("-V", "--verify-scripts", action='store_true',
@@ -111,26 +113,34 @@ if __name__ == "__main__":
         n_per_line = 2 if args.alias_duplicates else 3
 
         outstr, i = [], 0
+        args.filter_name = set(args.filter_name or [])
         for _ in range(int(math.ceil(len(names) / n_per_line))):
             chunk, names = names[:n_per_line], names[n_per_line:]
 
             idx = [j for j in range(i, i + n_per_line)]
             aliases = [f" ({_NAME_ALIASES[j]})" if j in _NAME_ALIASES and args.alias_duplicates else ""
-                             for j, n in zip(idx, chunk)]
-                             # for n in _chunk]
+                       for j, n in zip(idx, chunk)]
+            # for n in _chunk]
             idx = [str(j).rjust(3) + ":"
                    + (f"{hex(ptrs[j] - 0xF8700)}+{hex(len(scripts[j]))}").ljust(12)
-                    for j in idx]
+                   for j in idx]
             idx = [f"[{prefix}]" for prefix in idx]
+
+            matches = {name for name in names if any({fname for fname in args.filter_name if fname in name})}
+            keep = {j for j, name in enumerate(chunk)
+                                       if args.filter_name is None or name in matches}
+            matches = {name for name in aliases if any({fname for fname in args.filter_name if fname in name})}
+            keep |= {j for j, name in enumerate(aliases)
+                                        if args.filter_name is None or name in matches}
             i += n_per_line
             outstr.append(" ".join([f'{j} {(n + a)[:base].ljust(base)}'
-                                        for j, n, a in zip(idx, chunk, aliases)]))
+                                for k, (j, n, a) in enumerate(zip(idx, chunk, aliases)) if k in keep]))
 
         print("Detected the following script blocks:")
         for (lo, hi) in blks:
             print(f"{hex(lo)} -- {hex(hi)}")
         print("Script pointers are relative to 0xF8700")
-        print("\n".join(outstr))
+        print("\n".join([s for s in outstr if s]))
         exit()
 
     # Print only a selection of scripts
