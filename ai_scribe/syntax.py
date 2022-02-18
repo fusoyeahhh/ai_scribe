@@ -135,7 +135,7 @@ class Cmd:
     def __init__(self, *args):
         self._args = args
 
-    def __call_(self, rhs):
+    def __call__(self, rhs):
         # apply rules
         return True
 
