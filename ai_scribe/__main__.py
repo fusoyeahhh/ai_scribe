@@ -3,32 +3,40 @@ import glob
 import math
 import random
 import numpy
-import networkx.algorithms
 
 import logging
 logging.basicConfig()
 
-from . import _NAME_ALIASES
-from . import command_graph
-from . import tableau_scripts, give_base_mp, verify_rom
-from . import scripting
-from .extract import *
-from .extract import ScriptSet
+from . import extract
 from . import pack
-from .pack import randomize_scripts
-from .flags import ESPERS, DESPERATIONS
+from . import scripting
+from . import command_graph
+from . import themes
 
+from . import _NAME_ALIASES, _BOSS_DIFFICULTY_SCALING, _MIN_BOSS_DIFFICULTY
+from . import tableau_scripts, verify_rom
+
+from .data import apply_esper_target_patch, give_base_mp
+from .data import _ESPER_TARGET_PATCH_LEN
+from .flags import ESPERS, DESPERATIONS
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
 
 # We have to do this here or else the submodules will override it.
 log = logging.getLogger("ai_scribe")
 log.setLevel(logging.INFO)
 
+def progressive_difficulty(set_idx, is_boss=False):
+    """
+    Scale the enemy's position in the area progression and return a difficulty value based on it.
+    """
+    low_limit = _MIN_BOSS_DIFFICULTY if is_boss else 0
+    return min(1, max(low_limit, set_idx / len(AREA_SETS) *_BOSS_DIFFICULTY_SCALING))
+
 if __name__ == "__main__":
 
     log.warning("This is a PRERELEASE version of the AI Scribe for FFVI. "
                 "There are no guarantees that the produced game "
-                "is fully completable or functional. This is for testing purposes only."
+                "is fully completable or functional. This is for testing purposes only. "
                 "Currently, it is known that this version is mostly compatible "
                 "with Beyond Chaos, though due to memory addressing issues, "
                 "later bosses and final Kefka are likely to be buggy.")
@@ -69,7 +77,7 @@ if __name__ == "__main__":
             0xEA,  # BabaBreath
             0xD5,  # Engulf --- NOTE: this only prevents other enemies from picking it up,
                    # Zone Eater is exempt from randomization
-        } | set(ESPERS) | set(DESPERATIONS),
+        } | set(DESPERATIONS),
         "drop_events": {
             0x5,  # Wedge and Vicks Whelk tutorial
             0x6,  # M-M-M-M-MAGIC!? (TODO: could replace this with something else for the lulz
@@ -81,34 +89,64 @@ if __name__ == "__main__":
         },
         "drop_targets": {},
 
+        # AI behavior modification
+
+        # difficulty
+        # progressive - will try to maintain a reasonable difficulty progression
+        # numeric values between -1 and 1 are also accepted
+        # negative values will make the skills selected from the pool tend to be
+        # lower and lower tiers
+        # positive values will make the skills selected from the pool tend to be
+        # higher and higher tiers
+        # a value of zero will equally weight all skills (formerly known as chaotic AI)
+        # "chaotic"
+        #"difficulty": 0,
+        # "easy"
+        #"difficulty": -1,
+        # "hard"
+        #"difficulty": 1,
+        "difficulty": "progressive",
         # SPICE
         "spice": {
             # will pick a random element and merge in random elemental attacks from category
-            "boss_elemental": True,
+            "boss_elemental": False,
             # will pick a random status and merge in random status attacks from category
             "boss_status": False,
             # will pick a random theme from the commands theme
             # NOTE: This is not the same as the commands themselves
-            "boss_command": True,
+            "boss_command": False,
 
             # will pick a random element and merge in random elemental attacks from category
             "normal_elemental": False,
             # will pick a random status and merge in random status attacks from category
-            "normal_status": True,
+            "normal_status": False,
             # will pick a random theme from the commands theme
             # NOTE: This is not the same as the commands themselves
-            "normal_command": True,
+            "normal_command": False,
 
             # Does not affect commands already present in game scripts
             "allowed_commands": set(SNGL_CMDS),
         },
 
-        # AI behavior modification
+        # rulesets to be enforced on script generation
+        # See scripts._RULES for all of them
+        "rules": {
+            # Syntactical stuff which is technically allowed,
+            # but produces uninteresting or noop type behavior
+            "no_empty_cond_block", "no_nested_cond_block",
+            # Rule set for boss type death and other formation altering
+            "event_rules",
+            # Rule set for basic sensible targeting
+            "targeting_rules"
+        },
+
         # enemies already with events may have them swapped with others
         # the 'drop_events' configuration above is still respected
         "talkative": True,
         # do we give weak enemies 20 MP minimum to use on skills?
         "give_min_mp": True,
+        # do we allow Espers to target the party
+        "esper_party_targeting": True,
 
         # number of retries for script generation failure
         "num_retries": 100,
@@ -117,15 +155,12 @@ if __name__ == "__main__":
 
         # Should we reload the written ROM and verify it?
         "verify_rom": True,
-
-        # write out the base script file if not None
-        #"write_base_scripts": "etc/script_dump.txt",
-        "write_base_scripts": None,
-        "script_dump_only": False,
     }
 
     random.seed(conf.get("random_seed", 0))
     numpy.random.seed(conf.get("random_seed", 0))
+
+    skill_tiers = generate_skill_tiers()
 
     # batching
     for i in range(conf["copies_per_batch"]):
@@ -133,23 +168,27 @@ if __name__ == "__main__":
         _meta = {}
 
         fname = numpy.random.choice(fnames)
-        log.debug(fname)
+        log.debug(f"Reading {fname}")
         with open(fname, "rb") as fin:
             romfile = fin.read()
+        log.debug(f"Read {fname}: {len(romfile)} bytes")
 
         if conf["give_min_mp"]:
             log.info("Giving minimum MP to all enemies.")
-            give_base_mp(romfile)
+            romfile = give_base_mp(romfile)
+        if not conf["esper_party_targeting"]:
+            # remove them from the pool, because they won't work
+            conf["drop_skills"] |= set(ESPERS)
 
-        scripts, names, blocks = extract(fname, return_names=True)
+        scripts, names, blocks = extract.extract(fname, return_names=True)
         log.info(f"Read {len(scripts)} total scripts from {fname} in {len(blocks)} blocks")
 
-        scripts = ScriptSet(fname)
+        scripts = extract.ScriptSet(fname)
 
         full_graph = command_graph.CommandGraph()
         full_graph.from_scripts({k: v._bytes for k, v in scripts.scripts.items()})
 
-        #batt_msgs = extract_battle_msgs(srcrom)
+        #batt_msgs = extract.extract_battle_msgs(srcrom)
 
         # tracks the marginal budget we have on free space
         extra_space = 0
@@ -193,7 +232,8 @@ if __name__ == "__main__":
                                                        command=conf["spice"]["boss_command"])
             command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
                                                         add_cmds=conf["spice"]["allowed_commands"])
-            log.debug(cmd_graph.to_text_repr())
+
+            log.debug(cmd_graph.to_text_repr(suppress_args=False))
 
             # Randomize bosses
             # FIXME: make flag for "allow bosses to be in pool" (currently true)
@@ -205,16 +245,28 @@ if __name__ == "__main__":
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes)")
+
+                rcmd_graph = command_graph.RestrictedCommandGraph.get_rule_set(*conf["rules"],
+                                                                               graph=cmd_graph)
+                # up the difficulty for bosses a bit
+                if conf["difficulty"] == "progressive":
+                    difficulty = progressive_difficulty(set_idx, is_boss=True)
+                else:
+                    difficulty = conf["difficulty"]
+                # FIXME: can separate these out at some point
+                rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=skill_tiers)
+
                 # This only reduces the length from the original script
-                bscr = cmd_graph.generate_from_template(pool[name]._bytes,
-                                                        required=required,
-                                                        drop_events=conf["drop_events"])
+                bscr = rcmd_graph.generate_from_template(pool[name]._bytes,
+                                                         required=required,
+                                                         drop_events=conf["drop_events"])
 
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
                 _meta[name] = "type: from template\n"
                 _meta[name] += f"created from: {sset}\n"
-                _meta[name] += cmd_graph.to_text_repr()
+                _meta[name] += f"difficulty rating: {difficulty}\n"
+                _meta[name] += rcmd_graph.to_text_repr()
 
                 extra_space += len(pool[name]._bytes) - len(mod_scripts[name]._bytes)
                 log.debug(f"to {len(mod_scripts[name]._bytes)} modified bytes.\n"
@@ -242,22 +294,34 @@ if __name__ == "__main__":
 
             # Spice goes here
             # Add in a random status/element theme
+            # TODO: adjust spice based on difficulty
             command_graph.augment_cmd_graph(cmd_graph, status=conf["spice"]["normal_status"],
                                                        elemental=conf["spice"]["normal_elemental"],
                                                        command=conf["spice"]["normal_command"])
             command_graph.edit_cmd_arg_graph(cmd_graph, drop_skills=conf["drop_skills"],
                                                         add_cmds=conf["spice"]["allowed_commands"])
+            # FIXME: what was this for and can it go away?
             assert 0xC2 not in cmd_graph.cmd_graph
 
-            log.debug(cmd_graph.to_text_repr())
+            rcmd_graph = command_graph.RestrictedCommandGraph.get_rule_set(*conf["rules"],
+                                                                           graph=cmd_graph)
+            # FIXME: we only use one out of the set for now
+            difficulty = progressive_difficulty(set_idx) \
+                            if conf["difficulty"] == "progressive" \
+                            else conf["difficulty"]
+            # FIXME: can separate these out at some point
+            rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=skill_tiers)
+
+            log.debug(rcmd_graph.to_text_repr())
+
+            # bosses have already been randomized
+            sset -= BOSSES
 
             for name in sset:
                 _meta[name] = "type: from graph\n"
                 _meta[name] += f"created from: {sset}\n"
-                _meta[name] += cmd_graph.to_text_repr()
-
-            # bosses have already been randomized
-            sset -= BOSSES
+                _meta[name] += f"difficulty rating: {difficulty}\n"
+                _meta[name] += cmd_graph.to_text_repr(suppress_args=False)
 
             # Total length of scripts + extra_space
             # extra_space is basically the offset from the vanilla pointer
@@ -269,13 +333,12 @@ if __name__ == "__main__":
             log.debug(f"Randomizing over {pool}")
 
             main_block_avg = max(int(math.log2(max(total_len, 1) + extra_space) / max(1, len(sset))), 1)
-            # disallow commands and strict can cause conflicts
             gen_kwargs = {"disallow_commands": {0xF7, 0xF2},
-                          "naborts": conf["num_retries"], "strict": False}
-            _scr, _ptrs = randomize_scripts(cmd_graph, n=len(sset),
-                                            #main_block_avg=main_block_avg,
-                                            main_block_avg=5,
-                                            total_len=total_len, **gen_kwargs)
+                          "naborts": conf["num_retries"]}
+            _scr, _ptrs = pack.randomize_scripts(rcmd_graph, n=len(sset),
+                                                 #main_block_avg=main_block_avg,
+                                                 main_block_avg=5,
+                                                 total_len=total_len, **gen_kwargs)
             assert sum(map(len, _scr)) <= total_len, "Script block length exceeds request."
 
             # DEBUG
@@ -316,14 +379,24 @@ if __name__ == "__main__":
         # Split the enemies into scripts that need to be written
         # first, so as to not soft-lock the game at some point
         # because of truncation
-        write_first = set(identify_special_event_scripts(scripts.scripts).values())
+        write_first = set(extract.identify_special_event_scripts(scripts.scripts).values())
         write_first |= {scripts._get_index(n) for n in BOSSES | conf["do_not_randomize"]}
 
-        scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks, write_first=write_first)
+        # TODO: Account for this in budget
+        if conf["esper_party_targeting"]:
+            log.info("Allowing Espers to target party.")
 
+            # Adjust for the offset introduced from ancillary data
+            blk = scripts.script_blocks[0]
+            scripts.script_blocks[0] = (blk[0] + _ESPER_TARGET_PATCH_LEN, blk[1])
+
+            romfile = apply_esper_target_patch(romfile)
+
+        scr, ptrs = pack.pack_scripts(export, names, scripts.script_blocks,
+                                      write_first=write_first)
         # Rewrite to address space
         plen = len(romfile)
-        oromfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
+        romfile = pack.write_script_blocks(romfile, {(0xF8400, 0xF8700): ptrs, **scr})
         assert plen == len(romfile)
 
         if fname.endswith(".smc"):
@@ -332,29 +405,34 @@ if __name__ == "__main__":
             outfname = f"FF3.ai_rando_{i}.smc"
 
         with open(outfname, "wb") as fout:
-            fout.write(bytes(oromfile))
+            fout.write(bytes(romfile))
         log.info(f"Generated ROM at {outfname}")
 
         spoiler = outfname.replace(".smc", f".spoiler_{i}.txt")
         with open(spoiler, "w") as fout:
             for j, s in enumerate(export):
-               n = names[j]
-               _n = _NAME_ALIASES.get(j, n)
-               print(f"--[{str(j).ljust(3)}]-- {_n} ---", file=fout)
-               if n in _meta:
-                   print(_meta[n], file=fout)
+                n = names[j]
+                _n = _NAME_ALIASES.get(j, n)
+                print(f"--[{str(j).ljust(3)}]-- {_n} ({n}) ---", file=fout)
+                if n in _meta:
+                    print(_meta[n], file=fout)
+                elif s.name in _meta:
+                    print(_meta[s.name], file=fout)
 
-               print(f"Original | Randomized", file=fout)
-               if n in mod_scripts:
-                   print(tableau_scripts(scripts.scripts[j].translate(),
-                                         mod_scripts[n].translate()), file=fout)
-               else:
-                   print(tableau_scripts(scripts.scripts[j].translate(),
-                                         "NO SCRIPT RANDOMIZATION"), file=fout)
-               print("", file=fout)
+                print(f"Original | Randomized", file=fout)
+                if n in mod_scripts or s.name in mod_scripts:
+                    mod_script = mod_scripts[n] if n in mod_scripts else mod_scripts[s.name]
+                    print(tableau_scripts(scripts.scripts[j].translate(),
+                                          mod_script.translate()), file=fout)
+                else:
+                    print(tableau_scripts(scripts.scripts[j].translate(),
+                                          "NO SCRIPT RANDOMIZATION"), file=fout)
+                print("", file=fout)
         log.info(f"Generated script spoiler at {spoiler}")
 
         if conf['verify_rom']:
             log.info(f"Rechecking and verifying {outfname}")
             outfname = os.path.realpath(outfname)
-            verify_rom(outfname, export, names)
+            verify_rom(outfname, export, names,
+                       main_block_start=scripts.script_blocks[0][0])
+            log.info(f"Verification successful")

@@ -1,8 +1,14 @@
 import logging
 log = logging.getLogger("ai_scribe")
 
-# These enemies do not have names in the ROM
+_BOSS_DIFFICULTY_SCALING = 1.5
+_MIN_BOSS_DIFFICULTY = 0.5
+
 _NAME_ALIASES = {
+    # BC often renames this
+    "L.255Magic": "MagiMaster",
+
+    # These enemies do not have names in the ROM
     366: "Terra In Flashback",
     "": "Terra In Flashback",
     367: "Kefka at Imperial Camp",
@@ -29,6 +35,7 @@ _NAME_ALIASES = {
     "12": "Dummy????",
     383: "Dummy?????",
     "13": "Dummy?????",
+    # This is False Kefka in BC
     282: "Final Kefka (scene mgr.)??",
     "Kefka": "Final Kefka (scene mgr.)??",
     298: "Final Kefka",
@@ -79,20 +86,6 @@ _NAME_ALIASES = {
     "Solider2": "Solider (Terra Flashback)",
 }
 
-ENEMY_DATA_OFFSET = 0xF0000
-ENEMY_DATA_SIZE = 0x20
-ENEMY_DATA_BLOCKS = 0x180
-ENEMY_MP_REL_OFFSET = 0x0A
-def give_base_mp(romfile):
-
-    ptr = ENEMY_DATA_OFFSET + ENEMY_MP_REL_OFFSET
-    for i in range(ENEMY_DATA_BLOCKS):
-        mp = max(20, int.from_bytes(romfile[ptr:ptr + 2], "little"))
-        romfile = romfile[:ptr] + mp.to_bytes(2, "little") + romfile[ptr + 2:]
-        ptr += ENEMY_DATA_SIZE
-
-    return romfile
-
 def tableau_scripts(s1, s2):
     s1 = s1.replace("\t", "  ").split("\n")
     s2 = s2.replace("\t", "  ").split("\n")
@@ -105,7 +98,7 @@ def tableau_scripts(s1, s2):
                                 for _s1, _s2 in zip((s1 + ["\n"] * ldiff), (s2 + ["\n"] * ldiff))])
     return fmt_str
 
-def verify_rom(outfname, export, names):
+def verify_rom(outfname, export, names, main_block_start=0xF8700):
     from .extract import extract
 
     new_scripts, new_names, _ = extract(outfname, return_names=True)
@@ -119,7 +112,7 @@ def verify_rom(outfname, export, names):
                 | (set(export[n]._bytes[end:]) == set(b'\xff'))
         close &= scr._bytes[:end] == scr._bytes[:end]
 
-        if scr.ptr == 0xF8700 and not same:
+        if scr.ptr == main_block_start and not same:
             log.debug(f"TRUNCATED: {n} ({name})")
             log.debug(f"{hex(scr.ptr)} <-> {hex(export[n].ptr or 0)}")
             continue

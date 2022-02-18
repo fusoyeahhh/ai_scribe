@@ -78,7 +78,7 @@ AREA_SETS = [
     # Thamasa
     #{"Kefka [Thamasa]", "(Red?Esper)"},
     # Battle With Imperial Air Force
-    {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon"},
+    {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon2"},
     # Floating Continent
     {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey Drgn", "AtmaWeapon"},
     # Floating Continent (Escape)
@@ -137,7 +137,7 @@ AREA_SETS = [
     # Ancient Underground Castle
     {"Boxed Set", "Enuo", "Figaliz", "Goblin", "Lethal Wpn", "KatanaSoul", "Master Pug", "Blue Drgn"},
     # Underground Narshe Caves
-    {"Kiwok", "Anemone", "Ceritops", "Tomb Thumb", "Poppers", "Pug", "Pugs", "Umaro"},
+    {"Kiwok", "Anemone", "Ceritops", "Tomb Thumb", "Poppers", "Pug", "Pugs", "Umaro2"},
     # Phoenix Cave
     {"Aquila", "Chaos Drgn", "Necromancr", "Parasoul", "Phase", "Rain Man",
      "Trixter", "Uroburos", "Sea Flower", "Red Dragon"},
@@ -166,7 +166,7 @@ AREA_SETS = [
      "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
      # Colloseum
      # need Shadow battle id
-     "Chupon2", "Siegfried"},#, "Shadow"},
+     "Chupon", "Siegfried"},#, "Shadow"},
     # Kefka's Tower
     # FIXME: need mappings
     {"Brontaur", "Dark Force", "Didalos", "Dueller", "Evil Oscar",
@@ -181,6 +181,9 @@ AREA_SETS = [
      "Hit", "Magic", "Tiger", "Tools",
      "Girl", "Sleep",
      "Kefka2"},
+
+    # Superboss in BC + high level Colosseum fights
+    {"Umaro"}
 ]
 #AREA_SETS = [{_NAME_ALIASES.get(n, n) for n in s} for s in AREA_SETS]
 
@@ -190,7 +193,7 @@ BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number 024", "Number 128", "Left Blade", "RightBlade",
           "Crane", "Crane2", "Ultros3", "FlameEater", "Air Force",
-          "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon",
+          "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon2",
           "AtmaWeapon", "Nerapa"}
 BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            # FIXME: sort out this
@@ -199,7 +202,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            "Hidonite4", "KatanaSoul", "Master Pug", "Pug", "Pugs", "Umaro2",
            "SoulSaver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
            "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
-           "Doom Gaze", "Tritoch3",
+           "Doom Gaze", "Tritoch3", "Chupon", "Umaro",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
@@ -209,6 +212,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
 # Add Cyan's Imperial Camp AI as a "boss" so that it is randomized
 # but templated
 BOSSES |= {"3"}
+BOSSES |= {"Siegfried2"}
 
 # FIXME
 DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
@@ -216,6 +220,7 @@ DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
 BOSSES |= DRAGON
 
 # Kefka's various managers: Imperial Camp, Thamasa, Bridge, Final
+# FIXME: 5 isn't a script manager, it's 282 (False Kefka) in BC
 SCRIPT_MANAGERS = {"2", "5", "6", "10", "Kefka"}
 
 # Merchant, Guardian are included to preserve special event activation
@@ -225,6 +230,7 @@ EVENT_BATTLES = {"Merchant", "B.Day Suit", "Officer", "Guardian",
                  # Imperial camp
                  "Kefka",
                  # Special events (Ifrit clone)
+                 # FIXME: this is the Kefka script manager in BC
                  "9",
                  # Tritoch Scenes
                  "Tritoch", "Tritoch2",
@@ -233,6 +239,7 @@ EVENT_BATTLES = {"Merchant", "B.Day Suit", "Officer", "Guardian",
                  "Doom Gaze",
                  # don't interfere with Gau recruit and BC reuses this
                  # for Final/False Kefka related things
+                 # FIXME: This is the Kefka / Leo battle in BC
                  "4",
                  # Ensure engulf is available
                  "Zone Eater"}#, "Shadow"}
@@ -281,8 +288,8 @@ SNGL_CMDS = {flags._CMD_LIST.get(cmd, cmd) for cmd in SNGL_CMDS}
 def add_throw_or_use():
     pass
 
+# FIXME: to data
 import pandas
-import os
 skills = pandas.read_csv("etc/skill_data.csv")
 sort_by = {"Power", "MP Cost"}
 
@@ -311,6 +318,7 @@ for elem in {"ice", "fire", "lightning", "water", "wind", "earth", "pearl", "poi
 #
 # Statuses
 #
+# FIXME: remove annoying skills
 STATUS_THEMES = {}
 for status in {'Poison', 'Petrify', 'Death', 'Slow', 'Mute', 'Safe',
                'Sleep', 'Confuse', 'Haste', 'Stop', 'Berserk', 'Float', 'Imp',

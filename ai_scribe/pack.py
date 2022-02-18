@@ -12,32 +12,36 @@ DEFAULT_SCRIPT = b'\xf3\x00\00\xff\xff'
 # then write scripts in the order you want
 # construct pointers as the previous step happens
 # replace script length with cumulative offset
-def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK, write_first=set(), offset=0, use_default_script=True):
+def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK,
+                write_first=set(), use_default_script=True):
     # FIXME: do Dummies last
-    block_offsets = {blk: 0 for blk in script_blocks}
-    block_scrs = {blk: [] for blk in script_blocks}
-
     # TODO: assert s.name == n
-    _ptrs, last = {}, offset
-    ptrs, scr = [], []
 
     # Get largest block (probably vanilla block)
-    # FIXME: does this also assume that vanilla is the lowest address / offset?
-    # Probably since the game probably hardcodes 0xF8700 as the script offset
     block = sorted(script_blocks, key=lambda t: t[1] - t[0])[-1]
-    min_block = min([blk[0] for blk in script_blocks])
+    min_block = sorted(script_blocks, key=lambda t: t[0])[0]
+
+    block_scrs = {blk: [] for blk in script_blocks}
+    # Make all offsets relative to the games' expected start address
+    block_offsets = {blk: blk[0] - 0xF8700 for blk in script_blocks}
+    # Set the current pointer to the lowest block
+    last = block_offsets[min_block]
+
+    # TODO: scr can be dropped
+    ptrs = []
 
     # Start with 'error' script
+    error_script_ptr = None
     if use_default_script:
-        scr.append(DEFAULT_SCRIPT)
         block_scrs[block].append(DEFAULT_SCRIPT)
+        error_script_ptr = last
 
         last += len(DEFAULT_SCRIPT)
         block_offsets[block] = last
 
+    _ptrs = {}
     for n in write_first:
         _ptrs[n] = last
-        scr.append(export[n]._bytes)
         block_scrs[block].append(export[n]._bytes)
         slen = len(export[n])
         # FIXME: restore pointer rewriting
@@ -54,25 +58,24 @@ def pack_scripts(export, orig_ptrs, script_blocks=DEFAULT_BLOCK, write_first=set
             continue
 
         for block, last in block_offsets.items():
-            # block start offset relative to reference address
-            block_off = block[0] - min_block
-            if last + len(export[n]) >= block[1] - block[0]:
+            if last + len(export[n]) >= block[1] - 0xF8700:
                 continue
 
-            ptrs.append(block_off + last)
+            ptrs.append(last)
 
-            scr.append(export[n]._bytes)
             block_scrs[block].append(export[n]._bytes)
 
             slen = len(export[n])
-            log.debug(f"{n}: -> {hex(block[0] + last)} +{hex(slen)}")
+            log.debug(f"{n}: -> [{hex(block[0])} {hex(block[1])}] | {hex(0xF8700 + last)} +{hex(slen)}")
             last += slen
 
             block_offsets[block] = last
             break
         else:
-            # Uh oh
-            ptrs.append(offset)
+            # Uh oh --- without a default script, we can't do anything
+            if error_script_ptr is None:
+                raise ValueError("Cannot write additional scripts to block, out of space.")
+            ptrs.append(error_script_ptr)
             log.warning(f"{n}: -> {hex(len(export[n]))} [OVERRUN]")
     assert None not in set(ptrs)
 

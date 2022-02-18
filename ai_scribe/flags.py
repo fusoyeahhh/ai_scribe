@@ -1,3 +1,30 @@
+# Elemental Flags
+# From https://www.tales-cless.org/ff6hack/#elem
+# 1: Fire
+# 2: Ice
+# 3: Lightning
+# 4: Poison
+# 5: Wind
+# 6: Pearl
+# 7: Earth
+# 8: Water
+ELEMENT_FLAGS = {e: 1 << i for i, e in
+                        enumerate(["fire", "ice", "lightning", "poison",
+                                   "wind", "pearl", "earth", "water"])}
+
+# Byte 1
+# bit 0: Blind
+# bit 1: Zombie
+# bit 2: Poison
+# bit 3: MagiTek
+# bit 4: Vanish
+# bit 5: Imp
+# bit 6: Petrify
+# bit 7: Wounded
+STATUS_FLAGS = {k: 1 << i for i, k in
+                enumerate(["blind", "zombie", "poison", "magitek",
+                           "vanish", "imp", "petrify", "wounded"])}
+
 CMD_LIST = """00 Fight Works correctly
 01 Item Says Dirk, but casts Fire
 02 Magic Casts Fire
@@ -35,6 +62,8 @@ CMD_LIST = {int(idx, 16): f"({cmd})" if 'Works' in descr else f"{{{cmd}}}"
 # reversed command list
 _CMD_LIST = {v[1:-1]: k for k, v in CMD_LIST.items()}
 CMD_LIST[0xFE] = "Nothing"
+
+BENEFICIAL_CMDS = {0x1A}
 
 SPELL_LIST = """00:ºFire**
 01:ºIce***
@@ -121,14 +150,14 @@ SPELL_LIST = """00:ºFire**
 52:Water Edge
 53:Bolt Edge*
 54:Storm*****
-55:Joker Doom(really Dispatch)
-56:**********(really Retort)
-57:**********(really Slash)
-58:**********(really Quadra Slam)
-59:**********(really Empowerer)
-5A:**********(really Stunner)
-5B:**********(really Quadra Slice)
-5C:**********(really Cleave)
+55:Dispatch**
+56:Retort****
+57:Slash*****
+58:QuadraSlam
+59:Empowerer*
+5A:Stunner***
+5B:Quad Slice
+5C:Cleave****
 5D:Pummel****
 5E:AuraBolt**
 5F:Suplex****
@@ -161,12 +190,12 @@ SPELL_LIST = """00:ºFire**
 7A:Wild Bear*
 7B:Pois. Frog
 7C:Ice Rabbit
-7D:Bio Blast*(Super Ball)
+7D:Super Ball
 7E:Flash*****
 7F:Chocobop**
 80:H-Bomb****
 81:7-Flush***
-82:Megahit***(Leo's Shock)
+82:Megahit***
 83:Fire Beam*
 84:Bolt Beam*
 85:Ice Beam**
@@ -297,9 +326,10 @@ SPELL_LIST = [s.split(":")[-1].replace("*", "") for s in SPELL_LIST]
 # look up
 _SPELL_LIST = {v.replace("(really ", "").replace(")", ""): k for k, v in enumerate(SPELL_LIST)}
 # Don't ask, I'm lazy
-_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
+#_SPELL_LIST["Dispatch"] = _SPELL_LIST.pop("Joker DoomDispatch")
 
-CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
+CURATIVES = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x2D, 0x33)}
+BUFFS = {0x1C, 0x1F, 0x22, 0x24, 0x25, 0x26, 0x27, 0x2B, 0x34, 0x35}
 
 ESPERS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0x36, 0x50)}
 DESPERATIONS = {k: v for k, v in enumerate(SPELL_LIST) if k in range(0xF0, 0xFE)}
@@ -354,6 +384,7 @@ TARGET_LIST = """00	Terra
 
 TARGET_LIST = [s.split("\t") for s in TARGET_LIST]
 TARGET_LIST = {int(i, 16): t.strip() for i, t in TARGET_LIST}
+SELF_TARGETS = set(range(0x36, 0x3B)) | set(range(0x3D, 0x3F))
 
 ITEM_LIST = """00 Dirk
 01 MithrilKnife
@@ -614,6 +645,8 @@ FF -Blank-""".split("\n")
 
 ITEM_LIST = [" ".join(descr) for idx, *descr in map(str.split, ITEM_LIST)]
 
+BENEFICIAL_ITEMS = set(range(0xE8, 0xFF)) - {0xFA}
+
 FC_MODIFIERS = {
     # Next two bytes are CMD and unused
     0x1: "IF CMD USED",
@@ -670,6 +703,64 @@ FC_MODIFIERS = {
     0x1B: "IS FORM # =",
     # Next two bytes are unused
     0x1C: "ALWAYS"
+}
+
+PRED_ARGS = {
+    # Next two bytes are CMD and unused
+    "IF CMD USED": (CMD_LIST, None),
+    # Next two bytes are SPELL and unused
+    "IF SPELL USED": (SPELL_LIST, None),
+    # Next two bytes are ITEM and unused
+    "IF ITEM USED": (ITEM_LIST, None),
+    # Next two bytes are ELEM and unused
+    "IF ELEM ATK": (ELEMENT_FLAGS, None),
+    # Next two bytes ignored
+    "IF DAMAGED": (None, None),
+    # Next two bytes are TARGET and HP / 128
+    "IF HP <": (TARGET_LIST, lambda v: v / 128),
+    # Next two bytes are TARGET and MP
+    "IF MP <": (TARGET_LIST, int),
+    # Next two bytes are TARGET and STATUS
+    "IF HAS STATUS": (TARGET_LIST, STATUS_FLAGS),
+    # Next two bytes are TARGET and STATUS
+    "IF NOT HAS STATUS": (TARGET_LIST, STATUS_FLAGS),
+    # Never executed
+    "NOT EXE": (None, None),
+    # Next two bytes are TIME and unused
+    "ETIMER >": (int, None),
+    # Next two bytes are VAR and VAL
+    "VAR <": (hex, int),
+    # Next two bytes are VAR and VAL
+    "VAR >=": (hex, int),
+    # Next two bytes are TARGET and LEVEL
+    "IF LEVEL <": (TARGET_LIST, int),
+    # Next two bytes are TARGET and LEVEL
+    "IF LEVEL >=": (TARGET_LIST, int),
+    # Next two bytes are unused(?)
+    "IF SINGLE ETYPE": (None, None),
+    # Next two bytes are EPARTY (in bits?) and ignored
+    "IS ALIVE": (bin, None),
+    # Next two bytes are EPARTY (in bits?) and ignored
+    "IS DEAD": (bin, None),
+    # Next two bytes are PARTY / EPARTY and VAL
+    "IF ANY ALIVE": (bin, int),
+    # Next two bytes are VAR and BIT
+    "IF VAR BIT": (hex, bin),
+    "IF NOT VAR BIT": (hex, bin),
+    # Next two bytes are TIME and unused
+    "BAT TIMER >": (int, None),
+    # Next two bytes are TARGET and ignored
+    "SET TARGET": (TARGET_LIST, None),
+    # Next two bytes are unused
+    "IF GAU JOINED": (None, None),
+    # Next two bytes are NUM and unused
+    "IF FORM #": (hex, None),
+    # Next two bytes are ELEM and TARGET
+    "IF WEAK TO": (ELEMENT_FLAGS, TARGET_LIST),
+    # FIXME: Next two bytes are 16-bit NUM
+    "IS FORM # =": (int, int),
+    # Next two bytes are unused
+    "ALWAYS": (None, None)
 }
 
 SPECIAL_EVENTS = {
