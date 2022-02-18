@@ -190,7 +190,7 @@ BOSSES = {"Whelk", "Head", "Marshal", "M-TekArmor", "Ipooh", "Vargas", "Ultros",
           "Kefka3", "Dadaluma", "Ultros2", "Ifrit", "Shiva",
           "Number 024", "Number 128", "Left Blade", "RightBlade",
           "Crane", "Crane2", "Ultros3", "FlameEater", "Air Force",
-          "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon",
+          "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon2",
           "AtmaWeapon", "Nerapa"}
 BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            # FIXME: sort out this
@@ -199,7 +199,7 @@ BOSSES |= {"Tentacle", "Tentacle2", "Tentacle3", "Tentacle4",
            "Hidonite4", "KatanaSoul", "Master Pug", "Pug", "Pugs", "Umaro2",
            "SoulSaver", "Wrexsoul", "MagiMaster", "Chadarnook", "Chadarnook2",
            "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
-           "Doom Gaze", "Tritoch3",
+           "Doom Gaze", "Tritoch3", "Chupon", "Umaro",
            "Inferno", "Rough", "Striker", "Atma", "Guardian2",
            "Doom", "Goddess", "Poltrgeist",
            "Face", "Long Arm", "Short Arm", "Hit", "Magic", "Tiger", "Tools",
@@ -217,6 +217,7 @@ DRAGON = {"Blue Drgn", "Red Dragon", "Ice Dragon", "Dirt Drgn",
 BOSSES |= DRAGON
 
 # Kefka's various managers: Imperial Camp, Thamasa, Bridge, Final
+# FIXME: 5 isn't a script manager, it's 282 (False Kefka) in BC
 SCRIPT_MANAGERS = {"2", "5", "6", "10", "Kefka"}
 
 # Merchant, Guardian are included to preserve special event activation
@@ -226,6 +227,7 @@ EVENT_BATTLES = {"Merchant", "B.Day Suit", "Officer", "Guardian",
                  # Imperial camp
                  "Kefka",
                  # Special events (Ifrit clone)
+                 # FIXME: this is the Kefka script manager in BC
                  "9",
                  # Tritoch Scenes
                  "Tritoch", "Tritoch2",
@@ -234,6 +236,7 @@ EVENT_BATTLES = {"Merchant", "B.Day Suit", "Officer", "Guardian",
                  "Doom Gaze",
                  # don't interfere with Gau recruit and BC reuses this
                  # for Final/False Kefka related things
+                 # FIXME: This is the Kefka / Leo battle in BC
                  "4",
                  # Ensure engulf is available
                  "Zone Eater"}#, "Shadow"}

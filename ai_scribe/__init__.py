@@ -35,6 +35,7 @@ _NAME_ALIASES = {
     "12": "Dummy????",
     383: "Dummy?????",
     "13": "Dummy?????",
+    # This is False Kefka in BC
     282: "Final Kefka (scene mgr.)??",
     "Kefka": "Final Kefka (scene mgr.)??",
     298: "Final Kefka",
