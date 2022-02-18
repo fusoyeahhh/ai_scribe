@@ -160,6 +160,8 @@ if __name__ == "__main__":
     random.seed(conf.get("random_seed", 0))
     numpy.random.seed(conf.get("random_seed", 0))
 
+    skill_tiers = generate_skill_tiers()
+
     # batching
     for i in range(conf["copies_per_batch"]):
         # carry some additional metadata around
@@ -252,7 +254,7 @@ if __name__ == "__main__":
                 else:
                     difficulty = conf["difficulty"]
                 # FIXME: can separate these out at some point
-                rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=themes.skill_tiers)
+                rcmd_graph.regulate_difficulty(difficulty, difficulty, ranking=skill_tiers)
 
                 # This only reduces the length from the original script
                 bscr = rcmd_graph.generate_from_template(pool[name]._bytes,

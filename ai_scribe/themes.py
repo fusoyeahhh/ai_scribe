@@ -285,6 +285,7 @@ SNGL_CMDS = {flags._CMD_LIST.get(cmd, cmd) for cmd in SNGL_CMDS}
 def add_throw_or_use():
     pass
 
+# FIXME: to data
 import pandas
 skills = pandas.read_csv("etc/skill_data.csv")
 sort_by = {"Power", "MP Cost"}
@@ -300,16 +301,6 @@ for prm in sort_by:
     skills[prm] = skills[prm].astype(str).apply(_sanitize).astype(int)
 
 skills = skills.sort_values(by=list(sort_by))
-
-with open("etc/spell_ranks", "r") as fin:
-    _spells = [s.replace("*", "").replace("ö", "").replace("•", "").replace("º", "")
-                    for s in flags.SPELL_LIST]
-    _spells[0xFE] = "Lagomorph"
-    skill_tiers = {_spells.index(skill.strip()): int(rank) for skill, rank in
-                        [l.split(":") for l in fin.readlines()]}
-    # enemy "Mute" is missing
-    # Roughly equivalent to "Train", so we give it that
-    skill_tiers[172] = 31
 
 #
 # Elements

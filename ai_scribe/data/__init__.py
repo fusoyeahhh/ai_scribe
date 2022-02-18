@@ -67,3 +67,21 @@ def apply_esper_target_patch(romfile, patch_dst=0xF8700):
     romfile = romfile[:patch_dst] + bytes(patch_data) + romfile[patch_dst + len(patch_data):]
 
     return romfile
+
+def generate_skill_tiers(fname="etc/spell_ranks"):
+    from .. import flags
+    _spells = [s.replace("*", "").replace("ö", "").replace("•", "").replace("º", "")
+               for s in flags.SPELL_LIST]
+    # rename because "nothing" is not in skill tiering
+    _spells[0xFE] = "Lagomorph"
+
+    with open(fname, "r") as fin:
+        skill_tiers = {_spells.index(skill.strip()): int(rank) for skill, rank in
+                       [l.split(":") for l in fin.readlines()]}
+
+    # enemy "Mute" is missing
+    # Roughly equivalent to "Train", so we give it that
+    skill_tiers[172] = 31
+    # replace "nothing" with lowest possible tier
+    skill_tiers[254] = 1
+    return skill_tiers
