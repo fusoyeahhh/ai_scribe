@@ -78,7 +78,7 @@ AREA_SETS = [
     # Thamasa
     #{"Kefka [Thamasa]", "(Red?Esper)"},
     # Battle With Imperial Air Force
-    {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon"},
+    {"Sky Armor", "Spit Fire", "Air Force", "Laser Gun", "MissileBay", "Speck", "Ultros4", "Chupon2"},
     # Floating Continent
     {"Apokryphos", "Behemoth", "Brainpan", "Dragon", "Gigantos", "Misfit", "Wirey Drgn", "AtmaWeapon"},
     # Floating Continent (Escape)
@@ -166,7 +166,7 @@ AREA_SETS = [
      "Phunbaba", "Phunbaba2", "Phunbaba3", "Phunbaba4",
      # Colloseum
      # need Shadow battle id
-     "Chupon2", "Siegfried"},#, "Shadow"},
+     "Chupon", "Siegfried"},#, "Shadow"},
     # Kefka's Tower
     # FIXME: need mappings
     {"Brontaur", "Dark Force", "Didalos", "Dueller", "Evil Oscar",
@@ -181,6 +181,9 @@ AREA_SETS = [
      "Hit", "Magic", "Tiger", "Tools",
      "Girl", "Sleep",
      "Kefka2"},
+
+    # Superboss in BC + high level Colosseum fights
+    {"Umaro"}
 ]
 #AREA_SETS = [{_NAME_ALIASES.get(n, n) for n in s} for s in AREA_SETS]
 
