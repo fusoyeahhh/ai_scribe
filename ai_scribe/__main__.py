@@ -16,7 +16,7 @@ from . import themes
 from . import _NAME_ALIASES, _BOSS_DIFFICULTY_SCALING, _MIN_BOSS_DIFFICULTY
 from . import tableau_scripts, verify_rom
 
-from .data import apply_esper_target_patch, give_base_mp
+from .data import apply_esper_target_patch, give_base_mp, generate_skill_tiers
 from .data import _ESPER_TARGET_PATCH_LEN
 from .flags import ESPERS, DESPERATIONS
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
