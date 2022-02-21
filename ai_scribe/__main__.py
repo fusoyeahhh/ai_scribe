@@ -16,7 +16,7 @@ from . import themes
 from . import _NAME_ALIASES, _BOSS_DIFFICULTY_SCALING, _MIN_BOSS_DIFFICULTY
 from . import tableau_scripts, verify_rom
 
-from .data import apply_esper_target_patch, give_base_mp
+from .data import apply_esper_target_patch, give_base_mp, generate_skill_tiers
 from .data import _ESPER_TARGET_PATCH_LEN
 from .flags import ESPERS, DESPERATIONS
 from .themes import AREA_SETS, BOSSES, EVENT_BATTLES, SCRIPT_MANAGERS, SNGL_CMDS
@@ -30,7 +30,8 @@ def progressive_difficulty(set_idx, is_boss=False):
     Scale the enemy's position in the area progression and return a difficulty value based on it.
     """
     low_limit = _MIN_BOSS_DIFFICULTY if is_boss else 0
-    return min(1, max(low_limit, set_idx / len(AREA_SETS) *_BOSS_DIFFICULTY_SCALING))
+    scaling = _BOSS_DIFFICULTY_SCALING if is_boss else 1
+    return min(1, max(low_limit, set_idx / len(AREA_SETS) * scaling))
 
 if __name__ == "__main__":
 
@@ -209,10 +210,12 @@ if __name__ == "__main__":
                 t1 += len(scripts[name]._bytes)
                 t2 += len(scripts[name]._bytes)
             # NOTE: This means that none of their commands / skills are in the pool either (probably okay)
+            if len(sset & remove_from_pool) > 0:
+                log.debug(f"The following scripts will be removed from the pool, by request: {', '.join(remove_from_pool)}")
             sset -= remove_from_pool
-            log.debug(f"The following scripts have been removed from the pool, by request: {', '.join(remove_from_pool)}")
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
+            # FIXME: This will include back the scripts we meant to exclude above
             pool = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
 
             # FIXME: we will eventually want to stop relying on the old dedup scheme
@@ -239,9 +242,6 @@ if __name__ == "__main__":
             # FIXME: make flag for "allow bosses to be in pool" (currently true)
             bosses = sset & BOSSES
 
-            # FIXME: this removes a required link between commands, might need to replace it a placeholder
-            #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(conf["drop_events"])
-
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes)")
@@ -264,6 +264,7 @@ if __name__ == "__main__":
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
                 _meta[name] = "type: from template\n"
+                # FIXME: need to give full list from pool
                 _meta[name] += f"created from: {sset}\n"
                 _meta[name] += f"difficulty rating: {difficulty}\n"
                 _meta[name] += rcmd_graph.to_text_repr()
