@@ -242,9 +242,6 @@ if __name__ == "__main__":
             # FIXME: make flag for "allow bosses to be in pool" (currently true)
             bosses = sset & BOSSES
 
-            # FIXME: this removes a required link between commands, might need to replace it a placeholder
-            #cmd_graph.cmd_arg_graphs[0xF7].remove_nodes_from(conf["drop_events"])
-
             required = {0xFC, 0xF9, 0xF7, 0xFB, 0xF5}
             for name in bosses:
                 log.debug(f"Randomizing boss {name} ({len(pool[name]._bytes)} vanilla bytes)")
