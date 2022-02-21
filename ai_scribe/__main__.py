@@ -210,10 +210,12 @@ if __name__ == "__main__":
                 t1 += len(scripts[name]._bytes)
                 t2 += len(scripts[name]._bytes)
             # NOTE: This means that none of their commands / skills are in the pool either (probably okay)
+            if len(sset & remove_from_pool) > 0:
+                log.debug(f"The following scripts will be removed from the pool, by request: {', '.join(remove_from_pool)}")
             sset -= remove_from_pool
-            log.debug(f"The following scripts have been removed from the pool, by request: {', '.join(remove_from_pool)}")
 
             # We get a "window" around the current area, with one area lookback and two area lookforward
+            # FIXME: This will include back the scripts we meant to exclude above
             pool = set.union(*AREA_SETS[max(set_idx-1, 0):min(set_idx+2, len(AREA_SETS))])
 
             # FIXME: we will eventually want to stop relying on the old dedup scheme
@@ -265,6 +267,7 @@ if __name__ == "__main__":
                 mod_scripts[name] = scripting.Script(bytes(bscr), name)
 
                 _meta[name] = "type: from template\n"
+                # FIXME: need to give full list from pool
                 _meta[name] += f"created from: {sset}\n"
                 _meta[name] += f"difficulty rating: {difficulty}\n"
                 _meta[name] += rcmd_graph.to_text_repr()
