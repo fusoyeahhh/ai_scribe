@@ -30,7 +30,8 @@ def progressive_difficulty(set_idx, is_boss=False):
     Scale the enemy's position in the area progression and return a difficulty value based on it.
     """
     low_limit = _MIN_BOSS_DIFFICULTY if is_boss else 0
-    return min(1, max(low_limit, set_idx / len(AREA_SETS) *_BOSS_DIFFICULTY_SCALING))
+    scaling = _BOSS_DIFFICULTY_SCALING if is_boss else 1
+    return min(1, max(low_limit, set_idx / len(AREA_SETS) * scaling))
 
 if __name__ == "__main__":
 
