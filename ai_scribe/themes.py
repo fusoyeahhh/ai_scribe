@@ -291,6 +291,8 @@ def add_throw_or_use():
 # FIXME: to data
 import pandas
 skills = pandas.read_csv("etc/skill_data.csv")
+skills["Elements"] = skills["Elements"].fillna("")
+skills["Statuses"] = skills["Statuses"].fillna("")
 sort_by = {"Power", "MP Cost"}
 
 # Sanitize
